@@ -17,7 +17,7 @@ const OPTION_CONFIRM_ENABLED = 2;
  */
 const ST_GAME_SETUP = 1;
 
-const ST_ROUND_SETUP = 2
+const ST_NEXT_ROUND = 2
 const ST_MOVE_AVATARS = 3
 
 const ST_CHOOSE_BIOME = 4
@@ -33,9 +33,10 @@ const ST_PRE_END_OF_GAME = 98; //TODO but why ?
 const ST_END_GAME = 99;
 
 const TRANSITIONS = [
+    'round_start' => ST_MOVE_AVATARS,
+    'game_end' => ST_PRE_END_OF_GAME,
     'action_turn' => ST_CHOOSE_BIOME,
     'count_turn' => ST_COUNT_NEXT_PLAYER,
-    'game_end' => ST_PRE_END_OF_GAME,
     'next_player_action' => ST_PLACE_BIOME,
     'end_turn' => ST_MOVE_AVATARS,
     'place' => ST_HOST_GOD,
@@ -43,6 +44,7 @@ const TRANSITIONS = [
     'act' => ST_ACT_BIOMES,
     'skip_act' => ST_NEXT_PLAYER,
     'next_player_count' => ST_COUNT_ACTION,
+    'end_turn' => ST_NEXT_ROUND,
     'count' => ST_COUNT_ACTION,
     'skip_count' => ST_COUNT_NEXT_PLAYER
 ]
