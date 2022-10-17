@@ -21,26 +21,113 @@ $machinestates = [
     'description' => '',
     'type' => 'manager',
     'action' => 'stGameSetup',
-    'transitions' => ['' => ST_BEFORE_START_OF_TURN],
+    'transitions' => ['' => ST_NEXT_ROUND],
   ],
 
-  ST_BEFORE_START_OF_TURN => [
-    'name' => 'beforeStartOfTurn',
-    'description' => '',
+  ST_NEXT_ROUND => [
+    'name' => 'nextRound',
+    'description' => 'Decks are prepared',
     'type' => 'game',
-    'action' => 'stBeforeStartOfTurn',
-    'updateGameProgression' => true,
+    'action' => 'stNextRound',
+    'updateGameProgression' => false,
     'transitions' => [
-      '' => ST_FOO,
+      'round_start' => ST_MOVE_AVATARS,
+      'game_end' => ST_PRE_END_OF_GAME,
     ],
   ],
 
-  ST_FOO => [
-    'name' => 'foo',
+  ST_MOVE_AVATARS => [
+    'name' => 'moveAvatars',
+    'description' => 'Avatars moves one space',
+    'type' => 'game',
+    'action' => 'stMoveAvatars',
+    'updateGameProgression' => true,
+    'transitions' => [
+      'action_turn' => ST_CHOOSE_BIOME,
+      'count_turn' => ST_COUNT_NEXT_PLAYER
+    ]
+  ],
+
+  ST_CHOOSE_BIOME => [
+    'name' => 'chooseBiome',
+    'description' => clienttranslate('Others players must choose a Biome'),
+    'descriptionmyturn' => clienttranslate('${you} must choose a Biome'),
+    'type' => 'multipleactiveplayer',
+    'possibleactions' => ['choose'],
+    'transitions' => [
+      '' => ST_NEXT_PLAYER
+    ]
+  ],
+
+  ST_NEXT_PLAYER => [
+    'name' => 'nextPlayer',
     'description' => '',
+    'type' => 'game',
+    'action' => 'stNextPlayer',
+    'updateGameProgression' => false,
+    'transitions' => [
+      'next_player_action' => ST_PLACE_BIOME,
+      'end_turn' => ST_MOVE_AVATARS,
+    ]
+  ],
+
+  ST_PLACE_BIOME => [
+    'name' => 'placeBiome',
+    'description' => clienttranslate('${actplayer} place or discard their Biome'),
+    'descriptionmyturn' => clienttranslate('${you} must place or discard your Biome'),
     'type' => 'activeplayer',
-    'description' => clienttranslate('${active} must play'),
-    'descriptionmyturn' => clienttranslate('${you} must play'),
+    'possibleactions' => ['place', 'discard'],
+    'transitions' => [
+      'place' => ST_HOST_GOD,
+      'discard' => ST_ACT_BIOMES,
+    ]
+  ],
+
+  ST_HOST_GOD => [
+    'name' => 'hostGod',
+    'description' => 'God can be hosted',
+    'type' => 'game',
+    'action' => 'stHostGod',
+    'updateGameProgression' => false,
+    'transitions' => [
+      '' => ST_ACT_BIOMES
+    ]
+  ],
+
+  ST_ACT_BIOMES => [
+    'name' => 'actBiomes',
+    'description' => clienttranslate('${actplayer} must activate their Biome(s)'),
+    'descriptionmyturn' => clienttranslate('${you} must activate your Biome(s)'),
+    'type' => 'activeplayer',
+    'possibleactions' => ['act', 'skip_act'],
+    'transitions' => [
+      'act' => ST_ACT_BIOMES,
+    'skip_act' => ST_NEXT_PLAYER,
+    ]
+  ],
+
+  ST_COUNT_NEXT_PLAYER => [
+    'name' => 'countNextPlayer',
+    'description' => '',
+    'type' => 'game',
+    'action' => 'stCountNextPlayer',
+    'updateGameProgression' => false,
+    'transitions' => [
+      'next_player_count' => ST_COUNT_ACTION,
+      'end_turn' => ST_NEXT_ROUND,
+    ]
+  ],
+
+  ST_COUNT_ACTION => [
+    'name' => 'countAction',
+    'description' => clienttranslate('${actplayer} must activate their Biome(s)'),
+    'descriptionmyturn' => clienttranslate('${you} must activate your Biome(s)'),
+    'type' => 'activeplayer',
+    'possibleactions' => ['count', 'skip_count'],
+    'transitions' => [
+      'count' => ST_COUNT_ACTION,
+      'skip_count' => ST_COUNT_NEXT_PLAYER,
+    ]
   ],
 
   ST_PRE_END_OF_GAME => [
