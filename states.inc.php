@@ -1,4 +1,5 @@
 <?php
+
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
@@ -102,7 +103,7 @@ $machinestates = [
     'possibleactions' => ['act', 'skip_act'],
     'transitions' => [
       'act' => ST_ACT_BIOMES,
-    'skip_act' => ST_NEXT_PLAYER,
+      'skip_act' => ST_NEXT_PLAYER,
     ]
   ],
 
