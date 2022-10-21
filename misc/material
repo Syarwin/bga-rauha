@@ -7,7 +7,7 @@ crystal_income: 2
 point_income: 0
 multiplier: 1 or marine/spore/water_source
 usage_cost: 0 //in crystal
-spore: 0
+spore_income: 0
 water_source: 0
 
 GODS
@@ -16,7 +16,7 @@ crystal_income: 0
 point_income: 7
 multiplier: 1
 usage_cost: 4
-spore: 0
+spore_income: 0
 water_source: 0
 
 "SIENET": 
@@ -24,7 +24,7 @@ crystal_income: 3
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 "MERI" 
@@ -32,7 +32,7 @@ crystal_income: 0
 point_income: 1
 multiplier: source
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 "METSAT" 
@@ -40,7 +40,7 @@ crystal_income: 0
 point_income: 1
 multiplier: animals
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 "KITEET" : 
@@ -48,7 +48,7 @@ crystal_income: 0
 point_income: 3
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 "VUORI" : 
@@ -56,7 +56,7 @@ crystal_income: 0
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 2
 
 "MAA" 
@@ -64,7 +64,7 @@ crystal_income: 0
 point_income: 1
 multiplier: spore
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 BIOMES
@@ -75,7 +75,7 @@ crystal_income: 1
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 1: 
 type:  forest
@@ -83,7 +83,7 @@ crystal_income: 0
 point_income: 1
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 2: 
 type:  desert
@@ -91,7 +91,7 @@ crystal_income: 0
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 3: 
 type:  crystal
@@ -99,7 +99,7 @@ crystal_income: 1
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 4: 
 type:  desert
@@ -107,7 +107,7 @@ crystal_income: 1
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 5: 
 type:  mushroom
@@ -115,7 +115,7 @@ crystal_income: 0
 point_income: 0
 multiplier: 1
 usage_cost: 3
-spore: 1
+spore_income: 1
 water_source: 0
 6: 
 type:  desert
@@ -123,15 +123,15 @@ crystal_income: 0
 point_income: 1
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 7: 
-type: montagne
+type: moutain
 crystal_income: 0
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 8: 
 type: desert
@@ -139,7 +139,7 @@ crystal_income: 0
 point_income: 1
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 AGE I: 
@@ -151,7 +151,7 @@ crystal_income: 4
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 2: 
@@ -162,7 +162,7 @@ crystal_income: 0
 point_income: 5
 multiplier: 1
 usage_cost: 3
-spore: 0
+spore_income: 0
 water_source: 0
 
 3: 
@@ -174,7 +174,7 @@ crystal_income: 2
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 4: 
@@ -186,7 +186,7 @@ crystal_income: 0
 point_income: 1
 multiplier: flying
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 5: 
@@ -198,7 +198,7 @@ crystal_income: 0
 point_income: 4
 multiplier: 1
 usage_cost: 2
-spore: 0
+spore_income: 0
 water_source: 0
 
 6: 
@@ -210,7 +210,7 @@ crystal_income: 2
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 7: 
@@ -222,7 +222,7 @@ crystal_income: 3
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 8: 
@@ -234,7 +234,7 @@ crystal_income: 2
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 9: 
@@ -246,7 +246,7 @@ crystal_income: 0
 point_income: 1
 multiplier: flying
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 10: 
@@ -258,7 +258,7 @@ crystal_income: 0
 point_income: 1
 multiplier: marine
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 11: 
@@ -270,7 +270,7 @@ crystal_income: 0
 point_income: 1
 multiplier: flying
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 12: 
@@ -282,7 +282,7 @@ crystal_income: 3
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 13: 
@@ -294,7 +294,7 @@ crystal_income: 0
 point_income: 1
 multiplier: walking
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 14: 
@@ -306,7 +306,7 @@ crystal_income: 0
 point_income: 1
 multiplier: marine
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 15: 
@@ -318,7 +318,7 @@ crystal_income: 0
 point_income: 4
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 16: 
@@ -330,7 +330,7 @@ crystal_income: 0
 point_income: 1
 multiplier: walking
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 17: 
@@ -342,7 +342,7 @@ crystal_income: 0
 point_income: 4
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 18: 
@@ -354,7 +354,7 @@ crystal_income: 0
 point_income: 0
 multiplier: 1
 usage_cost: 2
-spore: 1
+spore_income: 1
 water_source: 0
 
 19: 
@@ -366,7 +366,7 @@ crystal_income: 0
 point_income: 0
 multiplier: 1
 usage_cost: 2
-spore: 1
+spore_income: 1
 water_source: 0
 
 20: 
@@ -378,7 +378,7 @@ crystal_income: 0
 point_income: 0
 multiplier: 1
 usage_cost: 3
-spore: 1
+spore_income: 1
 water_source: 0
 
 21: 
@@ -390,7 +390,7 @@ crystal_income: 0
 point_income: 1
 multiplier: spore
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 22: 
@@ -402,7 +402,7 @@ crystal_income: 0
 point_income: 0
 multiplier: 1
 usage_cost: 3
-spore: 1
+spore_income: 1
 water_source: 0
 
 23: 
@@ -414,7 +414,7 @@ crystal_income: 0
 point_income: 1
 multiplier: walking
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 24: 
@@ -426,7 +426,7 @@ crystal_income: 3
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 25: 
@@ -438,7 +438,7 @@ crystal_income: 0
 point_income: 2
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 1
 
 26: 
@@ -450,7 +450,7 @@ crystal_income: 0
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 2
 
 27: 
@@ -462,7 +462,7 @@ crystal_income: 0
 point_income: 2
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 1
 
 28: 
@@ -474,7 +474,7 @@ crystal_income: 0
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 2
 
 29: 
@@ -486,7 +486,7 @@ crystal_income: 0
 point_income: 1
 multiplier: marine
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 1
 
 30: 
@@ -498,7 +498,7 @@ crystal_income: 1
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 1
 
 31: 
@@ -510,7 +510,7 @@ crystal_income: 0
 point_income: 1
 multiplier: water_source
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 1
 
 32: 
@@ -522,7 +522,7 @@ crystal_income: 0
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 2
 
 33: 
@@ -534,7 +534,7 @@ crystal_income: 2
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 34: 
@@ -546,7 +546,7 @@ crystal_income: 0
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 35: 
@@ -558,7 +558,7 @@ crystal_income: 0
 point_income: 2
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 36: 
@@ -570,7 +570,7 @@ crystal_income: 0
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 37: 
@@ -582,7 +582,7 @@ crystal_income: 0
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 38: 
@@ -594,7 +594,7 @@ crystal_income: 0
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 39: 
@@ -606,7 +606,7 @@ crystal_income: 0
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
 40: 
@@ -618,6 +618,486 @@ crystal_income: 0
 point_income: 0
 multiplier: 1
 usage_cost: 0
-spore: 0
+spore_income: 0
 water_source: 0
 
+AGE2 :
+41: 
+type: cristal
+animal: no
+laying_constraint: no
+laying_cost: 0
+crystal_income: 5
+point_income: 0
+multiplier: 1
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+42: 
+type: cristal
+animal: no
+laying_constraint: no
+laying_cost: 5
+crystal_income: 0
+point_income: 7
+multiplier: 1
+usage_cost: 2
+spore_income: 0
+water_source: 0
+
+43: 
+type: cristal
+animal: walking
+laying_constraint: [0,1][1,1][2,1]
+laying_cost: 0
+crystal_income: 4
+point_income: 0
+multiplier: 1
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+44: 
+type: cristal
+animal: walking
+laying_constraint: no
+laying_cost: 3
+crystal_income: 0
+point_income: 6
+multiplier: 1
+usage_cost: 3
+spore_income: 0
+water_source: 0
+
+45: 
+type: cristal
+animal: marine
+laying_constraint: [1,0][1,1][2,1]
+laying_cost: 0
+crystal_income: 4
+point_income: 0
+multiplier: 1
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+46: 
+type: cristal
+animal: marine
+laying_constraint: no
+laying_cost: 0
+crystal_income: 3
+point_income: 0
+multiplier: 1
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+47: 
+type: cristal
+animal: flying
+laying_constraint: no
+laying_cost: 6
+crystal_income: 0
+point_income: 2
+multiplier: flying
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+48: 
+type: cristal
+animal: flying, flying
+laying_constraint: no
+laying_cost: 4
+crystal_income: 0
+point_income: 1
+multiplier: flying
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+49: 
+type: forest
+animal: no
+laying_constraint: [0,0][0,1][1,1]
+laying_cost: 0
+crystal_income: 0
+point_income: 5
+multiplier: 1
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+50: 
+type: forest
+animal: walking, walking
+laying_constraint: [1,1][2,1][2,2]
+laying_cost: 0
+crystal_income: 0
+point_income: 1
+multiplier: walking
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+51: 
+type: forest
+animal: marine, marine
+laying_constraint: no
+laying_cost: 0
+crystal_income: 0
+point_income: 1
+multiplier: flying
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+52: 
+type: forest
+animal: flying, flying
+laying_constraint: no
+laying_cost: 0
+crystal_income: 0
+point_income: 1
+multiplier: marine
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+53: 
+type: forest
+animal: walking, marine
+laying_constraint: no
+laying_cost: 4
+crystal_income: 0
+point_income: 2
+multiplier: flying
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+54: 
+type: forest
+animal: walking, flying
+laying_constraint: no
+laying_cost: 4
+crystal_income: 0
+point_income: 2
+multiplier: marine
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+55: 
+type: forest
+animal: flying, marine
+laying_constraint: no
+laying_cost: 4
+crystal_income: 0
+point_income: 2
+multiplier: walking
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+56: 
+type: forest
+animal: walking, marine, flying
+laying_constraint: no
+laying_cost: 4
+crystal_income: 0
+point_income: 3
+multiplier: 1
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+57: 
+type: mushroom
+animal: no
+laying_constraint: no
+laying_cost: 5
+crystal_income: 0
+point_income: 2
+multiplier: spore
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+58: 
+type: mushroom
+animal: no
+laying_constraint: no
+laying_cost: 3
+crystal_income: 0
+point_income: 5
+multiplier: 1
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+59: 
+type: mushroom
+animal: marine
+laying_constraint: no
+laying_cost: 0
+crystal_income: 0
+point_income: 2
+multiplier: 1
+usage_cost: 2
+spore_income: 1
+water_source: 0
+
+60: 
+type: mushroom
+animal: marine
+laying_constraint: [0,1][0,2][1,1]
+laying_cost: 0
+crystal_income: 0
+point_income: 0
+multiplier: 1
+usage_cost: 1
+spore_income: 1
+water_source: 0
+
+61: 
+type: mushroom
+animal: flying
+laying_constraint: no
+laying_cost: 0
+crystal_income: 0
+point_income: 0
+multiplier: 1
+usage_cost: 2
+spore_income: 1
+water_source: 0
+
+62: 
+type: mushroom
+animal: flying
+laying_constraint: [1,1][2,0][2,1]
+laying_cost: 0
+crystal_income: 0
+point_income: 4
+multiplier: 1
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+63: 
+type: mushroom
+animal: walking
+laying_constraint: no
+laying_cost: 6
+crystal_income: 0
+point_income: 2
+multiplier: walking
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+64: 
+type: mushroom
+animal: walking, walking
+laying_constraint: no
+laying_cost: 4
+crystal_income: 0
+point_income: 1
+multiplier: walking
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+65: 
+type: mountain
+animal: no
+laying_constraint: no
+laying_cost: 6
+crystal_income: 0
+point_income: 1
+multiplier: water_source
+usage_cost: 0
+spore_income: 0
+water_source: 2
+
+66: 
+type: mountain
+animal: no
+laying_constraint: [0,0][1,1][2,2]
+laying_cost: 0
+crystal_income: 0
+point_income: 0
+multiplier: 1
+usage_cost: 0
+spore_income: 0
+water_source: 3
+
+67: 
+type: mountain
+animal: walking
+laying_constraint: no
+laying_cost: 5
+crystal_income: 0
+point_income: 1
+multiplier: water_source
+usage_cost: 0
+spore_income: 0
+water_source: 1
+
+68: 
+type: mountain
+animal: walking
+laying_constraint: no
+laying_cost: 0
+crystal_income: 0
+point_income: 0
+multiplier: 1
+usage_cost: 0
+spore_income: 0
+water_source: 2
+
+69: 
+type: mountain
+animal: marine, marine
+laying_constraint: no
+laying_cost: 4
+crystal_income: 0
+point_income: 1
+multiplier: marine
+usage_cost: 0
+spore_income: 0
+water_source: 1
+
+70: 
+type: mountain
+animal: marine
+laying_constraint: no
+laying_cost: 7
+crystal_income: 0
+point_income: 2
+multiplier: marine
+usage_cost: 0
+spore_income: 0
+water_source: 1
+
+71: 
+type: mountain
+animal: flying
+laying_constraint: no
+laying_cost: 0
+crystal_income: 0
+point_income: 0
+multiplier: 1
+usage_cost: 0
+spore_income: 0
+water_source: 2
+
+72: 
+type: mountain
+animal: flying
+laying_constraint: [2,0][1,1][0,2]
+laying_cost: 0
+crystal_income: 0
+point_income: 3
+multiplier: 1
+usage_cost: 0
+spore_income: 0
+water_source: 1
+
+73: 
+type: forest, crystal
+animal: no
+laying_constraint: [0,0][2,0][0,2][2,2]
+laying_cost: 0
+crystal_income: 0
+point_income: 4
+multiplier: 1
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+74: 
+type: forest, crystal
+animal: walking, marine
+laying_constraint: no
+laying_cost: 2
+crystal_income: 0
+point_income: 2
+multiplier: 1
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+75: 
+type: mountain, mushroom
+animal: walking, marine
+laying_constraint: no
+laying_cost: 2
+crystal_income: 0
+point_income: 2
+multiplier: 1
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+76: 
+type: mountain, mushroom
+animal: walking, marine, flying
+laying_constraint: [1,0][0,1][2,1][1,2]
+laying_cost: 0
+crystal_income: 0
+point_income: 0
+multiplier: 1
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+77: 
+type: forest, mushroom
+animal: flying, marine
+laying_constraint: no
+laying_cost: 2
+crystal_income: 0
+point_income: 2
+multiplier: 1
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+78: 
+type: crystal, mushroom
+animal: walking, flying
+laying_constraint: no
+laying_cost: 2
+crystal_income: 0
+point_income: 2
+multiplier: 1
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+79: 
+type: forest, mountain
+animal: walking, flying
+laying_constraint: no
+laying_cost: 2
+crystal_income: 0
+point_income: 2
+multiplier: 1
+usage_cost: 0
+spore_income: 0
+water_source: 0
+
+80: 
+type: mountain, crystal
+animal: flying, marine
+laying_constraint: no
+laying_cost: 2
+crystal_income: 0
+point_income: 2
+multiplier: 1
+usage_cost: 0
+spore_income: 0
+water_source: 0
