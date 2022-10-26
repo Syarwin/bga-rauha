@@ -18,7 +18,24 @@ namespace RAUHA;
 
 require_once 'modules/php/constants.inc.php';
 
-$game_options = [];
+$game_options = [
+  OPTION_BOARD_SIDE => [
+    'name' => totranslate('Board Side'),
+    'values' => [
+      OPTION_A_SIDE => [
+        'name' => totranslate('A-side'),
+        'description' => totranslate('Play with A board side'),
+        'tmdisplay' => totranslate('A-side'),
+      ],
+      OPTION_B_SIDE => [
+        'name' => totranslate('B-side'),
+        'description' => totranslate('Play with B board side'),
+        'tmdisplay' => totranslate('B-side'),
+      ],
+    ],
+    'default' => OPTION_A_SIDE
+  ]
+];
 
 $game_preferences = [
   OPTION_CONFIRM => [

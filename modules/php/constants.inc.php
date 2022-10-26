@@ -12,6 +12,10 @@ const OPTION_CONFIRM_DISABLED = 0;
 const OPTION_CONFIRM_TIMER = 1;
 const OPTION_CONFIRM_ENABLED = 2;
 
+const OPTION_BOARD_SIDE = 102;
+const OPTION_A_SIDE = 0;
+const OPTION_B_SIDE = 1;
+
 /*
  * State constants
  */
@@ -32,6 +36,7 @@ const ST_COUNT_ACTION = 10;
 const ST_PRE_END_OF_GAME = 98; //TODO but why ?
 const ST_END_GAME = 99;
 
+//not used
 const TRANSITIONS = [
     'round_start' => ST_MOVE_AVATARS,
     'game_end' => ST_PRE_END_OF_GAME,
