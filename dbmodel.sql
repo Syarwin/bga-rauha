@@ -10,23 +10,15 @@
 -- dbmodel.sql
 
 
--- CREATE TABLE IF NOT EXISTS `biomes` (
---   `biome_id` varchar(100)  NOT NULL,
---   `biome_location` varchar(32) NOT NULL,
---   `biome_state` int(10) DEFAULT 0,
---   `player_id` int(10) NULL,
---   `extra_datas` JSON NULL,
---   PRIMARY KEY (`card_id`)
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE IF NOT EXISTS `biomes` (
-  `biome_id` int(5)  NOT NULL,
-  `biome_location` varchar(32) NOT NULL COMMENT 'deck1, deck2, player1...',
-  `x` int(1) COMMENT '0, 1 or 2',
-  `y` int(1) COMMENT '0, 1 or 2',
-  `player_id` int(10) NULL,
+  `biome_id` int(5) NOT NULL AUTO_INCREMENT,
   `biome_state` int(10) DEFAULT 0 COMMENT '0=out, 1=deck, 2=coord', 
+  `biome_location` varchar(32) NOT NULL COMMENT 'deck1, deck2, player1...',
+  `x` int(1) NULL COMMENT '0, 1 or 2',
+  `y` int(1) NULL  COMMENT '0, 1 or 2',
+  `player_id` int(10) NULL,
   `extra_datas` JSON NULL COMMENT 'not used for now',
+  `data_id` int(5) NOT NULL COMMENT 'used to retrieve static data',
   PRIMARY KEY (`biome_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -35,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `gods` (
   `player_id` int(10) NULL,
   `used` int(1) DEFAULT 0 COMMENT '0=not used, 1=used', 
   `extra_datas` JSON NULL COMMENT 'not used for now',
-  PRIMARY KEY (`biome_id`)
+  PRIMARY KEY (`god_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- CORE TABLES --

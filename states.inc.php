@@ -22,7 +22,15 @@ $machinestates = [
     'description' => '',
     'type' => 'manager',
     'action' => 'stGameSetup',
-    'transitions' => ['' => ST_NEXT_ROUND],
+    //    'transitions' => ['' => ST_NEXT_ROUND],
+    'transitions' => ['' => 80],
+  ],
+  80 => [
+    'name' => 'test',
+    'description' => clienttranslate('Launched game'),
+    'descriptionmyturn' => clienttranslate('Launched game'),
+    'type' => 'activeplayer',
+    'possibleactions' => [],
   ],
 
   ST_NEXT_ROUND => [
@@ -45,8 +53,8 @@ $machinestates = [
     'updateGameProgression' => true,
     'transitions' => [
       'action_turn' => ST_CHOOSE_BIOME,
-      'count_turn' => ST_COUNT_NEXT_PLAYER
-    ]
+      'count_turn' => ST_COUNT_NEXT_PLAYER,
+    ],
   ],
 
   ST_CHOOSE_BIOME => [
@@ -56,8 +64,8 @@ $machinestates = [
     'type' => 'multipleactiveplayer',
     'possibleactions' => ['choose'],
     'transitions' => [
-      '' => ST_NEXT_PLAYER
-    ]
+      '' => ST_NEXT_PLAYER,
+    ],
   ],
 
   ST_NEXT_PLAYER => [
@@ -69,7 +77,7 @@ $machinestates = [
     'transitions' => [
       'next_player_action' => ST_PLACE_BIOME,
       'end_turn' => ST_MOVE_AVATARS,
-    ]
+    ],
   ],
 
   ST_PLACE_BIOME => [
@@ -81,7 +89,7 @@ $machinestates = [
     'transitions' => [
       'place' => ST_HOST_GOD,
       'discard' => ST_ACT_BIOMES,
-    ]
+    ],
   ],
 
   ST_HOST_GOD => [
@@ -91,8 +99,8 @@ $machinestates = [
     'action' => 'stHostGod',
     'updateGameProgression' => false,
     'transitions' => [
-      '' => ST_ACT_BIOMES
-    ]
+      '' => ST_ACT_BIOMES,
+    ],
   ],
 
   ST_ACT_BIOMES => [
@@ -104,7 +112,7 @@ $machinestates = [
     'transitions' => [
       'act' => ST_ACT_BIOMES,
       'skip_act' => ST_NEXT_PLAYER,
-    ]
+    ],
   ],
 
   ST_COUNT_NEXT_PLAYER => [
@@ -116,7 +124,7 @@ $machinestates = [
     'transitions' => [
       'next_player_count' => ST_COUNT_ACTION,
       'end_turn' => ST_NEXT_ROUND,
-    ]
+    ],
   ],
 
   ST_COUNT_ACTION => [
@@ -128,7 +136,7 @@ $machinestates = [
     'transitions' => [
       'count' => ST_COUNT_ACTION,
       'skip_count' => ST_COUNT_NEXT_PLAYER,
-    ]
+    ],
   ],
 
   ST_PRE_END_OF_GAME => [

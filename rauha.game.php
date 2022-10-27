@@ -33,6 +33,7 @@ spl_autoload_register($swdNamespaceAutoload, true, true);
 require_once APP_GAMEMODULE_PATH . 'module/table/table.game.php';
 
 use RAUHA\Managers\Players;
+use RAUHA\Managers\BiomeCards;
 use RAUHA\Core\Globals;
 use RAUHA\Core\Preferences;
 use RAUHA\Core\Stats;
@@ -72,6 +73,7 @@ class Rauha extends Table
     Globals::setupNewGame($players, $options);
     Preferences::setupNewGame($players, $this->player_preferences);
     //    Stats::checkExistence();
+    BiomeCards::setupNewGame($players, $options);
 
     $this->setGameStateInitialValue('logging', false);
     $this->activeNextPlayer();
