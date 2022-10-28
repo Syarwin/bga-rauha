@@ -30,6 +30,9 @@ CREATE TABLE IF NOT EXISTS `gods` (
   PRIMARY KEY (`god_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--ADD a crystal count to each player
+ALTER TABLE `player` ADD `player_crystal` INT(3) DEFAULT 0 ;
+
 -- CORE TABLES --
 CREATE TABLE IF NOT EXISTS `global_variables` (
   `name` varchar(255) NOT NULL,
