@@ -22,8 +22,8 @@ $machinestates = [
     'description' => '',
     'type' => 'manager',
     'action' => 'stGameSetup',
-    //    'transitions' => ['' => ST_NEXT_ROUND],
-    'transitions' => ['' => 80],
+    'transitions' => ['' => ST_NEXT_ROUND],
+    // 'transitions' => ['' => 80],
   ],
   80 => [
     'name' => 'test',
@@ -35,7 +35,7 @@ $machinestates = [
 
   ST_NEXT_ROUND => [
     'name' => 'nextRound',
-    'description' => 'Decks are prepared',
+    'description' => clienttranslate('Decks are prepared'),
     'type' => 'game',
     'action' => 'stNextRound',
     'updateGameProgression' => false,
@@ -47,7 +47,7 @@ $machinestates = [
 
   ST_MOVE_AVATARS => [
     'name' => 'moveAvatars',
-    'description' => 'Avatars moves one space',
+    'description' => clienttranslate('Avatars moves one space'),
     'type' => 'game',
     'action' => 'stMoveAvatars',
     'updateGameProgression' => true,
@@ -59,9 +59,11 @@ $machinestates = [
 
   ST_CHOOSE_BIOME => [
     'name' => 'chooseBiome',
-    'description' => clienttranslate('Others players must choose a Biome'),
+    'description' => clienttranslate('All players must choose a Biome'),
     'descriptionmyturn' => clienttranslate('${you} must choose a Biome'),
+    'args' => 'argsChooseBiome',
     'type' => 'multipleactiveplayer',
+    'action' => 'stMakeEveryoneActive',
     'possibleactions' => ['choose'],
     'transitions' => [
       '' => ST_NEXT_PLAYER,

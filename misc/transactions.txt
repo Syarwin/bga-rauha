@@ -1,0 +1,31 @@
+exchange Server <-> Client during Rauha
+
+ST_NEXT_ROUND:
+Null
+
+ST_MOVE_AVATARS:
+Notification : 'newTurn'
+$data = [
+      'turn' => $turn
+    ];
+
+ST_CHOOSE_BIOME:
+args:
+$private[$id] = [
+                'deck' => $deck, //name of deck, probably useless
+                'cards_ids' => $cards_ids, [12, 13, 15, 21]
+            ];
+
+Action:
+Choose (card_id)
+
+const ST_NEXT_PLAYER = 5;
+const ST_PLACE_BIOME = 6;
+const ST_HOST_GOD = 7;
+const ST_ACT_BIOMES = 8;
+
+const ST_COUNT_NEXT_PLAYER = 9;
+const ST_COUNT_ACTION = 10;
+
+const ST_PRE_END_OF_GAME = 98; //TODO but why ?
+const ST_END_GAME = 99;

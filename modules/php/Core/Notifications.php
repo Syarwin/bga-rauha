@@ -6,6 +6,15 @@ use RAUHA\Core\Globals;
 
 class Notifications
 {
+  public static function newTurn($turn)
+  {
+    $data = [
+      'turn' => $turn
+    ];
+    $msg = clienttranslate('New turn : Avatars move to next area');
+    self::notifyAll('newTurn', $msg, $data);
+  }
+
   /*************************
    **** GENERIC METHODS ****
    *************************/

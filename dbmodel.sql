@@ -12,8 +12,8 @@
 
 CREATE TABLE IF NOT EXISTS `biomes` (
   `biome_id` int(5) NOT NULL AUTO_INCREMENT,
-  `biome_state` int(10) DEFAULT 0 COMMENT '0=out, 1=deck, 2=coord', 
-  `biome_location` varchar(32) NOT NULL COMMENT 'deck1, deck2, player1...',
+  `biome_state` int(10) DEFAULT 0, 
+  `biome_location` varchar(32) NOT NULL COMMENT 'inPlay or deckAge1/2 or deck1/2/3/4/5',
   `x` int(1) NULL COMMENT '0, 1 or 2',
   `y` int(1) NULL  COMMENT '0, 1 or 2',
   `player_id` int(10) NULL,
@@ -23,15 +23,16 @@ CREATE TABLE IF NOT EXISTS `biomes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `gods` (
-  `god_id` int(1)  NOT NULL,
+  `god_id` int(1) NOT NULL AUTO_INCREMENT,
+  `god_state` int(10) DEFAULT 0 COMMENT '0=not used, 1=used', 
+  `god_location` varchar(32) NOT NULL COMMENT 'table or player',
   `player_id` int(10) NULL,
-  `used` int(1) DEFAULT 0 COMMENT '0=not used, 1=used', 
   `extra_datas` JSON NULL COMMENT 'not used for now',
   PRIMARY KEY (`god_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---ADD a crystal count to each player
-ALTER TABLE `player` ADD `player_crystal` INT(3) DEFAULT 0 ;
+--ADD a crystal count, and board to each player
+ALTER TABLE `player` ADD `player_crystal` INT(3) DEFAULT 0, ADD `player_board` JSON;
 
 -- CORE TABLES --
 CREATE TABLE IF NOT EXISTS `global_variables` (

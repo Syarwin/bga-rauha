@@ -40,7 +40,7 @@ foreach ($ini_array as $id => $data) {
 
   //   $constraints = ($data['laying_constraint'] ?? null) == '' ? [] : explode(',', $data['laying_constraint']);
   //   $constraints_str = json_encode($constraints);
-  $constraints_str = ($data['laying_constraint'] ?? '') == '' ? '[]' : $data['laying_constraint'];
+  $constraints_str = ($data['laying_constraint'] ?? '') == '' ? '[]' : [$data['laying_constraint']];//i added [] around laying constraint
 
   $cost = (int) ($data['laying_cost'] ?? 0);
   $crystal_income = (int) $data['crystal_income'];

@@ -40,7 +40,7 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
 
       $biomes[] = [
         'data_id' => $id,
-        'location' => 'deck' . $age,
+        'location' => 'deckAge' . $age,
       ];
     }
 
@@ -158,7 +158,7 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
       127 => $f([['mountain'], ['flying'], [], 2, 0, 0, '1', 0, 0, 2]),
       128 => $f([['mountain'], ['marine'], [], 4, 0, 1, 'marine', 0, 0, 1]),
       129 => $f([['mountain'], ['marine'], [[0, 0], [1, 0], [2, 0]], 0, 1, 0, '1', 0, 0, 1]),
-      130 => $f([['mountain'], ['walking'], [], 6, 0, 1, 'water_source', 0, 0, 1]),
+      130 => $f([['mountain'], ['walking'], [], 6, 0, 1, 'waterSource', 0, 0, 1]),
       131 => $f([['mountain'], ['walking'], [], 2, 0, 0, '1', 0, 0, 2]),
       132 => $f([['mountain', ' forest'], [], [], 0, 2, 0, '1', 0, 0, 0]),
       133 => $f([['mountain', ' forest'], ['flying', ' walking'], [], 0, 0, 0, '1', 0, 0, 0]),
@@ -201,9 +201,9 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
       161 => $f([['mushroom'], ['flying'], [[1, 1], [2, 0], [2, 1]], 0, 0, 4, '1', 0, 0, 0]),
       162 => $f([['mushroom'], ['walking'], [], 6, 0, 2, 'walking', 0, 0, 0]),
       163 => $f([['mushroom'], ['walking', ' walking'], [], 4, 0, 1, 'walking', 0, 0, 0]),
-      164 => $f([['mountain'], [], [], 6, 0, 1, 'water_source', 0, 0, 2]),
+      164 => $f([['mountain'], [], [], 6, 0, 1, 'waterSource', 0, 0, 2]),
       165 => $f([['mountain'], [], [[0, 0], [1, 1], [2, 2]], 0, 0, 0, '1', 0, 0, 3]),
-      166 => $f([['mountain'], ['walking'], [], 5, 0, 1, 'water_source', 0, 0, 1]),
+      166 => $f([['mountain'], ['walking'], [], 5, 0, 1, 'waterSource', 0, 0, 1]),
       167 => $f([['mountain'], ['walking'], [], 0, 0, 0, '1', 0, 0, 2]),
       168 => $f([['mountain'], ['marine', ' marine'], [], 4, 0, 1, 'marine', 0, 0, 1]),
       169 => $f([['mountain'], ['marine'], [], 7, 0, 2, 'marine', 0, 0, 1]),

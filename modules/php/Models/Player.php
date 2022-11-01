@@ -24,6 +24,7 @@ class Player extends \RAUHA\Helpers\DB_Model
     'score' => ['player_score', 'int'],
     'scoreAux' => ['player_score_aux', 'int'],
     'crystal' => ['player_crystal', 'int'],
+    'board' => ['player_board', 'obj'],
     'zombie' => 'player_zombie',
   ];
 

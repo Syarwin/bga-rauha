@@ -1,4 +1,5 @@
 <?php
+
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
@@ -34,6 +35,7 @@ require_once APP_GAMEMODULE_PATH . 'module/table/table.game.php';
 
 use RAUHA\Managers\Players;
 use RAUHA\Managers\BiomeCards;
+use RAUHA\Managers\GodCards;
 use RAUHA\Core\Globals;
 use RAUHA\Core\Preferences;
 use RAUHA\Core\Stats;
@@ -42,6 +44,8 @@ class Rauha extends Table
 {
   use RAUHA\DebugTrait;
   use RAUHA\States\TurnTrait;
+  use RAUHA\States\NewRoundTrait;
+  use RAUHA\States\ActionTurnTrait;
 
   public static $instance = null;
   function __construct()
@@ -74,6 +78,7 @@ class Rauha extends Table
     Preferences::setupNewGame($players, $this->player_preferences);
     //    Stats::checkExistence();
     BiomeCards::setupNewGame($players, $options);
+    GodCards::setupNewGame($players, $options);
 
     $this->setGameStateInitialValue('logging', false);
     $this->activeNextPlayer();
@@ -88,6 +93,7 @@ class Rauha extends Table
     return [
       'prefs' => Preferences::getUiData($pId),
       'players' => Players::getUiData($pId),
+      'turn' => Globals::getTurn(),
     ];
   }
 
@@ -96,7 +102,7 @@ class Rauha extends Table
    */
   function getGameProgression()
   {
-    return 0; // TODO
+    return Globals::getTurn() / 16 * 100;
   }
 
   function actChangePreference($pref, $value)

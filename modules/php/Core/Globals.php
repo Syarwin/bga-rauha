@@ -1,14 +1,19 @@
 <?php
+
 namespace RAUHA\Core;
 
 use RAUHA\Core\Game;
 /*
  * Globals
  */
+
 class Globals extends \RAUHA\Helpers\DB_Manager
 {
   protected static $initialized = false;
-  protected static $variables = [];
+  protected static $variables = [
+    'turn' => 'int',
+    'firstPlayer' => 'int',
+  ];
 
   protected static $table = 'global_variables';
   protected static $primary = 'name';
@@ -28,12 +33,10 @@ class Globals extends \RAUHA\Helpers\DB_Manager
     $tmp = self::$log;
     self::$log = false;
 
-    foreach (
-      self::DB()
+    foreach (self::DB()
         ->select(['value', 'name'])
         ->get(false)
-      as $name => $variable
-    ) {
+      as $name => $variable) {
       if (\array_key_exists($name, self::$variables)) {
         self::$data[$name] = $variable;
       }
@@ -130,5 +133,6 @@ class Globals extends \RAUHA\Helpers\DB_Manager
    */
   public static function setupNewGame($players, $options)
   {
+    self::setTurn(0);
   }
 }

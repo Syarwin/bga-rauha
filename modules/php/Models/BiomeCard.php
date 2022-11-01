@@ -12,7 +12,7 @@ class BiomeCard extends \RAUHA\Helpers\DB_Model
   protected $primary = 'biome_id';
   protected $attributes = [
     'id' => ['biome_id', 'int'],
-    'location' => 'biome_location', //deck1, deck2, playerid
+    'location' => 'biome_location', //deckAge1, deck1, inPlay
     'state' => ['biome_state', 'int'], //0=out, 1=deck, 2=coord(played)
     'x' => ['x', 'int'],
     'y' => ['y', 'int'],
@@ -27,7 +27,7 @@ class BiomeCard extends \RAUHA\Helpers\DB_Model
     ['layingCost', 'int'], //in crystal
     ['crystalIncome', 'int'],
     ['pointIncome', 'int'],
-    'multiplier', //string like "marine", "spore", "water_source", or "1"
+    'multiplier', //string like "marine", "spore", "waterSource", "animals" or "1"
     ['usageCost', 'int'], //in crystal
     ['sporeIncome', 'int'],
     ['waterSource', 'int'],

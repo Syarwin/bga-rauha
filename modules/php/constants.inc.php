@@ -1,8 +1,27 @@
 <?php
 
 /*
+* Game Constants
+*/
+
+const CARDS_PER_DECK = 4;
+const MOON = 1;
+const STAR = 0;
+const DECK_TO_CHOOSE = [
+    null,
+    MOON, STAR, MOON, null,
+    STAR, MOON, STAR, null,
+    MOON, STAR, MOON, null,
+    STAR, MOON, STAR, null,
+];
+
+/*
  * Game options
  */
+
+const OPTION_BOARD_SIDE = 102;
+const OPTION_A_SIDE = 0;
+const OPTION_B_SIDE = 1;
 
 /*
  * User preferences
@@ -11,10 +30,6 @@ const OPTION_CONFIRM = 103;
 const OPTION_CONFIRM_DISABLED = 0;
 const OPTION_CONFIRM_TIMER = 1;
 const OPTION_CONFIRM_ENABLED = 2;
-
-const OPTION_BOARD_SIDE = 102;
-const OPTION_A_SIDE = 0;
-const OPTION_B_SIDE = 1;
 
 /*
  * State constants

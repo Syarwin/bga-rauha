@@ -1,5 +1,7 @@
 <?php
+
 namespace RAUHA\Managers;
+
 use RAUHA\Core\Game;
 use RAUHA\Core\Globals;
 use RAUHA\Core\Stats;
@@ -9,6 +11,7 @@ use RAUHA\Helpers\Utils;
  * Players manager : allows to easily access players ...
  *  a player is an instance of Player class
  */
+
 class Players extends \RAUHA\Helpers\DB_Manager
 {
   protected static $table = 'player';
@@ -29,14 +32,18 @@ class Players extends \RAUHA\Helpers\DB_Manager
       'player_canal',
       'player_name',
       'player_avatar',
+      'player_board'
       // 'player_score',
     ]);
 
     $values = [];
     foreach ($players as $pId => $player) {
       $color = array_shift($colors);
-      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar']];
+      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar'], '[[0, 0, 0], [0, 0, 0], [0, 0, 0]]'];
     }
+
+    Globals::setFirstPlayer(array_key_first($players));
+
     $query->values($values);
     Game::get()->reattributeColorsBasedOnPreferences($players, $gameInfos['player_colors']);
     Game::get()->reloadPlayersBasicInfos();
