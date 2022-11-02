@@ -1,8 +1,9 @@
 <?php
+
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * Rauha implementation : Timothée Pecatte <tim.pecatte@gmail.com>, Emmanuel ??
+ * Rauha implementation : Timothée Pecatte <tim.pecatte@gmail.com>, Emmanuel Albisser <emmanuel.albisser@gmail.com>
  *
  * This code has been produced on the BGA studio platform for use on https://boardgamearena.com.
  * See http://en.doc.boardgamearena.com/Studio for more information.
@@ -34,6 +35,25 @@ class action_rauha extends APP_GameAction
       self::trace('Complete reinitialization of board game');
     }
   }
+
+  public function actChooseBiome()
+  {
+    self::setAjaxMode();
+    $cardId = self::getArg('cardId', AT_posint, true);
+    $this->game->actChooseBiome(['cardId' => $cardId]);
+    self::ajaxResponse();
+  }
+
+  public function actDiscard()
+  {
+    self::setAjaxMode();
+    $this->game->actDiscard();
+    self::ajaxResponse();
+  }
+
+  ///////////////////
+  /////  PREFS  /////
+  ///////////////////
 
   public function actChangePref()
   {

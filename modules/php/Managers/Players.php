@@ -32,19 +32,25 @@ class Players extends \RAUHA\Helpers\DB_Manager
       'player_canal',
       'player_name',
       'player_avatar',
-      'player_board'
-      // 'player_score',
+      'player_board',
+      'player_score_aux',
     ]);
 
     $values = [];
     foreach ($players as $pId => $player) {
       $color = array_shift($colors);
-      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar'], '[[0, 0, 0], [0, 0, 0], [0, 0, 0]]'];
+      //TODO check if player_table_order is good
+      $playerScoreAux = $player['player_table_order'];
+
+      if ($playerScoreAux == count($players)) Globals::setFirstPlayer($pId);
+
+      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar'], '[[0, 0, 0], [0, 0, 0], [0, 0, 0]]', $playerScoreAux];
     }
 
-    Globals::setFirstPlayer(array_key_first($players));
-
     $query->values($values);
+
+    Globals::setFirstPlayer(self::getFirstPlayer());
+
     Game::get()->reattributeColorsBasedOnPreferences($players, $gameInfos['player_colors']);
     Game::get()->reloadPlayersBasicInfos();
   }
@@ -125,5 +131,23 @@ class Players extends \RAUHA\Helpers\DB_Manager
       $p = self::getNextId($p);
     } while ($p != $firstPlayer);
     return $order;
+  }
+
+  /////////////////////////
+  ///// RAUHA Specific ////
+  /////////////////////////
+
+
+  /*
+   * Get first player according to points
+   */
+  public function getFirstPlayer()
+  {
+    //TODO what is select columns
+    return self::DB()->select(['player_id'])
+      ->orderBy('player_score', 'DESC')
+      ->orderBy('player_score_aux', 'DESC')
+      ->getSingle()
+      ->getId();
   }
 }

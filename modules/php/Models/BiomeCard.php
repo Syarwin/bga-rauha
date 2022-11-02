@@ -12,11 +12,11 @@ class BiomeCard extends \RAUHA\Helpers\DB_Model
   protected $primary = 'biome_id';
   protected $attributes = [
     'id' => ['biome_id', 'int'],
-    'location' => 'biome_location', //deckAge1, deck1, inPlay
-    'state' => ['biome_state', 'int'], //0=out, 1=deck, 2=coord(played)
+    'location' => 'biome_location', //deckAge1, deck1, inPlay, hand, board
+    'state' => ['biome_state', 'int'], //pId
     'x' => ['x', 'int'],
     'y' => ['y', 'int'],
-    'pId' => ['player_id', 'int'],
+    'pId' => ['player_id', 'int'], //not used
     'extraDatas' => ['extra_datas', 'obj'], //not used for now
   ];
 

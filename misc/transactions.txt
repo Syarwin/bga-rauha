@@ -12,15 +12,28 @@ $data = [
 ST_CHOOSE_BIOME:
 args:
 $private[$id] = [
-                'deck' => $deck, //name of deck, probably useless
-                'cards_ids' => $cards_ids, [12, 13, 15, 21]
+                'deck' => $deck,
+                'cardsIds' => $cardsIds,
             ];
 
 Action:
-Choose (card_id)
+actChooseBiome (cardId)
 
 const ST_NEXT_PLAYER = 5;
+//TODO stNextPlayer
+
 const ST_PLACE_BIOME = 6;
+args:
+return [
+            'playerId' => $player->getId(),
+            'cardId' => $biome->getId(),
+            'possiblePlaces' => $possiblePlaces
+        ];
+
+Action:
+actDiscard()//TODO
+actPlaceBiome(x,y)//TODO
+
 const ST_HOST_GOD = 7;
 const ST_ACT_BIOMES = 8;
 

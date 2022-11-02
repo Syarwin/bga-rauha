@@ -1,4 +1,5 @@
 <?php
+
 namespace RAUHA\Models;
 
 /*
@@ -15,10 +16,12 @@ class GodCard extends \RAUHA\Helpers\DB_Model
     'location' => 'god_location', //"table" or "player"
     'pId' => ['player_id', 'int'],
     // 'used' => ['used', 'int'], //0:not used, 1=used
-    'extraDatas' => ['extra_datas', 'obj'],//not used for now
+    'extraDatas' => ['extra_datas', 'obj'], //not used for now
   ];
 
   protected $staticAttributes = [
+    'name',
+    'type',
     ['crystal_income', 'int'],
     ['point_income', 'int'],
     'multiplier', //string like "marine", "spore", "water_source", or "1"
@@ -32,7 +35,13 @@ class GodCard extends \RAUHA\Helpers\DB_Model
     return true; // Useful for expansion/ban list/ etc...
   }
 
-/* NOT IMPLEMENTED
+  public function isPlayable()
+  {
+    if ($this->name == 'MERI') return False;
+    else return ($this->state == 0);
+  }
+
+  /* NOT IMPLEMENTED
   public function getTypeStr()
   {
     return '';
@@ -53,5 +62,4 @@ class GodCard extends \RAUHA\Helpers\DB_Model
     }
     return Players::get($this->pId);
   }*/
-
 }

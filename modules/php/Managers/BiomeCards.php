@@ -51,8 +51,10 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
         for ($x = 0; $x < 3; $x++) {
           $biomes[] = [
             'data_id' => $board[$y][$x],
-            'location' => 'inPlay',
-            'player_id' => $pId,
+            // 'location' => 'inPlay', MODIFICATION
+            // 'player_id' => $pId,
+            'location' => "board",
+            'state' => $pId,
             'x' => $x,
             'y' => $y,
           ];

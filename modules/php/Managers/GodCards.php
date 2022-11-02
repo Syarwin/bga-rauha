@@ -31,7 +31,7 @@ class GodCards extends \RAUHA\Helpers\Pieces
   public static function setupNewGame($players, $options)
   {
     $gods = [];
-    
+
     foreach (self::getGods() as $id => $god) {
       $gods[] = [
         'location' => 'table',
@@ -46,23 +46,24 @@ class GodCards extends \RAUHA\Helpers\Pieces
     $f = function ($t) {
       return [
         'name' => $t[0],
-        'crystalIncome' => $t[1],
-        'pointIcome' => $t[2],
-        'multiplier' => $t[3],
-        'usageCost' => $t[4],
-        'sporeIcome' => $t[5],
-        'waterSource' => $t[6],
+        'type' => $t[1],
+        'crystalIncome' => $t[2],
+        'pointIcome' => $t[3],
+        'multiplier' => $t[4],
+        'usageCost' => $t[5],
+        'sporeIcome' => $t[6],
+        'waterSource' => $t[7],
       ];
     };
 
     return [
-      0 => $f(['TAIVAS', 0, 7, 1, 4, 0, 0]),
-      1 => $f(['SIENET', 3, 0, 1, 0, 0, 0]),
-      2 => $f(['MERI', 0, 1, 'waterSource', 0, 0, 0]),
-      3 => $f(['METSAT', 0, 1, 'animals', 0, 0, 0]),
-      4 => $f(['KITEET', 0, 3, 1, 0, 0, 0]),
-      5 => $f(['VUORI', 0, 0, 1, 0, 0, 2]),
-      6 => $f(['MAA', 0, 1, 'spore', 0, 0, 0])
+      0 => $f(['TAIVAS', 'flying', 0, 7, 1, 4, 0, 0]),
+      1 => $f(['SIENET', 'mushroom', 3, 0, 1, 0, 0, 0]),
+      2 => $f(['MERI', 'marine', 0, 1, 'waterSource', 0, 0, 0]),
+      3 => $f(['METSAT', 'forest', 0, 1, 'animals', 0, 0, 0]),
+      4 => $f(['KITEET', 'crytal', 0, 3, 1, 0, 0, 0]),
+      5 => $f(['VUORI', 'mountain', 0, 0, 1, 0, 0, 2]),
+      6 => $f(['MAA', 'walking', 0, 1, 'spore', 0, 0, 0])
     ];
   }
 }

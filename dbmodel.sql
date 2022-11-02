@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `gods` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --ADD a crystal count, and board to each player
-ALTER TABLE `player` ADD `player_crystal` INT(3) DEFAULT 0, ADD `player_board` JSON;
+ALTER TABLE `player` ADD `player_crystal` INT(3) DEFAULT 4, ADD `player_board` JSON;
 
 -- CORE TABLES --
 CREATE TABLE IF NOT EXISTS `global_variables` (

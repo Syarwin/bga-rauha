@@ -155,4 +155,9 @@ class Rauha extends Table
   {
     return self::_($text);
   }
+
+  public static function test()
+  {
+    echo (var_dump(Players::getFirstPlayer()));
+  }
 }
