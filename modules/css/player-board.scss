@@ -1,0 +1,161 @@
+.rauha-board {
+    width: 822px;
+    height: 822px;
+    padding: 30px;
+
+    .player-name {
+        position: absolute;
+    }
+
+    .faceB .board-grid {
+        background-image: url("img/faceB.png");
+    }
+    .board-grid {
+        position: relative;
+        width: 822px;
+        height: 822px;
+        background: url("img/faceA.png");
+        background-size: 100%;
+
+        display: grid;
+        grid-template-columns: 56px 230px 230px 230px 56px;
+        grid-template-rows: 59px 230px 230px 230px 53px;
+        grid-gap: 5px;
+
+        .board-cell {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .avatar-slot {
+                width: 1px;
+                height: 1px;
+            }
+        }
+        .cell-node {
+            background: #ff000020;
+        }
+
+        .rauha-avatar {
+            width: 80px;
+            height: 50px;
+            position: absolute;
+            background: url("img/avatars.png");
+            background-size: 500% 100%;
+            transform-origin: 50% 100%;
+            transition: top 1s, left 1s, transform 1s;
+
+            [data-step="0"] & {
+                top: -27px;
+                left: 137px;
+                transform: rotate(0deg);
+            }
+
+            [data-step="1"] & {
+                top: -27px;
+                left: 372px;
+                transform: rotate(0deg);
+            }
+
+            [data-step="2"] & {
+                top: -27px;
+                left: 607px;
+                transform: rotate(0deg);
+            }
+
+            [data-step="3"] & {
+                top: -19px;
+                left: 753px;
+                transform: rotate(45deg);
+            }
+
+            [data-step="4"] & {
+                top: 125px;
+                left: 761px;
+                transform: rotate(90deg);
+            }
+
+            [data-step="5"] & {
+                top: 360px;
+                left: 761px;
+                transform: rotate(90deg);
+            }
+
+            [data-step="6"] & {
+                top: 595px;
+                left: 761px;
+                transform: rotate(90deg);
+            }
+
+            [data-step="7"] & {
+                top: 742px;
+                left: 755px;
+                transform: rotate(135deg);
+            }
+
+            [data-step="8"] & {
+                top: 750px;
+                left: 607px;
+                transform: rotate(180deg);
+            }
+
+            [data-step="9"] & {
+                top: 750px;
+                left: 372px;
+                transform: rotate(180deg);
+            }
+
+            [data-step="10"] & {
+                top: 750px;
+                left: 137px;
+                transform: rotate(180deg);
+            }
+
+            [data-step="11"] & {
+                top: 745px;
+                left: -11px;
+                transform: rotate(225deg);
+            }
+
+            [data-step="12"] & {
+                top: 594px;
+                left: -18px;
+                transform: rotate(270deg);
+            }
+
+            [data-step="13"] & {
+                top: 361px;
+                left: -18px;
+                transform: rotate(270deg);
+            }
+
+            [data-step="14"] & {
+                top: 125px;
+                left: -18px;
+                transform: rotate(270deg);
+            }
+
+            [data-step="15"] & {
+                top: -19px;
+                left: -13px;
+                transform: rotate(315deg);
+            }
+        }
+    }
+
+    &[data-color="28c8b2"] .rauha-avatar {
+        background-position-x: 0%;
+    }
+    &[data-color="9fa2a2"] .rauha-avatar {
+        background-position-x: 25%;
+    }
+    &[data-color="00953e"] .rauha-avatar {
+        background-position-x: 50%;
+    }
+    &[data-color="f4ea4b"] .rauha-avatar {
+        background-position-x: 75%;
+    }
+    &[data-color="f52452"] .rauha-avatar {
+        background-position-x: 100%;
+    }
+}
