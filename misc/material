@@ -132,7 +132,7 @@ point_income: 0
 multiplier: 1
 usage_cost: 0
 spore_income: 0
-water_source: 0
+water_source: 1
 8: 
 type: desert
 crystal_income: 0

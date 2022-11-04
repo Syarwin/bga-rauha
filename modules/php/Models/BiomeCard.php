@@ -1,11 +1,12 @@
 <?php
+
 namespace RAUHA\Models;
 
 /*
  * BiomeCard
  */
 
-class BiomeCard extends \ARK\Helpers\DB_Model
+class BiomeCard extends \RAUHA\Helpers\DB_Model
 {
   protected $table = 'biomes';
   protected $primary = 'biome_id';

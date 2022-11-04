@@ -1,5 +1,7 @@
 <?php
+
 namespace RAUHA\Models;
+
 use RAUHA\Core\Stats;
 use RAUHA\Core\Notifications;
 use RAUHA\Core\Preferences;
@@ -21,6 +23,7 @@ class Player extends \RAUHA\Helpers\DB_Model
     'eliminated' => 'player_eliminated',
     'score' => ['player_score', 'int'],
     'scoreAux' => ['player_score_aux', 'int'],
+    'crystal' => ['player_crystal', 'int'],
     'zombie' => 'player_zombie',
   ];
 
