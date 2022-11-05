@@ -77,6 +77,25 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
     return array_unique($alignedTypes);
   }
 
+  /**
+   * Retuns activable Biomes in the row or column of the avatar if a Turn has been furnished, 
+   * all activable Biomes with spore in other cases
+   */
+  public static function getActivableBiomes($player, $turn = null)
+  {
+    if ($turn != null) {
+      $activableBiomes = [];
+
+      foreach (BOARD_ACTIVATION[$turn] as $place) {
+        $x = $place[0];
+        $y = $place[1];
+        if (BiomeCards::getBiomeOnPlayerBoard($player, $x, $y)->isActivable()) $activableBiomes[] = $place;
+      }
+      return $activableBiomes;
+    }
+  }
+
+
   public static function getBiomeOnPlayerBoard($player, $x, $y)
   {
     return self::getInLocationQ('board', $player->getId())

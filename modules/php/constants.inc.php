@@ -36,6 +36,8 @@ const BOARD_ACTIVATION = [ //give the coords of Biome to activate each turn
     14 => [[0, 1], [1, 1], [2, 1]],
     15 => [[0, 0], [1, 0], [2, 0]],
 ];
+const NOT_USED = 0;
+const USED = 1;
 
 /*
  * Game options

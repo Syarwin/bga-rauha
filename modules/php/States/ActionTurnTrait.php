@@ -87,7 +87,7 @@ trait ActionTurnTrait
 
     public function argPlaceBiome()
     {
-        $player = Players::getActive()->getId();
+        $player = Players::getActive();
         $biome = BiomeCards::getInLocation('hand', $player->getId());
 
         // if no layingconstraints all places are possible 
@@ -102,9 +102,6 @@ trait ActionTurnTrait
             'biomeId' => $biome->getId(),
             'possiblePlaces' => $possiblePlaces
         ];
-
-        // Change state
-        $this->gamestate->nextState('actDiscard');
     }
 
     /**
@@ -165,5 +162,13 @@ trait ActionTurnTrait
         }
 
         $this->gamestate->nextState('');
+    }
+
+    public function argActBiome()
+    {
+        return [
+            'activableBiomes' => BiomeCards::getActivableBiomes(Players::getActive(), Globals::getTurn()),
+            'activableGods' => GodCards::getActivableGods(Players::getActive()),
+        ];
     }
 }

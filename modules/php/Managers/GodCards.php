@@ -49,6 +49,17 @@ class GodCards extends \RAUHA\Helpers\Pieces
     }
   }
 
+  /*
+   * Get activable god for a player
+   */
+  public function getActivableGods($player)
+  {
+    //TODO what is select columns
+    return self::DB()->select(['god_id'])
+      ->where('state', $player->getId())
+      ->where('used', NOT_USED);
+  }
+
   public function getGods()
   {
     $f = function ($t) {

@@ -35,7 +35,7 @@ class GodCard extends \RAUHA\Helpers\DB_Model
     $this->setLocation('board');
     $this->setState($player->getId());
     //when a god is taken, it can be used by its new owner
-    $this->used(0);
+    $this->used(NOT_USED);
   }
 
   public function isSupported($players, $options)

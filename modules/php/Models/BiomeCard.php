@@ -53,6 +53,18 @@ class BiomeCard extends \RAUHA\Helpers\DB_Model
     $this->setLocation('board');
   }
 
+  public function isActivable()
+  {
+    if (
+      $this->crystalIcome == 0 &&
+      $this->pointIncome == 0 &&
+      $this->sporeIncome == 0
+    ) return false;
+
+    if ($this->getState() == USED) return false;
+    else return true;
+  }
+
   /*NOT IMPLEMENTED
   public function getTypeStr()
   {

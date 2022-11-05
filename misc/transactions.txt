@@ -63,7 +63,11 @@ Action:
         $msg = clienttranslate('By aligning 3 Biomes with ${type}, ${player_name} receives ${godName}');
 
 ST_ACT_BIOMES = 8;
-
+--->>> args
+        return [
+            'activableBiomes' => BiomeCards::getActivableBiomes($player, Globals::getTurn()),
+            'activableGods' => GodCards::getActivableGods($player),
+        ];
 
 const ST_COUNT_NEXT_PLAYER = 9;
 const ST_COUNT_ACTION = 10;
