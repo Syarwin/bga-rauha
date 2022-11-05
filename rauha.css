@@ -13,5 +13,125 @@
  * Rauha stylesheet
  *
  */
+.player-info {
+  display: flex; }
+
+.player-board {
+  background-color: #f5f3ef; }
+
+.rauha-board {
+  width: 822px;
+  height: 822px;
+  padding: 30px; }
+  .rauha-board .player-name {
+    position: absolute; }
+  .rauha-board .faceB .board-grid {
+    background-image: url("img/faceB.png"); }
+  .rauha-board .board-grid {
+    position: relative;
+    width: 822px;
+    height: 822px;
+    background: url("img/faceA.png");
+    background-size: 100%;
+    display: grid;
+    grid-template-columns: 56px 230px 230px 230px 56px;
+    grid-template-rows: 59px 230px 230px 230px 53px;
+    grid-gap: 5px; }
+    .rauha-board .board-grid .board-cell {
+      display: flex;
+      justify-content: center;
+      align-items: center; }
+      .rauha-board .board-grid .board-cell .avatar-slot {
+        width: 1px;
+        height: 1px; }
+    .rauha-board .board-grid .cell-node {
+      background: #ff000020; }
+    .rauha-board .board-grid .rauha-avatar {
+      width: 80px;
+      height: 50px;
+      position: absolute;
+      background: url("img/avatars.png");
+      background-size: 500% 100%;
+      transform-origin: 50% 100%;
+      transition: top 1s, left 1s, transform 1s; }
+      [data-step="0"] .rauha-board .board-grid .rauha-avatar {
+        top: -27px;
+        left: 137px;
+        transform: rotate(0deg); }
+      [data-step="1"] .rauha-board .board-grid .rauha-avatar {
+        top: -27px;
+        left: 372px;
+        transform: rotate(0deg); }
+      [data-step="2"] .rauha-board .board-grid .rauha-avatar {
+        top: -27px;
+        left: 607px;
+        transform: rotate(0deg); }
+      [data-step="3"] .rauha-board .board-grid .rauha-avatar {
+        top: -19px;
+        left: 753px;
+        transform: rotate(45deg); }
+      [data-step="4"] .rauha-board .board-grid .rauha-avatar {
+        top: 125px;
+        left: 761px;
+        transform: rotate(90deg); }
+      [data-step="5"] .rauha-board .board-grid .rauha-avatar {
+        top: 360px;
+        left: 761px;
+        transform: rotate(90deg); }
+      [data-step="6"] .rauha-board .board-grid .rauha-avatar {
+        top: 595px;
+        left: 761px;
+        transform: rotate(90deg); }
+      [data-step="7"] .rauha-board .board-grid .rauha-avatar {
+        top: 742px;
+        left: 755px;
+        transform: rotate(135deg); }
+      [data-step="8"] .rauha-board .board-grid .rauha-avatar {
+        top: 750px;
+        left: 607px;
+        transform: rotate(180deg); }
+      [data-step="9"] .rauha-board .board-grid .rauha-avatar {
+        top: 750px;
+        left: 372px;
+        transform: rotate(180deg); }
+      [data-step="10"] .rauha-board .board-grid .rauha-avatar {
+        top: 750px;
+        left: 137px;
+        transform: rotate(180deg); }
+      [data-step="11"] .rauha-board .board-grid .rauha-avatar {
+        top: 745px;
+        left: -11px;
+        transform: rotate(225deg); }
+      [data-step="12"] .rauha-board .board-grid .rauha-avatar {
+        top: 594px;
+        left: -18px;
+        transform: rotate(270deg); }
+      [data-step="13"] .rauha-board .board-grid .rauha-avatar {
+        top: 361px;
+        left: -18px;
+        transform: rotate(270deg); }
+      [data-step="14"] .rauha-board .board-grid .rauha-avatar {
+        top: 125px;
+        left: -18px;
+        transform: rotate(270deg); }
+      [data-step="15"] .rauha-board .board-grid .rauha-avatar {
+        top: -19px;
+        left: -13px;
+        transform: rotate(315deg); }
+  .rauha-board[data-color="6cc2b6"] .rauha-avatar {
+    background-position-x: 0%; }
+  .rauha-board[data-color="9fa2a2"] .rauha-avatar {
+    background-position-x: 25%; }
+  .rauha-board[data-color="00953e"] .rauha-avatar {
+    background-position-x: 50%; }
+  .rauha-board[data-color="f4ea4b"] .rauha-avatar {
+    background-position-x: 75%; }
+  .rauha-board[data-color="eb5374"] .rauha-avatar {
+    background-position-x: 100%; }
+
+html {
+  background: url("img/background.jpg");
+  background-size: cover;
+  background-attachment: fixed; }
 
 /*# sourceMappingURL=rauha.css.map */

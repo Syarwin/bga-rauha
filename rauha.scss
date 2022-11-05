@@ -12,3 +12,12 @@
  * Rauha stylesheet
  *
  */
+
+@import "modules/css/player-panel";
+@import "modules/css/player-board";
+
+html {
+    background: url("img/background.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+}

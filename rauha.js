@@ -53,9 +53,57 @@ define([
       debug('SETUP', gamedatas);
 
       //        this.setupInfoPanel();
-      //   this.setupPlayers();
+      this.setupPlayers();
       //   this.setupInfoPanel();
+      $('game_play_area').dataset.step = 0;
       this.inherited(arguments);
+    },
+
+    setupPlayers() {
+      this.forEachPlayer((player) => {
+        this.place('tplPlayerBoard', player, 'rauha-boards-container');
+      });
+      // [...document.querySelectorAll('.avatar-slot')].forEach((elt) => {
+      //   dojo.place('<div class="rauha-avatar"></div>', elt);
+      // });
+    },
+
+    tplPlayerBoard(player) {
+      return `<div class='rauha-board' id='board-${player.id}' data-color='${player.color}'>
+        <div class='player-name' style='color:#${player.color}'>${player.name}</div>
+        <div class='board-grid'>
+          <div class="rauha-avatar"></div>
+          <div class='board-cell cell-corner' data-x='0' data-y='0'><div class='avatar-slot' data-step='15'></div></div>
+          <div class='board-cell cell-hedge'  data-x='1' data-y='0'><div class='avatar-slot' data-step='0'></div></div>
+          <div class='board-cell cell-hedge'  data-x='2' data-y='0'><div class='avatar-slot' data-step='1'></div></div>
+          <div class='board-cell cell-hedge'  data-x='3' data-y='0'><div class='avatar-slot' data-step='2'></div></div>
+          <div class='board-cell cell-corner' data-x='4' data-y='0'><div class='avatar-slot' data-step='3'></div></div>
+
+          <div class='board-cell cell-vedge' data-x='0' data-y='1'><div class='avatar-slot' data-step='14'></div></div>
+          <div class='board-cell cell-node'  data-x='1' data-y='1'></div>
+          <div class='board-cell cell-node'  data-x='2' data-y='1'></div>
+          <div class='board-cell cell-node'  data-x='3' data-y='1'></div>
+          <div class='board-cell cell-vedge' data-x='4' data-y='1'><div class='avatar-slot' data-step='4'></div></div>
+
+          <div class='board-cell cell-vedge' data-x='0' data-y='2'><div class='avatar-slot' data-step='13'></div></div>
+          <div class='board-cell cell-node'  data-x='1' data-y='2'></div>
+          <div class='board-cell cell-node'  data-x='2' data-y='2'></div>
+          <div class='board-cell cell-node'  data-x='3' data-y='2'></div>
+          <div class='board-cell cell-vedge' data-x='4' data-y='2'><div class='avatar-slot' data-step='5'></div></div>
+
+          <div class='board-cell cell-vedge' data-x='0' data-y='3'><div class='avatar-slot' data-step='12'></div></div>
+          <div class='board-cell cell-node'  data-x='1' data-y='3'></div>
+          <div class='board-cell cell-node'  data-x='2' data-y='3'></div>
+          <div class='board-cell cell-node'  data-x='3' data-y='3'></div>
+          <div class='board-cell cell-vedge' data-x='4' data-y='3'><div class='avatar-slot' data-step='6'></div></div>
+
+          <div class='board-cell cell-corner' data-x='0' data-y='4'><div class='avatar-slot' data-step='11'></div></div>
+          <div class='board-cell cell-hedge'  data-x='1' data-y='4'><div class='avatar-slot' data-step='10'></div></div>
+          <div class='board-cell cell-hedge'  data-x='2' data-y='4'><div class='avatar-slot' data-step='9'></div></div>
+          <div class='board-cell cell-hedge'  data-x='3' data-y='4'><div class='avatar-slot' data-step='8'></div></div>
+          <div class='board-cell cell-corner' data-x='4' data-y='4'><div class='avatar-slot' data-step='7'></div></div>
+        </div>
+      </div>`;
     },
   });
 });
