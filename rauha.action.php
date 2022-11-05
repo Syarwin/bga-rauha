@@ -39,8 +39,8 @@ class action_rauha extends APP_GameAction
   public function actChooseBiome()
   {
     self::setAjaxMode();
-    $cardId = self::getArg('cardId', AT_posint, true);
-    $this->game->actChooseBiome(['cardId' => $cardId]);
+    $biomeId = self::getArg('biomeId', AT_posint, true);
+    $this->game->actChooseBiome($biomeId);
     self::ajaxResponse();
   }
 
@@ -48,6 +48,15 @@ class action_rauha extends APP_GameAction
   {
     self::setAjaxMode();
     $this->game->actDiscard();
+    self::ajaxResponse();
+  }
+
+  public function actPlaceBiome()
+  {
+    self::setAjaxMode();
+    $x = self::getArg('x', AT_posint, true);
+    $y = self::getArg('y', AT_posint, true);
+    $this->game->actPlaceBiome($x, $y);
     self::ajaxResponse();
   }
 

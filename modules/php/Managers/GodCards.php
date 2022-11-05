@@ -14,7 +14,7 @@ class GodCards extends \RAUHA\Helpers\Pieces
   protected static $prefix = 'god_';
   protected static $autoIncrement = true;
   protected static $autoremovePrefix = false;
-  protected static $customFields = ['player_id', 'extra_datas'];
+  protected static $customFields = ['used', 'extra_datas'];
 
   protected static function cast($row)
   {
@@ -39,6 +39,14 @@ class GodCards extends \RAUHA\Helpers\Pieces
     }
 
     self::create($gods);
+  }
+
+  /* Select a god by his type */
+  public function getGodByType($type)
+  {
+    foreach (self::getAll() as $id => $god) {
+      if ($god->getType() == $type) return $god;
+    }
   }
 
   public function getGods()

@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `gods` (
   `god_id` int(1) NOT NULL AUTO_INCREMENT,
   `god_state` int(10) DEFAULT 0 COMMENT '0=not used, 1=used', 
   `god_location` varchar(32) NOT NULL COMMENT 'table or player',
-  `player_id` int(10) NULL,
+  `used` int(10) DEFAULT 0,
   `extra_datas` JSON NULL COMMENT 'not used for now',
   PRIMARY KEY (`god_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

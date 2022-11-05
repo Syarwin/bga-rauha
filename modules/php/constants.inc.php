@@ -67,10 +67,11 @@ const ST_PLACE_BIOME = 6;
 const ST_HOST_GOD = 7;
 const ST_ACT_BIOMES = 8;
 
-const ST_COUNT_NEXT_PLAYER = 9;
-const ST_COUNT_ACTION = 10;
+const ST_DISCARD_LAST_CARDS = 9;
+const ST_COUNT_NEXT_PLAYER = 10;
+const ST_COUNT_ACTION = 11;
 
-const ST_PRE_END_OF_GAME = 98; //TODO but why ?
+const ST_PRE_END_OF_GAME = 98;
 const ST_END_GAME = 99;
 
 //not used

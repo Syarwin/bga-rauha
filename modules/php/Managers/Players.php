@@ -42,14 +42,14 @@ class Players extends \RAUHA\Helpers\DB_Manager
       //TODO check if player_table_order is good
       $playerScoreAux = $player['player_table_order'];
 
-      if ($playerScoreAux == count($players)) Globals::setFirstPlayer($pId);
+      //if ($playerScoreAux == count($players)) Globals::setFirstPlayer($pId);
 
       $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar'], '[[0, 0, 0], [0, 0, 0], [0, 0, 0]]', $playerScoreAux];
     }
 
     $query->values($values);
 
-    Globals::setFirstPlayer(self::getFirstPlayer());
+    Globals::setFirstPlayer(self::getFirstPlayerId());
 
     Game::get()->reattributeColorsBasedOnPreferences($players, $gameInfos['player_colors']);
     Game::get()->reloadPlayersBasicInfos();
@@ -118,7 +118,7 @@ class Players extends \RAUHA\Helpers\DB_Manager
       ->toAssoc();
   }
 
-  /*
+  /** 
    * Get current turn order according to first player variable
    */
   public function getTurnOrder($firstPlayer = null)
@@ -133,6 +133,14 @@ class Players extends \RAUHA\Helpers\DB_Manager
     return $order;
   }
 
+  /**
+   * This allow to change active player
+   */
+  public function changeActive($pId)
+  {
+    Game::get()->gamestate->changeActivePlayer($pId);
+  }
+
   /////////////////////////
   ///// RAUHA Specific ////
   /////////////////////////
@@ -141,7 +149,7 @@ class Players extends \RAUHA\Helpers\DB_Manager
   /*
    * Get first player according to points
    */
-  public function getFirstPlayer()
+  public function getFirstPlayerId()
   {
     //TODO what is select columns
     return self::DB()->select(['player_id'])

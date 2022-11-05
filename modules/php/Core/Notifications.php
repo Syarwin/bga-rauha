@@ -1,5 +1,7 @@
 <?php
+
 namespace RAUHA\Core;
+
 use RAUHA\Managers\Players;
 use RAUHA\Helpers\Utils;
 use RAUHA\Core\Globals;
@@ -13,6 +15,41 @@ class Notifications
     ];
     $msg = clienttranslate('New turn : Avatars move to next area');
     self::notifyAll('newTurn', $msg, $data);
+  }
+
+  public static function discard($currentPlayer, $discardCount)
+  {
+    $data = [
+      'player' => $currentPlayer,
+      'biomeInDiscard' => $discardCount
+    ];
+    $msg = clienttranslate('${player_name} discards their Biome to receive 4 crystals');
+    self::notifyAll('discard', $msg, $data);
+  }
+
+  public static function placeBiome($player, $x, $y, $biome)
+  {
+    $data = [
+      'player' => $player,
+      'x' => $x,
+      'y' => $y,
+      'biomeId' => $biome->getId(),
+      'biomeTypes' => join($biome->getType(), ', ')
+    ];
+    $msg = clienttranslate('${player_name} plays ${biomeTypes} on their board on place ${x}, ${y}');
+    self::notifyAll('placeBiome', $msg, $data);
+  }
+
+  public static function newAlignment($player, $god, $type)
+  {
+    $data = [
+      'player' => $player,
+      'godId' => $god->getId(),
+      'godName' => $god->getName(),
+      'type' => $type
+    ];
+    $msg = clienttranslate('By aligning 3 Biomes with ${type}, ${player_name} receives ${godName}');
+    self::notifyAll('nexAlignment', $msg, $data);
   }
 
   /*************************
@@ -63,5 +100,3 @@ class Notifications
     }
   }
 }
-
-?>

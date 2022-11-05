@@ -9,6 +9,7 @@ use RAUHA\Core\Engine;
 use RAUHA\Core\Stats;
 use RAUHA\Managers\Players;
 use RAUHA\Managers\BiomeCards;
+use RAUHA\Managers\GodCards;
 
 trait ActionTurnTrait
 {
@@ -23,11 +24,11 @@ trait ActionTurnTrait
             if ($deckId > Players::count()) $deckId = 1;
             $deck = "deck" . $deckId;
 
-            $cardsIds = BiomeCards::getInLocation($deck)->getIds();
+            $biomesIds = BiomeCards::getInLocation($deck)->getIds();
 
             $private[$id] = [
                 'deck' => $deck,
-                'cardsIds' => $cardsIds,
+                'biomesIds' => $biomesIds,
             ];
         }
 
@@ -36,27 +37,52 @@ trait ActionTurnTrait
         ];
     }
 
-    public function actChooseBiome($cardId)
+    public function actChooseBiome($biomeId)
     {
         // Sanity checks
-        $this->checkAction('actPlayCard');
+        $this->checkAction('actPlaybiome');
         $pId = Players::getCurrent()->getId();
-        //check that this card was available to be choosen
-        $args = $this->argsChooseBiome();
-        if (!in_array($cardId, $args['_private'][$pId]['cards_ids'])) {
-            throw new \BgaVisibleSystemException('You can\'t play this card. Should not happen');
+        //check that this biome was available to be choosen
+        $args = $this->argChooseBiome();
+
+        if (!in_array($biomeId, $args['_private'][$pId]['biomes_ids'])) {
+            throw new \BgaVisibleSystemException('You can\'t choose this biome. Should not happen');
         }
 
-        BiomeCards::move($cardId, 'hand', $pId);
+        BiomeCards::move($biomeId, 'hand', $pId);
 
         //record that player has played.
         $this->gamestate->setPlayerNonMultiactive($pId, '');
+
+        //notification
+        Notifications::message(
+            clienttranslate('${player_name} chooses their Biome'),
+            ['player' => Players::getCurrent()]
+        );
+
         //TODO HOW to allow player to cancel and play again
     }
 
+    /**
+     * Determine who's next player (the first player in turn order with a Biome in hand)
+     */
     public function stNextPlayer()
     {
-        //TODO
+        $playerToPlay = null;
+        foreach (Players::getTurnOrder() as $pId) {
+            if (Players::get($pId)->hasBiomeInHand()) {
+                $playerToPlay = $pId;
+                break;
+            }
+        }
+
+        // active a player and change state
+        if ($playerToPlay) {
+            Players::changeActive($playerToPlay);
+            $this->gamestate->nextState('next_player_action');
+        } else {
+            $this->gamestate->nextState('end_turn');
+        }
     }
 
     public function argPlaceBiome()
@@ -73,23 +99,71 @@ trait ActionTurnTrait
 
         return [
             'playerId' => $player->getId(),
-            'cardId' => $biome->getId(),
+            'biomeId' => $biome->getId(),
             'possiblePlaces' => $possiblePlaces
         ];
+
+        // Change state
+        $this->gamestate->nextState('actDiscard');
     }
 
     /**
      * Instead of placing their Biome, player can discard it to win 4 crystals
      */
-    function actDiscard()
+    public function actDiscard()
     {
         // Sanity checks
         $this->checkAction('actDiscard');
 
+        // get infos
         $currentPlayer = Players::getCurrent();
-
         BiomeCards::moveAllInLocation('hand', 'discard', $currentPlayer->getId());
-
         $currentPlayer->incCrystal(4);
+
+        // Notification
+        Notifications::discard($currentPlayer, BiomeCards::countInLocation('discard'));
+
+        // Change state
+        $this->gamestate->nextState('actDiscard');
+    }
+
+    public function actPlaceBiome($x, $y)
+    {
+        // Sanity checks
+        $this->checkAction('actPlaceBiome');
+
+        $currentPlayer = Players::getCurrent();
+        $args = $this->argPlaceBiome();
+
+        if (!in_array([$x, $y], $args['possiblePlaces'])) {
+            throw new \BgaVisibleSystemException('You can\'t place this Biome here. Should not happen');
+        }
+
+        //remove previous card on 'board' 'y' 'x'
+        BiomeCards::getBiomeOnPlayerBoard($currentPlayer, $x, $y)->setLocation('discard');
+
+        // move biome on 'board' 'y' 'x'
+        $biome = BiomeCards::getInLocation('hand', $currentPlayer);
+        $biome->placeOnPlayerBoard($x, $y);
+
+        // pay for it
+        $currentPlayer->incCrystal(-$biome->getLayingCost());
+
+        // notification
+        Notifications::placeBiome($currentPlayer, $x, $y, $biome);
+
+        // check if there is alignment
+        $alignedTypes = BiomeCards::checkAlignment($currentPlayer, $x, $y, $biome);
+
+        foreach ($alignedTypes as $type) {
+            // get God
+            $god = GodCards::getGodByType($type);
+            $god->moveOnPlayerBoard($currentPlayer);
+
+            // notification
+            Notifications::newAlignment($currentPlayer, $god);
+        }
+
+        $this->gamestate->nextState('');
     }
 }

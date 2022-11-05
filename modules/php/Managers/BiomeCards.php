@@ -27,6 +27,63 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
     return [];
   }
 
+  /**
+   * Check if with the new Biome played, one or several alignements have been created,
+   * returns $alignedType (array)
+   */
+  public static function checkAlignment($player, $x, $y, $biome)
+  {
+    $alignedTypes = [];
+    //check column
+    $biome1 = self::getBiomeOnPlayerBoard($player, $x, 0);
+    $biome2 = self::getBiomeOnPlayerBoard($player, $x, 1);
+    $biome3 = self::getBiomeOnPlayerBoard($player, $x, 2);
+
+    foreach ($biome->getTypes() as $type) {
+      if (
+        in_array($type, $biome1->getTypes()) &&
+        in_array($type, $biome2->getTypes()) &&
+        in_array($type, $biome3->getTypes())
+      ) $alignedTypes[] = $type;
+    }
+    foreach ($biome->getAnimals() as $type) {
+      if (
+        in_array($type, $biome1->getAnimals()) &&
+        in_array($type, $biome2->getAnimals()) &&
+        in_array($type, $biome3->getAnimals())
+      ) $alignedTypes[] = $type;
+    }
+
+    //check row
+    $biome1 = self::getBiomeOnPlayerBoard($player, 0, $y);
+    $biome2 = self::getBiomeOnPlayerBoard($player, 1, $y);
+    $biome3 = self::getBiomeOnPlayerBoard($player, 2, $y);
+
+    foreach ($biome->getTypes() as $type) {
+      if (
+        in_array($type, $biome1->getTypes()) &&
+        in_array($type, $biome2->getTypes()) &&
+        in_array($type, $biome3->getTypes())
+      ) $alignedTypes[] = $type;
+    }
+    foreach ($biome->getAnimals() as $type) {
+      if (
+        in_array($type, $biome1->getAnimals()) &&
+        in_array($type, $biome2->getAnimals()) &&
+        in_array($type, $biome3->getAnimals())
+      ) $alignedTypes[] = $type;
+    }
+
+    return array_unique($alignedTypes);
+  }
+
+  public static function getBiomeOnPlayerBoard($player, $x, $y)
+  {
+    return self::getInLocationQ('board', $player->getId())
+      ->where(['x', $x], ['y', $y])
+      ->get();
+  }
+
   /* Creation of the biomes */
   public static function setupNewGame($players, $options)
   {

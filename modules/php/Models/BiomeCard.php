@@ -12,7 +12,7 @@ class BiomeCard extends \RAUHA\Helpers\DB_Model
   protected $primary = 'biome_id';
   protected $attributes = [
     'id' => ['biome_id', 'int'],
-    'location' => 'biome_location', //deckAge1, deck1, inPlay, hand, board
+    'location' => 'biome_location', //deckAge1, deck1, (inPlay), hand, board, discard
     'state' => ['biome_state', 'int'], //pId
     'x' => ['x', 'int'],
     'y' => ['y', 'int'],
@@ -46,6 +46,14 @@ class BiomeCard extends \RAUHA\Helpers\DB_Model
     return true; // Useful for expansion/ban list/ etc...
   }
 
+  public function placeOnPlayerBoard($x, $y)
+  {
+    $this->setX($x);
+    $this->setY($y);
+    $this->setLocation('board');
+  }
+
+  /*NOT IMPLEMENTED
   public function getTypeStr()
   {
     return '';
@@ -63,5 +71,5 @@ class BiomeCard extends \RAUHA\Helpers\DB_Model
     }
 
     return Players::get($this->pId);
-  }
+  }*/
 }

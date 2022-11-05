@@ -19,7 +19,6 @@ trait NewRoundTrait
       $this->gamestate->nextState('game_end');
     } else {
       //shuffle deckAge1 ou DeckAge2
-      $turn = Globals::getTurn();
       $active_deck = (Globals::getTurn() < 8) ? 'DeckAge1' : 'DeckAge2';
       BiomeCards::shuffle($active_deck);
 

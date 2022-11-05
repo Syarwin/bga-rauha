@@ -12,10 +12,10 @@ class GodCard extends \RAUHA\Helpers\DB_Model
   protected $primary = 'god_id';
   protected $attributes = [
     'id' => ['god_id', 'int'],
-    'state' => ['god_state', 'int'], //0=not used 1=used
+    'state' => ['god_state', 'int'], //pId
     'location' => 'god_location', //"table" or "player"
-    'pId' => ['player_id', 'int'],
-    // 'used' => ['used', 'int'], //0:not used, 1=used
+    //'pId' => ['player_id', 'int'],
+    'used' => ['used', 'int'], //0:not used, 1=used
     'extraDatas' => ['extra_datas', 'obj'], //not used for now
   ];
 
@@ -29,6 +29,14 @@ class GodCard extends \RAUHA\Helpers\DB_Model
     ['spore_income', 'int'],
     ['water_source', 'int'],
   ];
+
+  public function moveOnPlayerBoard($player)
+  {
+    $this->setLocation('board');
+    $this->setState($player->getId());
+    //when a god is taken, it can be used by its new owner
+    $this->used(0);
+  }
 
   public function isSupported($players, $options)
   {

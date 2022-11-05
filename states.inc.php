@@ -53,7 +53,7 @@ $machinestates = [
     'updateGameProgression' => true,
     'transitions' => [
       'action_turn' => ST_CHOOSE_BIOME,
-      'count_turn' => ST_COUNT_NEXT_PLAYER,
+      'count_turn' => ST_DISCARD_LAST_CARDS,
     ],
   ],
 
@@ -88,35 +88,47 @@ $machinestates = [
     'descriptionmyturn' => clienttranslate('${you} must place or discard your Biome'),
     'args' => 'argPlaceBiome',
     'type' => 'activeplayer',
-    'possibleactions' => ['actPlace', 'actDiscard'],
-    'transitions' => [
-      'place' => ST_HOST_GOD,
-      'discard' => ST_ACT_BIOMES,
-    ],
-  ],
-
-  ST_HOST_GOD => [
-    'name' => 'hostGod',
-    'description' => 'God can be hosted',
-    'type' => 'game',
-    'action' => 'stHostGod',
-    'updateGameProgression' => false,
+    'possibleactions' => ['actPlaceBiome', 'actDiscard'],
     'transitions' => [
       '' => ST_ACT_BIOMES,
     ],
   ],
 
+  // SKIPPED
+  // ST_HOST_GOD => [
+  //   'name' => 'hostGod',
+  //   'description' => 'God can be hosted',
+  //   'type' => 'game',
+  //   'action' => 'stHostGod',
+  //   'updateGameProgression' => false,
+  //   'transitions' => [
+  //     '' => ST_ACT_BIOMES,
+  //   ],
+  // ],
+
   ST_ACT_BIOMES => [
     'name' => 'actBiomes',
-    'description' => clienttranslate('${actplayer} must activate their Biome(s)'),
-    'descriptionmyturn' => clienttranslate('${you} must activate your Biome(s)'),
+    'description' => clienttranslate('${actplayer} must activate their Biomes'),
+    'descriptionmyturn' => clienttranslate('${you} must activate your Biomes'),
     'type' => 'activeplayer',
-    'possibleactions' => ['act', 'skip_act'],
+    'possibleactions' => ['actActivate', 'actSkip'],
     'transitions' => [
-      'act' => ST_ACT_BIOMES,
-      'skip_act' => ST_NEXT_PLAYER,
+      'actActivate' => ST_ACT_BIOMES,
+      'actSkip' => ST_NEXT_PLAYER,
     ],
   ],
+
+  ST_DISCARD_LAST_CARDS => [
+    'name' => 'discardLastCards',
+    'description' => '',
+    'type' => 'game',
+    'action' => 'stDiscardLastCards',
+    'updateGameProgression' => false,
+    'transitions' => [
+      '' => ST_COUNT_NEXT_PLAYER,
+    ],
+  ],
+
 
   ST_COUNT_NEXT_PLAYER => [
     'name' => 'countNextPlayer',

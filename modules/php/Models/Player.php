@@ -5,6 +5,7 @@ namespace RAUHA\Models;
 use RAUHA\Core\Stats;
 use RAUHA\Core\Notifications;
 use RAUHA\Core\Preferences;
+use RAUHA\Managers\BiomeCards;
 
 /*
  * Player: all utility functions concerning a player
@@ -45,5 +46,10 @@ class Player extends \RAUHA\Helpers\DB_Model
   {
     $name = 'get' . \ucfirst($name);
     return Stats::$name($this->id);
+  }
+
+  public function hasBiomeInHand()
+  {
+    return (BiomeCards::getInLocation('hand', $this->getId()));
   }
 }
