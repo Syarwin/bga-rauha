@@ -161,7 +161,7 @@ trait ActionTurnTrait
             $god->moveOnPlayerBoard($currentPlayer);
 
             // notification
-            Notifications::newAlignment($currentPlayer, $god);
+            Notifications::newAlignment($currentPlayer, $god, $type);
         }
 
         $this->gamestate->nextState('');
