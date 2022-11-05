@@ -171,4 +171,16 @@ trait ActionTurnTrait
             'activableGods' => GodCards::getActivableGods(Players::getActive()),
         ];
     }
+
+    public function actSkip()
+    {
+        // Sanity checks
+        $this->checkAction('actSkip');
+
+        // Notification
+        Notifications::skip(Players::getCurrent());
+
+        // Change state
+        $this->gamestate->nextState('actSkip');
+    }
 }

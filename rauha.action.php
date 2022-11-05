@@ -60,6 +60,13 @@ class action_rauha extends APP_GameAction
     self::ajaxResponse();
   }
 
+  public function actSkip()
+  {
+    self::setAjaxMode();
+    $this->game->actSkip();
+    self::ajaxResponse();
+  }
+
   ///////////////////
   /////  PREFS  /////
   ///////////////////

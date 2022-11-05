@@ -52,6 +52,14 @@ class Notifications
     self::notifyAll('nexAlignment', $msg, $data);
   }
 
+  public static function skip($player)
+  {
+    $data = [
+      'player' => $player
+    ];
+    self::message(clienttranslate('${player_name} passes.'), $data);
+  }
+
   /*************************
    **** GENERIC METHODS ****
    *************************/
