@@ -4,41 +4,69 @@ ST_NEXT_ROUND:
 Null
 
 ST_MOVE_AVATARS:
-Notification : 'newTurn'
-$data = [
-      'turn' => $turn
-    ];
+--->>>Notification : 'newTurn'
+        $data = [
+            'turn' => $turn
+            ];
 
 ST_CHOOSE_BIOME:
-args:
-$private[$id] = [
+--->>>args:
+            $private[$id] = [
                 'deck' => $deck,
-                'cardsIds' => $cardsIds,
+                'biomesIds' => $biomesIds,
             ];
 
 Action:
-actChooseBiome (cardId)
+<<<---actChooseBiome (biomeId)
 
-const ST_NEXT_PLAYER = 5;
-//TODO stNextPlayer
+--->>>notification: only a message
 
-const ST_PLACE_BIOME = 6;
-args:
-return [
+
+ST_NEXT_PLAYER = 5;
+ST_PLACE_BIOME = 6;
+--->>>args:
+        return [
             'playerId' => $player->getId(),
-            'cardId' => $biome->getId(),
+            'biomeId' => $biome->getId(),
             'possiblePlaces' => $possiblePlaces
         ];
 
 Action:
-actDiscard()//TODO
-actPlaceBiome(x,y)//TODO
+<<<---actDiscard()
 
-const ST_HOST_GOD = 7;
-const ST_ACT_BIOMES = 8;
+--->>>Notifications:
+        $data = [
+            'player' => $currentPlayer,
+            'biomeInDiscard' => $discardCount
+            ];
+            $msg = clienttranslate('${player_name} discards their Biome to receive 4 crystals');
+
+<<<---actPlaceBiome(x,y)
+
+--->>>Notification:
+        $data = [
+            'player' => $player,
+            'x' => $x,
+            'y' => $y,
+            'biomeId' => $biome->getId(),
+            'biomeTypes' => join($biome->getType(), ', ')
+            ];
+        $msg = clienttranslate('${player_name} plays ${biomeTypes} on their board on place ${x}, ${y}');
+    
+--->>>Notification
+        $data = [
+            'player' => $player,
+            'godId' => $god->getId(),
+            'godName' => $god->getName(),
+            'type' => $type
+            ];
+        $msg = clienttranslate('By aligning 3 Biomes with ${type}, ${player_name} receives ${godName}');
+
+ST_ACT_BIOMES = 8;
+
 
 const ST_COUNT_NEXT_PLAYER = 9;
 const ST_COUNT_ACTION = 10;
 
-const ST_PRE_END_OF_GAME = 98; //TODO but why ?
+const ST_PRE_END_OF_GAME = 98; 
 const ST_END_GAME = 99;
