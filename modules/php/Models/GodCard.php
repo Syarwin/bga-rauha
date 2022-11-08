@@ -12,9 +12,9 @@ class GodCard extends \RAUHA\Helpers\DB_Model
   protected $primary = 'god_id';
   protected $attributes = [
     'id' => ['god_id', 'int'],
-    'state' => ['god_state', 'int'], //pId
-    'location' => 'god_location', //"table" or "player"
-    //'pId' => ['player_id', 'int'],
+    'state' => ['god_state', 'int'], //useless in this game
+    'location' => 'god_location', //"table" or "player" //TODO CHECK THIS
+    'pId' => ['player_id', 'int'],
     'used' => ['used', 'int'], //0:not used, 1=used
     'extraDatas' => ['extra_datas', 'obj'], //not used for now
   ];
@@ -24,16 +24,24 @@ class GodCard extends \RAUHA\Helpers\DB_Model
     'type',
     ['crystal_income', 'int'],
     ['point_income', 'int'],
-    'multiplier', //string like "marine", "spore", "water_source", or "1"
+    'multiplier', //string like "marine", "spore", "waterSource", or "1"
     ['usage_cost', 'int'], //in crystal
     ['spore_income', 'int'],
-    ['water_source', 'int'],
+    ['waterSource', 'int'],
   ];
+
+  public function __construct($row, $datas)
+  {
+    parent::__construct($row);
+    foreach ($datas as $attribute => $value) {
+      $this->$attribute = $value;
+    }
+  }
 
   public function moveOnPlayerBoard($player)
   {
     $this->setLocation('board');
-    $this->setState($player->getId());
+    $this->setPId($player->getId());
     //when a god is taken, it can be used by its new owner
     $this->used(NOT_USED);
   }
@@ -46,7 +54,7 @@ class GodCard extends \RAUHA\Helpers\DB_Model
   public function isPlayable()
   {
     if ($this->name == 'MERI') return False;
-    else return ($this->state == 0);
+    else return ($this->used == 0);
   }
 
   /* NOT IMPLEMENTED
