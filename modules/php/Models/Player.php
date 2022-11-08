@@ -6,6 +6,7 @@ use RAUHA\Core\Stats;
 use RAUHA\Core\Notifications;
 use RAUHA\Core\Preferences;
 use RAUHA\Managers\BiomeCards;
+use RAUHA\Managers\GodCards;
 
 /*
  * Player: all utility functions concerning a player
@@ -50,6 +51,21 @@ class Player extends \RAUHA\Helpers\DB_Model
 
   public function hasBiomeInHand()
   {
-    return (BiomeCards::getInLocation('hand', $this->getId()));
+    return (BiomeCards::getInLocation('hand', $this->id));
   }
+
+  public function countSpores()
+  {
+    $result = 0;
+    foreach ($this->board as $row) {
+      foreach ($row as $cell) {
+        $result += $cell;
+      }
+    }
+    return $result;
+  }
+
+  // public function hasVuoriOnBoard(){
+  //   return GodCards::
+  // }
 }

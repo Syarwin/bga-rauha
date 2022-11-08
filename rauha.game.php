@@ -156,8 +156,10 @@ class Rauha extends Table
     return self::_($text);
   }
 
-  public static function test()
+  public static function test($criteria)
   {
-    echo (var_dump(Players::getFirstPlayer()));
+    echo 'test :' . var_dump(GodCards::get($criteria)->getName());
+    // echo 'test' . GodCards::getActivableGods(Players::get(self::getCurrentPId())) . 'test';
+    // echo BiomeCards::countOnAPlayerBoard(self::getCurrentPId(), $criteria);
   }
 }

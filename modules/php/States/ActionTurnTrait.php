@@ -183,4 +183,19 @@ trait ActionTurnTrait
         // Change state
         $this->gamestate->nextState('actSkip');
     }
+
+    public function actActivateBiome($biomeId)
+    {
+        // Sanity checks
+        $this->checkAction('actActivateBiome');
+        $args = $this->argActBiome();
+        if (!in_array($biomeId, $args['activableBiomes'])) {
+            throw new \BgaVisibleSystemException('You can\'t activate this Biome now. Should not happen');
+        }
+
+        BiomeCards::activate($biomeId);
+
+        // Change state
+        $this->gamestate->nextState('actActivate');
+    }
 }

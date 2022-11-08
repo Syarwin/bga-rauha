@@ -13,10 +13,11 @@ class BiomeCard extends \RAUHA\Helpers\DB_Model
   protected $attributes = [
     'id' => ['biome_id', 'int'],
     'location' => 'biome_location', //deckAge1, deck1, (inPlay), hand, board, discard
-    'state' => ['biome_state', 'int'], //pId
+    'state' => ['biome_state', 'int'], //useless in this game
     'x' => ['x', 'int'],
     'y' => ['y', 'int'],
-    'pId' => ['player_id', 'int'], //not used
+    'pId' => ['player_id', 'int'],
+    'used' => ['used', 'int'], //USED or NOT_USED
     'extraDatas' => ['extra_datas', 'obj'], //not used for now
   ];
 
@@ -61,8 +62,12 @@ class BiomeCard extends \RAUHA\Helpers\DB_Model
       $this->sporeIncome == 0
     ) return false;
 
-    if ($this->getState() == USED) return false;
-    else return true;
+    return $this->used == NOT_USED;
+  }
+
+  public function getElements()
+  {
+    return array_merge($this->types, $this->animals);
   }
 
   /*NOT IMPLEMENTED

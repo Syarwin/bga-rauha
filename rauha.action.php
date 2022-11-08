@@ -67,6 +67,22 @@ class action_rauha extends APP_GameAction
     self::ajaxResponse();
   }
 
+  public function actActivateBiome()
+  {
+    self::setAjaxMode();
+    $biomeId = self::getArg('biomeId', AT_posint, true);
+    $this->game->actActivateBiome($biomeId);
+    self::ajaxResponse();
+  }
+
+  public function actActivateGod()
+  {
+    self::setAjaxMode();
+    $godId = self::getArg('godId', AT_posint, true);
+    $this->game->actActivateGod($godId);
+    self::ajaxResponse();
+  }
+
   ///////////////////
   /////  PREFS  /////
   ///////////////////

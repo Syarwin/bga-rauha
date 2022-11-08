@@ -14,11 +14,11 @@ class GodCards extends \RAUHA\Helpers\Pieces
   protected static $prefix = 'god_';
   protected static $autoIncrement = true;
   protected static $autoremovePrefix = false;
-  protected static $customFields = ['used', 'extra_datas'];
+  protected static $customFields = ['player_id', 'used', 'extra_datas'];
 
   protected static function cast($row)
   {
-    $data = self::getGods()[$row['id']];
+    $data = self::getGods()[$row['god_id']];
     return new \RAUHA\Models\GodCard($row, $data);
   }
 
@@ -56,9 +56,11 @@ class GodCards extends \RAUHA\Helpers\Pieces
   {
     //TODO what is select columns
     return self::DB()->select(['god_id'])
-      ->where('state', $player->getId())
+      ->where('player_id', $player->getId())
       ->where('used', NOT_USED);
   }
+
+  //TODO getOwner(Vuori)
 
   public function getGods()
   {

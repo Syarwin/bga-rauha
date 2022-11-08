@@ -14,7 +14,7 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
   protected static $prefix = 'biome_';
   protected static $autoIncrement = true;
   protected static $autoremovePrefix = false;
-  protected static $customFields = ['x', 'y', 'player_id', 'extra_datas', 'data_id'];
+  protected static $customFields = ['x', 'y', 'used', 'player_id', 'extra_datas', 'data_id'];
 
   protected static function cast($row)
   {
@@ -93,14 +93,123 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
       }
       return $activableBiomes;
     }
+    //TODO if $turn=null
   }
 
+  public static function activate($biomeId)
+  {
+    $message = "";
+    $biome = self::get($biomeId);
+    $playerId = $biome->getPId();
+    $player = Players::get($playerId);
+
+    $multiplier = ($biome->getMultiplier() == 1) ? 1 : self::countOnAPlayerBoard($player, $biome->getMultiplier());
+
+    $cost = $biome->getUsageCost();
+
+    if ($cost > 0)    $message .= clienttranslate('By paying ${cost} crystal(s), ');
+
+    $crystalIncome = $biome->getCrystalIncome() * $multiplier;
+    if ($crystalIncome > 0) {
+      $message .= clienttranslate('${player_name} activate their Biome and receives ${crystalIncome} crystal(s)');
+    }
+
+    $pointIncome = $biome->getPointIncome() * $multiplier;
+    if ($pointIncome > 0) {
+      $message .= clienttranslate('${player_name} activate their Biome and receives ${pointIncome} point(s)');
+    }
+
+    $player->incCrystal($crystalIncome - $cost);
+    $player->incScore($pointIncome);
+    $biome->setUsed(USED);
+
+    // TODO Notifications
+
+  }
+
+  /**
+   * return the number of Biome with $criteria on the $player board
+   */
+  public static function countOnAPlayerBoard($player, $criteria)
+  {
+    $player = Players::get($player);
+    echo count(self::getAllBiomesOnPlayerBoard($player));
+
+    switch ($criteria) {
+      case 'marine':
+      case 'walking':
+      case 'flying':
+        $board = self::getAllAnimalsOnPlayerBoard($player);
+        return array_count_values($board)[$criteria];
+
+      case 'animals':
+        $board = self::getAllAnimalsOnPlayerBoard($player);
+        return count($board);
+
+      case 'forest':
+      case 'mushroom':
+      case 'crystal':
+      case 'desert':
+      case 'mountain':
+        $board = self::getAllTypesOnPlayerBoard($player);
+        return array_count_values($board)[$criteria];
+
+      case 'spore':
+        return $player->countSpores();
+
+      case 'waterSource':
+        return self::countAllWaterSourceOnPlayerBoard($player);
+
+      default:
+        return 0;
+    }
+  }
 
   public static function getBiomeOnPlayerBoard($player, $x, $y)
   {
-    return self::getInLocationQ('board', $player->getId())
-      ->where(['x', $x], ['y', $y])
+    return self::getInLocationQ('board')
+      ->where(['player_id', $player->getId()], ['x', $x], ['y', $y])
       ->get();
+  }
+
+  public static function getAllBiomesOnPlayerBoard($player)
+  {
+    $result = [];
+    for ($y = 0; $y < 3; $y++) {
+      for ($x = 0; $x < 3; $x++) {
+        $result[] = self::getBiomeOnPlayerBoard($player, $x, $y);
+      }
+    }
+    return $result;
+  }
+
+  public static function getAllAnimalsOnPlayerBoard($player)
+  {
+    $result = [];
+    foreach (self::getAllBiomesOnPlayerBoard($player) as $biome) {
+      array_merge($result, $biome->getAnimals());
+    }
+    return $result;
+  }
+
+  public static function getAllTypesOnPlayerBoard($player)
+  {
+    $result = [];
+    foreach (self::getAllBiomesOnPlayerBoard($player) as $biome) {
+      array_merge($result, $biome->getTypes());
+    }
+    return $result;
+  }
+
+  public static function countAllWaterSourceOnPlayerBoard($player)
+  {
+    $result = 0;
+    foreach (self::getAllBiomesOnPlayerBoard($player) as $biome) {
+      $result += $biome->getWaterSource;
+    }
+    //TODO add 2 waterSources if VUORI is on player board
+
+    return $result;
   }
 
   /* Creation of the biomes */
@@ -127,10 +236,8 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
         for ($x = 0; $x < 3; $x++) {
           $biomes[] = [
             'data_id' => $board[$y][$x],
-            // 'location' => 'inPlay', MODIFICATION
-            // 'player_id' => $pId,
             'location' => "board",
-            'state' => $pId,
+            'player_id' => $pId,
             'x' => $x,
             'y' => $y,
           ];
