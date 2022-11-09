@@ -66,6 +66,16 @@ $machinestates = [
     'action' => 'stMakeEveryoneActive',
     'possibleactions' => ['actChooseBiome'],
     'transitions' => [
+      '' => ST_CONFIRM_CHOICES,
+    ],
+  ],
+
+  ST_CONFIRM_CHOICES => [
+    'name' => 'confirmChoices',
+    'description' => '',
+    'type' => 'game',
+    'action' => 'stConfirmChoices',
+    'transitions' => [
       '' => ST_NEXT_PLAYER,
     ],
   ],
@@ -129,7 +139,6 @@ $machinestates = [
       '' => ST_COUNT_NEXT_PLAYER,
     ],
   ],
-
 
   ST_COUNT_NEXT_PLAYER => [
     'name' => 'countNextPlayer',

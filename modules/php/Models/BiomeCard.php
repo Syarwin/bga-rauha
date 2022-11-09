@@ -11,6 +11,7 @@ class BiomeCard extends \RAUHA\Helpers\DB_Model
   protected $table = 'biomes';
   protected $primary = 'biome_id';
   protected $attributes = [
+    'dataId' => ['data_id', 'int'],
     'id' => ['biome_id', 'int'],
     'location' => 'biome_location', //deckAge1, deck1, (inPlay), hand, board, discard
     'state' => ['biome_state', 'int'], //useless in this game
@@ -56,11 +57,9 @@ class BiomeCard extends \RAUHA\Helpers\DB_Model
 
   public function isActivable()
   {
-    if (
-      $this->crystalIcome == 0 &&
-      $this->pointIncome == 0 &&
-      $this->sporeIncome == 0
-    ) return false;
+    if ($this->crystalIcome == 0 && $this->pointIncome == 0 && $this->sporeIncome == 0) {
+      return false;
+    }
 
     return $this->used == NOT_USED;
   }

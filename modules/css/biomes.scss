@@ -1,0 +1,50 @@
+#pending-biomes {
+    display: flex;
+    justify-content: center;
+
+    .biome-card {
+        margin: 8px;
+
+        &.selected,
+        &.choice {
+            margin: 5px;
+        }
+    }
+}
+
+#page-title .biome-card {
+    position: absolute;
+}
+
+.biome-card {
+    width: 230px;
+    height: 230px;
+    background-image: url("img/age1.jpg");
+    background-size: 500% 800%;
+    border-radius: 40px;
+    box-shadow: 2px 2px 5px -1px black;
+    &.phantom {
+        visibility: hidden;
+    }
+
+    &.selectable {
+        cursor: pointer;
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
+    &.selected {
+        border: 3px solid red;
+    }
+    &.choice {
+        border: 3px solid green;
+    }
+
+    @for $i from 0 to 40 {
+        &[data-id="#{$i + 100}"] {
+            background-position-x: ($i % 5) * 100% / 4;
+            background-position-y: (($i - ($i % 5)) / 5) * 100% / 7;
+        }
+    }
+}

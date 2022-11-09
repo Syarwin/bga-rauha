@@ -13,189 +13,210 @@ use RAUHA\Managers\GodCards;
 
 trait ActionTurnTrait
 {
-    public function argChooseBiome()
-    {
-        $turn = Globals::getTurn();
-        $private = [];
+  public function argChooseBiome()
+  {
+    $choices = Globals::getBiomeChoices();
+    $turn = Globals::getTurn();
+    $private = [];
 
-        foreach (Players::getAll() as $id => $player) {
-            //select a deck depending on turn id
-            $deckId = $player->getNo() + DECK_TO_CHOOSE[$turn];
-            if ($deckId > Players::count()) $deckId = 1;
-            $deck = "deck" . $deckId;
+    foreach (Players::getAll() as $id => $player) {
+      //select a deck depending on turn id
+      $deckId = $player->getNo() + DECK_TO_CHOOSE[$turn];
+      if ($deckId > Players::count()) {
+        $deckId = 1;
+      }
+      $deck = 'deck' . $deckId;
 
-            $biomesIds = BiomeCards::getInLocation($deck)->getIds();
+      $biomes = BiomeCards::getInLocation($deck);
 
-            $private[$id] = [
-                'deck' => $deck,
-                'biomesIds' => $biomesIds,
-            ];
-        }
-
-        return [
-            '_private' => $private,
-        ];
+      $private[$id] = [
+        'choice' => $choices[$id] ?? null,
+        'deck' => $deck,
+        'biomes' => $biomes,
+      ];
     }
 
-    public function actChooseBiome($biomeId)
-    {
-        // Sanity checks
-        $this->checkAction('actPlaybiome');
-        $pId = Players::getCurrent()->getId();
-        //check that this biome was available to be choosen
-        $args = $this->argChooseBiome();
+    return [
+      '_private' => $private,
+    ];
+  }
 
-        if (!in_array($biomeId, $args['_private'][$pId]['biomes_ids'])) {
-            throw new \BgaVisibleSystemException('You can\'t choose this biome. Should not happen');
-        }
-
-        BiomeCards::move($biomeId, 'hand', $pId);
-
-        //record that player has played.
-        $this->gamestate->setPlayerNonMultiactive($pId, '');
-
-        //notification
-        Notifications::message(
-            clienttranslate('${player_name} chooses their Biome'),
-            ['player' => Players::getCurrent()]
-        );
-
-        //TODO HOW to allow player to cancel and play again
+  public function actChooseBiome($biomeId)
+  {
+    // Sanity checks
+    $this->gamestate->checkPossibleAction('actChooseBiome');
+    $pId = Players::getCurrentId();
+    //check that this biome was available to be choosen
+    $args = $this->argChooseBiome();
+    if (!array_key_exists($biomeId, $args['_private'][$pId]['biomes'])) {
+      throw new \BgaVisibleSystemException('You can\'t choose this biome. Should not happen');
     }
 
-    /**
-     * Determine who's next player (the first player in turn order with a Biome in hand)
-     */
-    public function stNextPlayer()
-    {
-        $playerToPlay = null;
-        foreach (Players::getTurnOrder() as $pId) {
-            if (Players::get($pId)->hasBiomeInHand()) {
-                $playerToPlay = $pId;
-                break;
-            }
-        }
+    // Highligh that card and make the player inactive
+    $choices = Globals::getBiomeChoices();
+    $choices[$pId] = $biomeId;
+    Globals::setBiomeChoices($choices);
+    Notifications::chooseBiome($pId, $biomeId);
+    $this->gamestate->setPlayerNonMultiactive($pId, '');
+  }
 
-        // active a player and change state
-        if ($playerToPlay) {
-            Players::changeActive($playerToPlay);
-            $this->gamestate->nextState('next_player_action');
-        } else {
-            $this->gamestate->nextState('end_turn');
-        }
+  /**
+   * Confirm player choices by moving the selected cards to hand and removing other cards
+   */
+  public function stConfirmChoices()
+  {
+    $choices = Globals::getBiomeChoices();
+    foreach (Players::getAll() as $pId => $player) {
+      $choice = $choices[$pId] ?? null;
+      if (is_null($choice)) {
+        throw new \BgaVisibleSystemException('Someone hasnt made any choice yet. Should not happen');
+      }
+
+      BiomeCards::move($choice, 'hand', $pId);
     }
 
-    public function argPlaceBiome()
-    {
-        $player = Players::getActive();
-        $biome = BiomeCards::getInLocation('hand', $player->getId());
+    $turn = Globals::getTurn();
+    Notifications::confirmChoices($turn);
+    $this->gamestate->nextState();
+  }
 
-        // if no layingconstraints all places are possible 
-        if (empty($biome->getLayingConstraints())) $possiblePlaces = ALL_BIOME_PLACES;
-        else $possiblePlaces = $biome->getLayingConstraints();
-
-        // but if BIOME too expensive no possible place
-        if ($biome->getLayingCost() > $player->getCrystal()) $possiblePlaces = [];
-
-        return [
-            'playerId' => $player->getId(),
-            'biomeId' => $biome->getId(),
-            'possiblePlaces' => $possiblePlaces
-        ];
+  /**
+   * Determine who's next player (the first player in turn order with a Biome in hand)
+   */
+  public function stNextPlayer()
+  {
+    $playerToPlay = null;
+    foreach (Players::getTurnOrder() as $pId) {
+      if (Players::get($pId)->hasBiomeInHand()) {
+        $playerToPlay = $pId;
+        break;
+      }
     }
 
-    /**
-     * Instead of placing their Biome, player can discard it to win 4 crystals
-     */
-    public function actDiscard()
-    {
-        // Sanity checks
-        $this->checkAction('actDiscard');
+    // active a player and change state
+    if ($playerToPlay) {
+      Players::changeActive($playerToPlay);
+      $this->gamestate->nextState('next_player_action');
+    } else {
+      $this->gamestate->nextState('end_turn');
+    }
+  }
 
-        // get infos
-        $currentPlayer = Players::getCurrent();
-        BiomeCards::moveAllInLocation('hand', 'discard', $currentPlayer->getId());
-        $currentPlayer->incCrystal(4);
+  public function argPlaceBiome()
+  {
+    $player = Players::getActive();
+    $biome = $player->getBiomeInHand();
 
-        // Notification
-        Notifications::discard($currentPlayer, BiomeCards::countInLocation('discard'));
-
-        // Change state
-        $this->gamestate->nextState('actDiscard');
+    // if no layingconstraints all places are possible
+    if (empty($biome->getLayingConstraints())) {
+      $possiblePlaces = ALL_BIOME_PLACES;
+    } else {
+      $possiblePlaces = $biome->getLayingConstraints();
     }
 
-    public function actPlaceBiome($x, $y)
-    {
-        // Sanity checks
-        $this->checkAction('actPlaceBiome');
-
-        $currentPlayer = Players::getCurrent();
-        $args = $this->argPlaceBiome();
-
-        if (!in_array([$x, $y], $args['possiblePlaces'])) {
-            throw new \BgaVisibleSystemException('You can\'t place this Biome here. Should not happen');
-        }
-
-        //remove previous card on 'board' 'y' 'x'
-        BiomeCards::getBiomeOnPlayerBoard($currentPlayer, $x, $y)->setLocation('discard');
-
-        // move biome on 'board' 'y' 'x'
-        $biome = BiomeCards::getInLocation('hand', $currentPlayer);
-        $biome->placeOnPlayerBoard($x, $y);
-
-        // pay for it
-        $currentPlayer->incCrystal(-$biome->getLayingCost());
-
-        // notification
-        Notifications::placeBiome($currentPlayer, $x, $y, $biome);
-
-        // check if there is alignment
-        $alignedTypes = BiomeCards::checkAlignment($currentPlayer, $x, $y, $biome);
-
-        foreach ($alignedTypes as $type) {
-            // get God
-            $god = GodCards::getGodByType($type);
-            $god->moveOnPlayerBoard($currentPlayer);
-
-            // notification
-            Notifications::newAlignment($currentPlayer, $god, $type);
-        }
-
-        $this->gamestate->nextState('');
+    // but if BIOME too expensive no possible place
+    if ($biome->getLayingCost() > $player->getCrystal()) {
+      $possiblePlaces = [];
     }
 
-    public function argActBiome()
-    {
-        return [
-            'activableBiomes' => BiomeCards::getActivableBiomes(Players::getActive(), Globals::getTurn()),
-            'activableGods' => GodCards::getActivableGods(Players::getActive()),
-        ];
+    return [
+      'biome' => $biome,
+      'possiblePlaces' => $possiblePlaces,
+    ];
+  }
+
+  /**
+   * Instead of placing their Biome, player can discard it to win 4 crystals
+   */
+  public function actDiscard()
+  {
+    // Sanity checks
+    $this->checkAction('actDiscard');
+
+    // get infos
+    $currentPlayer = Players::getCurrent();
+    BiomeCards::moveAllInLocation('hand', 'discard', $currentPlayer->getId());
+    $currentPlayer->incCrystal(4);
+
+    // Notification
+    Notifications::discard($currentPlayer, BiomeCards::countInLocation('discard'));
+
+    // Change state
+    $this->gamestate->nextState('actDiscard');
+  }
+
+  public function actPlaceBiome($x, $y)
+  {
+    // Sanity checks
+    $this->checkAction('actPlaceBiome');
+
+    $currentPlayer = Players::getCurrent();
+    $args = $this->argPlaceBiome();
+
+    if (!in_array([$x, $y], $args['possiblePlaces'])) {
+      throw new \BgaVisibleSystemException('You can\'t place this Biome here. Should not happen');
     }
 
-    public function actSkip()
-    {
-        // Sanity checks
-        $this->checkAction('actSkip');
+    //remove previous card on 'board' 'y' 'x'
+    BiomeCards::getBiomeOnPlayerBoard($currentPlayer, $x, $y)->setLocation('discard');
 
-        // Notification
-        Notifications::skip(Players::getCurrent());
+    // move biome on 'board' 'y' 'x'
+    $biome = BiomeCards::getInLocation('hand', $currentPlayer);
+    $biome->placeOnPlayerBoard($x, $y);
 
-        // Change state
-        $this->gamestate->nextState('actSkip');
+    // pay for it
+    $currentPlayer->incCrystal(-$biome->getLayingCost());
+
+    // notification
+    Notifications::placeBiome($currentPlayer, $x, $y, $biome);
+
+    // check if there is alignment
+    $alignedTypes = BiomeCards::checkAlignment($currentPlayer, $x, $y, $biome);
+
+    foreach ($alignedTypes as $type) {
+      // get God
+      $god = GodCards::getGodByType($type);
+      $god->moveOnPlayerBoard($currentPlayer);
+
+      // notification
+      Notifications::newAlignment($currentPlayer, $god, $type);
     }
 
-    public function actActivateBiome($biomeId)
-    {
-        // Sanity checks
-        $this->checkAction('actActivateBiome');
-        $args = $this->argActBiome();
-        if (!in_array($biomeId, $args['activableBiomes'])) {
-            throw new \BgaVisibleSystemException('You can\'t activate this Biome now. Should not happen');
-        }
+    $this->gamestate->nextState('');
+  }
 
-        BiomeCards::activate($biomeId);
+  public function argActBiome()
+  {
+    return [
+      'activableBiomes' => BiomeCards::getActivableBiomes(Players::getActive(), Globals::getTurn()),
+      'activableGods' => GodCards::getActivableGods(Players::getActive()),
+    ];
+  }
 
-        // Change state
-        $this->gamestate->nextState('actActivate');
+  public function actSkip()
+  {
+    // Sanity checks
+    $this->checkAction('actSkip');
+
+    // Notification
+    Notifications::skip(Players::getCurrent());
+
+    // Change state
+    $this->gamestate->nextState('actSkip');
+  }
+
+  public function actActivateBiome($biomeId)
+  {
+    // Sanity checks
+    $this->checkAction('actActivateBiome');
+    $args = $this->argActBiome();
+    if (!in_array($biomeId, $args['activableBiomes'])) {
+      throw new \BgaVisibleSystemException('You can\'t activate this Biome now. Should not happen');
     }
+
+    BiomeCards::activate($biomeId);
+
+    // Change state
+    $this->gamestate->nextState('actActivate');
+  }
 }

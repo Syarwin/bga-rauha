@@ -11,17 +11,31 @@ class Notifications
   public static function newTurn($turn)
   {
     $data = [
-      'turn' => $turn
+      'turn' => $turn,
     ];
     $msg = clienttranslate('New turn : Avatars move to next area');
     self::notifyAll('newTurn', $msg, $data);
+  }
+
+  public static function chooseBiome($currentPlayer, $biomeId)
+  {
+    self::notify($currentPlayer, 'chooseBiome', '', [
+      'biomeId' => $biomeId,
+    ]);
+  }
+
+  public static function confirmChoices($turn)
+  {
+    self::notifyAll('confirmChoices', clienttranslate('All the players made their choice of biome for round ${turn}'), [
+      'turn' => $turn,
+    ]);
   }
 
   public static function discard($currentPlayer, $discardCount)
   {
     $data = [
       'player' => $currentPlayer,
-      'biomeInDiscard' => $discardCount
+      'biomeInDiscard' => $discardCount,
     ];
     $msg = clienttranslate('${player_name} discards their Biome to receive 4 crystals');
     self::notifyAll('discard', $msg, $data);
@@ -34,7 +48,7 @@ class Notifications
       'x' => $x,
       'y' => $y,
       'biomeId' => $biome->getId(),
-      'biomeTypes' => join($biome->getType(), ', ')
+      'biomeTypes' => join($biome->getType(), ', '),
     ];
     $msg = clienttranslate('${player_name} plays ${biomeTypes} on their board on place ${x}, ${y}');
     self::notifyAll('placeBiome', $msg, $data);
@@ -46,7 +60,7 @@ class Notifications
       'player' => $player,
       'godId' => $god->getId(),
       'godName' => $god->getName(),
-      'type' => $type
+      'type' => $type,
     ];
     $msg = clienttranslate('By aligning 3 Biomes with ${type}, ${player_name} receives ${godName}');
     self::notifyAll('nexAlignment', $msg, $data);
@@ -55,7 +69,7 @@ class Notifications
   public static function skip($player)
   {
     $data = [
-      'player' => $player
+      'player' => $player,
     ];
     self::message(clienttranslate('${player_name} passes.'), $data);
   }
