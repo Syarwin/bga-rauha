@@ -42,11 +42,11 @@ trait ActionTurnTrait
     ];
   }
 
-  public function actChooseBiome($biomeId)
+  public function actChooseBiome($biomeId, $pId)
   {
     // Sanity checks
     $this->gamestate->checkPossibleAction('actChooseBiome');
-    $pId = Players::getCurrentId();
+    $pId = $pId ?? Players::getCurrentId();
     //check that this biome was available to be choosen
     $args = $this->argChooseBiome();
     if (!array_key_exists($biomeId, $args['_private'][$pId]['biomes'])) {

@@ -13,7 +13,7 @@ ST_CHOOSE_BIOME:
 --->>>args:
             $private[$id] = [
                 'deck' => $deck,
-                'biomesIds' => $biomesIds,
+                'biomes' => $biomes,
             ];
 
 Action:

@@ -3,7 +3,7 @@
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * Rauha implementation : Timothée Pecatte <tim.pecatte@gmail.com>
+ * Rauha implementation : Timothée Pecatte <tim.pecatte@gmail.com> & Emmanuel Albisser <emmanuel.albisser@gmail.com>
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -125,10 +125,14 @@ class Rauha extends Table
     switch ($statename) {
       case 'chooseBiome':
         $args = $this->argChooseBiome();
-        $biomesIds = $args['_private'][$activePlayerId]['biomesIds'];
-        $answer = bga_rand(0, count($biomesIds) - 1);
-        $this->actChooseBiome($biomesIds[$answer], $activePlayerId);
-
+        $biomes = $args['_private'][$activePlayerId]['biomes'];
+        $possibleChoices = [];
+        foreach ($biomes as $id => $biome) {
+          $possibleChoices[] = $id;
+        }
+        $answer = bga_rand(0, count($possibleChoices) - 1);
+        $this->actChooseBiome($possibleChoices[$answer], (int) $activePlayerId);
+        return;
       case 'placeBiome':
         # code...actDiscard
         break;
