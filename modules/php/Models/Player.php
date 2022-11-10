@@ -25,7 +25,7 @@ class Player extends \RAUHA\Helpers\DB_Model
     'eliminated' => 'player_eliminated',
     'score' => ['player_score', 'int'],
     'scoreAux' => ['player_score_aux', 'int'],
-    CRYSTAL => ['player_crystal', 'int'],
+    'crystal' => ['player_crystal', 'int'],
     'board' => ['player_board', 'obj'],
     'zombie' => 'player_zombie',
   ];
@@ -35,6 +35,7 @@ class Player extends \RAUHA\Helpers\DB_Model
     $data = parent::getUiData();
     $current = $this->id == $currentPlayerId;
     $data['hand'] = $current ? $this->getBiomeInHand() : null;
+    $data['board'] = BiomeCards::getAllBiomesOnPlayerBoard($this);
 
     return $data;
   }

@@ -66,6 +66,12 @@ define([
       this.forEachPlayer((player) => {
         let isCurrent = player.id == this.player_id;
         this.place('tplPlayerBoard', player, 'rauha-boards-container');
+        player.board.forEach((biome) => {
+          if (biome.dataId < 100) return;
+
+          let cell = this.getCell(player.id, biome.x, biome.y);
+          this.place('tplBiome', biome, cell);
+        });
 
         if (player.hand !== null) {
           this.place('tplBiome', player.hand, 'pending-biomes');
