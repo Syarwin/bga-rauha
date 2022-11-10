@@ -124,6 +124,7 @@ trait ActionTurnTrait
     return [
       'biome' => $biome,
       'possiblePlaces' => $possiblePlaces,
+      'possibleSporePlaces' => $player->getSporesPlaces(false)
     ];
   }
 
@@ -189,9 +190,12 @@ trait ActionTurnTrait
 
   public function argActBiome()
   {
+    $player = Players::getActive();
     return [
-      'activableBiomes' => BiomeCards::getActivableBiomes(Players::getActive(), Globals::getTurn()),
-      'activableGods' => GodCards::getActivableGods(Players::getActive()),
+      //TODO choose Biomes or Places
+      'activableBiomes' => BiomeCards::getActivableBiomes($player, Globals::getTurn()),
+      'activableGods' => GodCards::getActivableGods($player),
+      'possibleSporePlaces' => $player->getSporesPlaces(false)
     ];
   }
 

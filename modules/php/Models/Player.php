@@ -71,6 +71,25 @@ class Player extends \RAUHA\Helpers\DB_Model
     return $result;
   }
 
+  /**
+   *  Return an array with places with or without spores (depending on $boolWithSpore)
+   */
+  public function getSporesPlaces($boolWithSpore)
+  {
+    $seek = ($boolWithSpore) ? 1 : 0 ;
+    $places = [];
+    for ($y=0; $y < 3; $y++) { 
+      for ($x=0; $x < 3; $x++) { 
+        if ($this->board[$x][$y] == $seek){
+          $places[] = [$x, $y];
+        }
+      }
+    }
+    return $places;
+  }
+
+  public function 
+
   // public function hasVuoriOnBoard(){
   //   return GodCards::
   // }
