@@ -166,7 +166,7 @@ trait ActionTurnTrait
     $currentPlayer->placeSpore($x, $y);
 
     // Notification
-    Notifications::discard($currentPlayer, BiomeCards::countInLocation('discard'));
+    Notifications::discardSpore($currentPlayer, BiomeCards::countInLocation('discard'), $x, $y);
 
     // Change state
     $this->gamestate->nextState('');

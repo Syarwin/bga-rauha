@@ -111,12 +111,12 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
 
     $crystalIncome = $biome->getCrystalIncome() * $multiplier;
     if ($crystalIncome > 0) {
-      $message .= clienttranslate('${player_name} activate their Biome on (${x},${y}) and receives ${crystalIncome} crystal(s)');
+      $message .= clienttranslate('${player_name} activate their Biome on place ${x}, ${y} and receives ${crystalIncome} crystal(s)');
     }
 
     $pointIncome = $biome->getPointIncome() * $multiplier;
     if ($pointIncome > 0) {
-      $message .= clienttranslate('${player_name} activate their Biome on (${x},${y}) and receives ${pointIncome} point(s)');
+      $message .= clienttranslate('${player_name} activate their Biome on place ${x}, ${y} and receives ${pointIncome} point(s)');
     }
 
     $player->incCrystal($crystalIncome - $cost);
