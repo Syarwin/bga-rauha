@@ -1232,7 +1232,12 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       let updateStatus = () => {
         if ($('btnConfirmChoice')) $('btnConfirmChoice').remove();
         if (selectedElements.length == n) {
-          this.addPrimaryActionButton('btnConfirmChoice', _('Confirm'), () => callback(selectedElements));
+          this.addPrimaryActionButton('btnConfirmChoice', _('Confirm'), () => {
+            if (callback(selectedElements)) {
+              selectedElements = [];
+              updateStatus();
+            }
+          });
         }
 
         if ($('btnCancelChoice')) $('btnCancelChoice').remove();

@@ -44,7 +44,15 @@ class Players extends \RAUHA\Helpers\DB_Manager
 
       //if ($playerScoreAux == count($players)) Globals::setFirstPlayer($pId);
 
-      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar'], '[[0, 0, 0], [0, 0, 0], [0, 0, 0]]', $playerScoreAux];
+      $values[] = [
+        $pId,
+        $color,
+        $player['player_canal'],
+        $player['player_name'],
+        $player['player_avatar'],
+        '[[0, 0, 0], [0, 0, 0], [0, 0, 0]]',
+        $playerScoreAux,
+      ];
     }
 
     $query->values($values);
@@ -62,7 +70,7 @@ class Players extends \RAUHA\Helpers\DB_Manager
 
   public function getCurrentId()
   {
-    return Game::get()->getCurrentPId();
+    return (int) Game::get()->getCurrentPId();
   }
 
   public function getAll()
@@ -118,7 +126,7 @@ class Players extends \RAUHA\Helpers\DB_Manager
       ->toAssoc();
   }
 
-  /** 
+  /**
    * Get current turn order according to first player variable
    */
   public function getTurnOrder($firstPlayer = null)
@@ -145,14 +153,14 @@ class Players extends \RAUHA\Helpers\DB_Manager
   ///// RAUHA Specific ////
   /////////////////////////
 
-
   /*
    * Get first player according to points
    */
   public function getFirstPlayerId()
   {
     //TODO what is select columns
-    return self::DB()->select(['player_id'])
+    return self::DB()
+      ->select(['player_id'])
       ->orderBy('player_score', 'DESC')
       ->orderBy('player_score_aux', 'DESC')
       ->getSingle()

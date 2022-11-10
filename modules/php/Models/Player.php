@@ -34,6 +34,7 @@ class Player extends \RAUHA\Helpers\DB_Model
   {
     $data = parent::getUiData();
     $current = $this->id == $currentPlayerId;
+    $data['hand'] = $current ? $this->getBiomeInHand() : null;
 
     return $data;
   }
@@ -51,7 +52,12 @@ class Player extends \RAUHA\Helpers\DB_Model
 
   public function hasBiomeInHand()
   {
-    return (BiomeCards::getInLocation('hand', $this->id));
+    return !is_null($this->getBiomeInHand());
+  }
+
+  public function getBiomeInHand()
+  {
+    return BiomeCards::getInLocation('hand', $this->id)->first();
   }
 
   public function countSpores()

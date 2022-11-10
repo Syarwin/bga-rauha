@@ -28,10 +28,10 @@ define([
 ], function (dojo, declare) {
   return declare('bgagame.rauha', [customgame.game], {
     constructor() {
-      this._activeStates = [];
+      this._activeStates = ['placeBiome'];
       this._notifications = [
-        // ["chooseCard", 100],
-        // ["actionCardCleanup", 500],
+        ['chooseBiome', 100],
+        ['confirmChoices', 1000],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -60,8 +60,24 @@ define([
     },
 
     setupPlayers() {
+      let currentPlayerNo = 1;
+      let nPlayers = 0;
       this.forEachPlayer((player) => {
+        let isCurrent = player.id == this.player_id;
         this.place('tplPlayerBoard', player, 'rauha-boards-container');
+
+        if (player.hand !== null) {
+          this.place('tplBiome', player.hand, 'pending-biomes');
+        }
+
+        // Useful to order boards
+        nPlayers++;
+        if (isCurrent) currentPlayerNo = player.no;
+      });
+
+      // Order them
+      this.forEachPlayer((player) => {
+        $(`board-${player.id}`).style.order = ((player.no - currentPlayerNo + nPlayers) % nPlayers) + 1;
       });
       // [...document.querySelectorAll('.avatar-slot')].forEach((elt) => {
       //   dojo.place('<div class="rauha-avatar"></div>', elt);
@@ -73,37 +89,131 @@ define([
         <div class='player-name' style='color:#${player.color}'>${player.name}</div>
         <div class='board-grid'>
           <div class="rauha-avatar"></div>
-          <div class='board-cell cell-corner' data-x='0' data-y='0'><div class='avatar-slot' data-step='15'></div></div>
-          <div class='board-cell cell-hedge'  data-x='1' data-y='0'><div class='avatar-slot' data-step='0'></div></div>
-          <div class='board-cell cell-hedge'  data-x='2' data-y='0'><div class='avatar-slot' data-step='1'></div></div>
-          <div class='board-cell cell-hedge'  data-x='3' data-y='0'><div class='avatar-slot' data-step='2'></div></div>
-          <div class='board-cell cell-corner' data-x='4' data-y='0'><div class='avatar-slot' data-step='3'></div></div>
 
-          <div class='board-cell cell-vedge' data-x='0' data-y='1'><div class='avatar-slot' data-step='14'></div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+
+          <div></div>
+          <div class='board-cell cell-node'  data-x='0' data-y='0'></div>
+          <div class='board-cell cell-node'  data-x='1' data-y='0'></div>
+          <div class='board-cell cell-node'  data-x='2' data-y='0'></div>
+          <div></div>
+
+          <div></div>
+          <div class='board-cell cell-node'  data-x='0' data-y='1'></div>
           <div class='board-cell cell-node'  data-x='1' data-y='1'></div>
           <div class='board-cell cell-node'  data-x='2' data-y='1'></div>
-          <div class='board-cell cell-node'  data-x='3' data-y='1'></div>
-          <div class='board-cell cell-vedge' data-x='4' data-y='1'><div class='avatar-slot' data-step='4'></div></div>
+          <div></div>
 
-          <div class='board-cell cell-vedge' data-x='0' data-y='2'><div class='avatar-slot' data-step='13'></div></div>
+          <div></div>
+          <div class='board-cell cell-node'  data-x='0' data-y='2'></div>
           <div class='board-cell cell-node'  data-x='1' data-y='2'></div>
           <div class='board-cell cell-node'  data-x='2' data-y='2'></div>
-          <div class='board-cell cell-node'  data-x='3' data-y='2'></div>
-          <div class='board-cell cell-vedge' data-x='4' data-y='2'><div class='avatar-slot' data-step='5'></div></div>
+          <div></div>
 
-          <div class='board-cell cell-vedge' data-x='0' data-y='3'><div class='avatar-slot' data-step='12'></div></div>
-          <div class='board-cell cell-node'  data-x='1' data-y='3'></div>
-          <div class='board-cell cell-node'  data-x='2' data-y='3'></div>
-          <div class='board-cell cell-node'  data-x='3' data-y='3'></div>
-          <div class='board-cell cell-vedge' data-x='4' data-y='3'><div class='avatar-slot' data-step='6'></div></div>
-
-          <div class='board-cell cell-corner' data-x='0' data-y='4'><div class='avatar-slot' data-step='11'></div></div>
-          <div class='board-cell cell-hedge'  data-x='1' data-y='4'><div class='avatar-slot' data-step='10'></div></div>
-          <div class='board-cell cell-hedge'  data-x='2' data-y='4'><div class='avatar-slot' data-step='9'></div></div>
-          <div class='board-cell cell-hedge'  data-x='3' data-y='4'><div class='avatar-slot' data-step='8'></div></div>
-          <div class='board-cell cell-corner' data-x='4' data-y='4'><div class='avatar-slot' data-step='7'></div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
         </div>
       </div>`;
+    },
+
+    getCell(pId, x, y) {
+      return $(`board-${pId}`).querySelector(`[data-x='${x}'][data-y='${y}']`);
+    },
+
+    tplBiome(biome) {
+      return `<div class='biome-card age${biome.dataId < 140 ? 1 : 2}' id='biome-${biome.id}' data-id='${biome.dataId}'>
+        <div class='biome-spore-container'></div>
+      </div>`;
+    },
+
+    //////////////////////////////////////////////////////////////////////
+    //    ____ _                            ____  _
+    //   / ___| |__   ___   ___  ___  ___  | __ )(_) ___  _ __ ___   ___
+    //  | |   | '_ \ / _ \ / _ \/ __|/ _ \ |  _ \| |/ _ \| '_ ` _ \ / _ \
+    //  | |___| | | | (_) | (_) \__ \  __/ | |_) | | (_) | | | | | |  __/
+    //   \____|_| |_|\___/ \___/|___/\___| |____/|_|\___/|_| |_| |_|\___|
+    //////////////////////////////////////////////////////////////////////
+
+    onEnteringStateChooseBiome(args) {
+      let elements = {};
+      if (args._private) {
+        let biomes = args._private.biomes;
+        Object.keys(biomes).forEach((biomeId) => {
+          elements[biomeId] = this.place('tplBiome', biomes[biomeId], 'pending-biomes');
+        });
+
+        if (args._private.choice !== null && $(`biome-${args._private.choice}`)) {
+          $(`biome-${args._private.choice}`).classList.add('choice');
+        }
+      }
+
+      this.onSelectN(elements, 1, (elementIds) => {
+        this.takeAction('actChooseBiome', { biomeId: elementIds[0] }, false);
+        return true;
+      });
+    },
+
+    notif_chooseBiome(n) {
+      debug('Notif: choosing biome', n);
+      this.clearActionButtons();
+      dojo.query('#pending-biomes .biome-card').removeClass('selected choice');
+      $(`biome-${n.args.biomeId}`).classList.add('choice');
+    },
+
+    notif_confirmChoices(n) {
+      [...$('pending-biomes').querySelectorAll('.biome-card')].forEach((biome, i) => {
+        if (!biome.classList.contains('choice')) {
+          this.slide(biome, 'page-title', {
+            delay: i * 50,
+            destroy: true,
+          });
+        }
+      });
+    },
+
+    //////////////////////////////////////////////////////////////
+    //  ____  _                  ____  _
+    // |  _ \| | __ _  ___ ___  | __ )(_) ___  _ __ ___   ___
+    // | |_) | |/ _` |/ __/ _ \ |  _ \| |/ _ \| '_ ` _ \ / _ \
+    // |  __/| | (_| | (_|  __/ | |_) | | (_) | | | | | |  __/
+    // |_|   |_|\__,_|\___\___| |____/|_|\___/|_| |_| |_|\___|
+    //////////////////////////////////////////////////////////////
+    onEnteringStatePlaceBiome(args) {
+      this.addDangerActionButton('btnDiscardCrystal', _('Discard and get 4 Crystals'), () => debug('TODO'));
+      this.addDangerActionButton('btnDiscardSpore', _('Discard and get 1 Spore'), () => debug('TODO'));
+
+      let selectedPlace = null;
+      let selectedCell = null;
+      args.possiblePlaces.forEach((place) => {
+        console.log(place);
+        let cell = this.getCell(this.player_id, place[0], place[1]);
+        console.log(cell);
+        this.onClick(cell, () => {
+          if (selectedCell !== null) {
+            selectedCell.classList.remove('selected');
+          }
+
+          if (selectedPlace == place) {
+            selectedCell = null;
+            selectedPlace = null;
+            $('btnConfirmPlace').remove();
+          } else {
+            selectedCell = cell;
+            selectedCell.classList.add('selected');
+            selectedPlace = place;
+            this.addPrimaryActionButton('btnConfirmPlace', _('Confirm'), () =>
+              this.takeAction('actPlaceBiome', { x: place[0], y: place[1] }),
+            );
+          }
+        });
+      });
     },
   });
 });

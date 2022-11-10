@@ -14,124 +14,369 @@
  *
  */
 .player-info {
-  display: flex; }
+  display: flex;
+}
 
 .player-board {
-  background-color: #f5f3ef; }
+  background-color: #f5f3ef;
+}
+
+#rauha-boards-container {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
 
 .rauha-board {
   width: 822px;
   height: 822px;
-  padding: 30px; }
-  .rauha-board .player-name {
-    position: absolute; }
-  .rauha-board .faceB .board-grid {
-    background-image: url("img/faceB.png"); }
-  .rauha-board .board-grid {
-    position: relative;
-    width: 822px;
-    height: 822px;
-    background: url("img/faceA.png");
-    background-size: 100%;
-    display: grid;
-    grid-template-columns: 56px 230px 230px 230px 56px;
-    grid-template-rows: 59px 230px 230px 230px 53px;
-    grid-gap: 5px; }
-    .rauha-board .board-grid .board-cell {
-      display: flex;
-      justify-content: center;
-      align-items: center; }
-      .rauha-board .board-grid .board-cell .avatar-slot {
-        width: 1px;
-        height: 1px; }
-    .rauha-board .board-grid .cell-node {
-      background: #ff000020; }
-    .rauha-board .board-grid .rauha-avatar {
-      width: 80px;
-      height: 50px;
-      position: absolute;
-      background: url("img/avatars.png");
-      background-size: 500% 100%;
-      transform-origin: 50% 100%;
-      transition: top 1s, left 1s, transform 1s; }
-      [data-step="0"] .rauha-board .board-grid .rauha-avatar {
-        top: -27px;
-        left: 137px;
-        transform: rotate(0deg); }
-      [data-step="1"] .rauha-board .board-grid .rauha-avatar {
-        top: -27px;
-        left: 372px;
-        transform: rotate(0deg); }
-      [data-step="2"] .rauha-board .board-grid .rauha-avatar {
-        top: -27px;
-        left: 607px;
-        transform: rotate(0deg); }
-      [data-step="3"] .rauha-board .board-grid .rauha-avatar {
-        top: -19px;
-        left: 753px;
-        transform: rotate(45deg); }
-      [data-step="4"] .rauha-board .board-grid .rauha-avatar {
-        top: 125px;
-        left: 761px;
-        transform: rotate(90deg); }
-      [data-step="5"] .rauha-board .board-grid .rauha-avatar {
-        top: 360px;
-        left: 761px;
-        transform: rotate(90deg); }
-      [data-step="6"] .rauha-board .board-grid .rauha-avatar {
-        top: 595px;
-        left: 761px;
-        transform: rotate(90deg); }
-      [data-step="7"] .rauha-board .board-grid .rauha-avatar {
-        top: 742px;
-        left: 755px;
-        transform: rotate(135deg); }
-      [data-step="8"] .rauha-board .board-grid .rauha-avatar {
-        top: 750px;
-        left: 607px;
-        transform: rotate(180deg); }
-      [data-step="9"] .rauha-board .board-grid .rauha-avatar {
-        top: 750px;
-        left: 372px;
-        transform: rotate(180deg); }
-      [data-step="10"] .rauha-board .board-grid .rauha-avatar {
-        top: 750px;
-        left: 137px;
-        transform: rotate(180deg); }
-      [data-step="11"] .rauha-board .board-grid .rauha-avatar {
-        top: 745px;
-        left: -11px;
-        transform: rotate(225deg); }
-      [data-step="12"] .rauha-board .board-grid .rauha-avatar {
-        top: 594px;
-        left: -18px;
-        transform: rotate(270deg); }
-      [data-step="13"] .rauha-board .board-grid .rauha-avatar {
-        top: 361px;
-        left: -18px;
-        transform: rotate(270deg); }
-      [data-step="14"] .rauha-board .board-grid .rauha-avatar {
-        top: 125px;
-        left: -18px;
-        transform: rotate(270deg); }
-      [data-step="15"] .rauha-board .board-grid .rauha-avatar {
-        top: -19px;
-        left: -13px;
-        transform: rotate(315deg); }
-  .rauha-board[data-color="6cc2b6"] .rauha-avatar {
-    background-position-x: 0%; }
-  .rauha-board[data-color="9fa2a2"] .rauha-avatar {
-    background-position-x: 25%; }
-  .rauha-board[data-color="00953e"] .rauha-avatar {
-    background-position-x: 50%; }
-  .rauha-board[data-color="f4ea4b"] .rauha-avatar {
-    background-position-x: 75%; }
-  .rauha-board[data-color="eb5374"] .rauha-avatar {
-    background-position-x: 100%; }
+  padding: 30px;
+}
+.rauha-board .player-name {
+  position: absolute;
+}
+.rauha-board .faceB .board-grid {
+  background-image: url("img/faceB.png");
+}
+.rauha-board .board-grid {
+  position: relative;
+  width: 822px;
+  height: 822px;
+  background: url("img/faceA.png");
+  background-size: 100%;
+  display: grid;
+  grid-template-columns: 56px 230px 230px 230px 56px;
+  grid-template-rows: 59px 230px 230px 230px 53px;
+  grid-gap: 5px;
+}
+.rauha-board .board-grid .board-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.rauha-board .board-grid .cell-node.selectable {
+  cursor: pointer;
+  background: #ff000020;
+}
+.rauha-board .board-grid .cell-node.selectable:hover {
+  background: #ff000070;
+}
+.rauha-board .board-grid .cell-node.selected {
+  background: #2fff5270;
+}
+.rauha-board .board-grid .cell-node.selected:hover {
+  background: #2fff52a0;
+}
+.rauha-board .board-grid .rauha-avatar {
+  width: 80px;
+  height: 50px;
+  position: absolute;
+  background: url("img/avatars.png");
+  background-size: 500% 100%;
+  transform-origin: 50% 100%;
+  transition: top 1s, left 1s, transform 1s;
+}
+[data-step="0"] .rauha-board .board-grid .rauha-avatar {
+  top: -27px;
+  left: 137px;
+  transform: rotate(0deg);
+}
+[data-step="1"] .rauha-board .board-grid .rauha-avatar {
+  top: -27px;
+  left: 372px;
+  transform: rotate(0deg);
+}
+[data-step="2"] .rauha-board .board-grid .rauha-avatar {
+  top: -27px;
+  left: 607px;
+  transform: rotate(0deg);
+}
+[data-step="3"] .rauha-board .board-grid .rauha-avatar {
+  top: -19px;
+  left: 753px;
+  transform: rotate(45deg);
+}
+[data-step="4"] .rauha-board .board-grid .rauha-avatar {
+  top: 125px;
+  left: 761px;
+  transform: rotate(90deg);
+}
+[data-step="5"] .rauha-board .board-grid .rauha-avatar {
+  top: 360px;
+  left: 761px;
+  transform: rotate(90deg);
+}
+[data-step="6"] .rauha-board .board-grid .rauha-avatar {
+  top: 595px;
+  left: 761px;
+  transform: rotate(90deg);
+}
+[data-step="7"] .rauha-board .board-grid .rauha-avatar {
+  top: 742px;
+  left: 755px;
+  transform: rotate(135deg);
+}
+[data-step="8"] .rauha-board .board-grid .rauha-avatar {
+  top: 750px;
+  left: 607px;
+  transform: rotate(180deg);
+}
+[data-step="9"] .rauha-board .board-grid .rauha-avatar {
+  top: 750px;
+  left: 372px;
+  transform: rotate(180deg);
+}
+[data-step="10"] .rauha-board .board-grid .rauha-avatar {
+  top: 750px;
+  left: 137px;
+  transform: rotate(180deg);
+}
+[data-step="11"] .rauha-board .board-grid .rauha-avatar {
+  top: 745px;
+  left: -11px;
+  transform: rotate(225deg);
+}
+[data-step="12"] .rauha-board .board-grid .rauha-avatar {
+  top: 594px;
+  left: -18px;
+  transform: rotate(270deg);
+}
+[data-step="13"] .rauha-board .board-grid .rauha-avatar {
+  top: 361px;
+  left: -18px;
+  transform: rotate(270deg);
+}
+[data-step="14"] .rauha-board .board-grid .rauha-avatar {
+  top: 125px;
+  left: -18px;
+  transform: rotate(270deg);
+}
+[data-step="15"] .rauha-board .board-grid .rauha-avatar {
+  top: -19px;
+  left: -13px;
+  transform: rotate(315deg);
+}
+.rauha-board[data-color="28c8b2"] .rauha-avatar {
+  background-position-x: 0%;
+}
+.rauha-board[data-color="9fa2a2"] .rauha-avatar {
+  background-position-x: 25%;
+}
+.rauha-board[data-color="00953e"] .rauha-avatar {
+  background-position-x: 50%;
+}
+.rauha-board[data-color="f4ea4b"] .rauha-avatar {
+  background-position-x: 75%;
+}
+.rauha-board[data-color="f52452"] .rauha-avatar {
+  background-position-x: 100%;
+}
+
+#pending-biomes {
+  display: flex;
+  justify-content: center;
+}
+#pending-biomes .biome-card {
+  margin: 8px;
+}
+#pending-biomes .biome-card.selected,
+#pending-biomes .biome-card.choice {
+  margin: 5px;
+}
+
+#page-title .biome-card {
+  position: absolute;
+}
+
+.biome-card {
+  width: 230px;
+  height: 230px;
+  background-image: url("img/age1.jpg");
+  background-size: 500% 800%;
+  border-radius: 40px;
+  box-shadow: 2px 2px 5px -1px black;
+}
+.biome-card.phantom {
+  visibility: hidden;
+}
+.biome-card.selectable {
+  cursor: pointer;
+}
+.biome-card.selectable:hover {
+  transform: scale(1.1);
+}
+.biome-card.selected {
+  border: 3px solid red;
+}
+.biome-card.choice {
+  border: 3px solid green;
+}
+.biome-card[data-id="100"] {
+  background-position-x: 0%;
+  background-position-y: 0%;
+}
+.biome-card[data-id="101"] {
+  background-position-x: 25%;
+  background-position-y: 0%;
+}
+.biome-card[data-id="102"] {
+  background-position-x: 50%;
+  background-position-y: 0%;
+}
+.biome-card[data-id="103"] {
+  background-position-x: 75%;
+  background-position-y: 0%;
+}
+.biome-card[data-id="104"] {
+  background-position-x: 100%;
+  background-position-y: 0%;
+}
+.biome-card[data-id="105"] {
+  background-position-x: 0%;
+  background-position-y: 14.2857142857%;
+}
+.biome-card[data-id="106"] {
+  background-position-x: 25%;
+  background-position-y: 14.2857142857%;
+}
+.biome-card[data-id="107"] {
+  background-position-x: 50%;
+  background-position-y: 14.2857142857%;
+}
+.biome-card[data-id="108"] {
+  background-position-x: 75%;
+  background-position-y: 14.2857142857%;
+}
+.biome-card[data-id="109"] {
+  background-position-x: 100%;
+  background-position-y: 14.2857142857%;
+}
+.biome-card[data-id="110"] {
+  background-position-x: 0%;
+  background-position-y: 28.5714285714%;
+}
+.biome-card[data-id="111"] {
+  background-position-x: 25%;
+  background-position-y: 28.5714285714%;
+}
+.biome-card[data-id="112"] {
+  background-position-x: 50%;
+  background-position-y: 28.5714285714%;
+}
+.biome-card[data-id="113"] {
+  background-position-x: 75%;
+  background-position-y: 28.5714285714%;
+}
+.biome-card[data-id="114"] {
+  background-position-x: 100%;
+  background-position-y: 28.5714285714%;
+}
+.biome-card[data-id="115"] {
+  background-position-x: 0%;
+  background-position-y: 42.8571428571%;
+}
+.biome-card[data-id="116"] {
+  background-position-x: 25%;
+  background-position-y: 42.8571428571%;
+}
+.biome-card[data-id="117"] {
+  background-position-x: 50%;
+  background-position-y: 42.8571428571%;
+}
+.biome-card[data-id="118"] {
+  background-position-x: 75%;
+  background-position-y: 42.8571428571%;
+}
+.biome-card[data-id="119"] {
+  background-position-x: 100%;
+  background-position-y: 42.8571428571%;
+}
+.biome-card[data-id="120"] {
+  background-position-x: 0%;
+  background-position-y: 57.1428571429%;
+}
+.biome-card[data-id="121"] {
+  background-position-x: 25%;
+  background-position-y: 57.1428571429%;
+}
+.biome-card[data-id="122"] {
+  background-position-x: 50%;
+  background-position-y: 57.1428571429%;
+}
+.biome-card[data-id="123"] {
+  background-position-x: 75%;
+  background-position-y: 57.1428571429%;
+}
+.biome-card[data-id="124"] {
+  background-position-x: 100%;
+  background-position-y: 57.1428571429%;
+}
+.biome-card[data-id="125"] {
+  background-position-x: 0%;
+  background-position-y: 71.4285714286%;
+}
+.biome-card[data-id="126"] {
+  background-position-x: 25%;
+  background-position-y: 71.4285714286%;
+}
+.biome-card[data-id="127"] {
+  background-position-x: 50%;
+  background-position-y: 71.4285714286%;
+}
+.biome-card[data-id="128"] {
+  background-position-x: 75%;
+  background-position-y: 71.4285714286%;
+}
+.biome-card[data-id="129"] {
+  background-position-x: 100%;
+  background-position-y: 71.4285714286%;
+}
+.biome-card[data-id="130"] {
+  background-position-x: 0%;
+  background-position-y: 85.7142857143%;
+}
+.biome-card[data-id="131"] {
+  background-position-x: 25%;
+  background-position-y: 85.7142857143%;
+}
+.biome-card[data-id="132"] {
+  background-position-x: 50%;
+  background-position-y: 85.7142857143%;
+}
+.biome-card[data-id="133"] {
+  background-position-x: 75%;
+  background-position-y: 85.7142857143%;
+}
+.biome-card[data-id="134"] {
+  background-position-x: 100%;
+  background-position-y: 85.7142857143%;
+}
+.biome-card[data-id="135"] {
+  background-position-x: 0%;
+  background-position-y: 100%;
+}
+.biome-card[data-id="136"] {
+  background-position-x: 25%;
+  background-position-y: 100%;
+}
+.biome-card[data-id="137"] {
+  background-position-x: 50%;
+  background-position-y: 100%;
+}
+.biome-card[data-id="138"] {
+  background-position-x: 75%;
+  background-position-y: 100%;
+}
+.biome-card[data-id="139"] {
+  background-position-x: 100%;
+  background-position-y: 100%;
+}
 
 html {
   background: url("img/background.jpg");
   background-size: cover;
-  background-attachment: fixed; }
+  background-attachment: fixed;
+}
 
 /*# sourceMappingURL=rauha.css.map */

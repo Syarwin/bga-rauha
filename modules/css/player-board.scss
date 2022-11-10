@@ -1,3 +1,10 @@
+#rauha-boards-container {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .rauha-board {
     width: 822px;
     height: 822px;
@@ -26,14 +33,21 @@
             display: flex;
             justify-content: center;
             align-items: center;
-
-            .avatar-slot {
-                width: 1px;
-                height: 1px;
-            }
         }
         .cell-node {
-            background: #ff000020;
+            &.selectable {
+                cursor: pointer;
+                background: #ff000020;
+                &:hover {
+                    background: #ff000070;
+                }
+            }
+            &.selected {
+                background: #2fff5270;
+                &:hover {
+                    background: #2fff52a0;
+                }
+            }
         }
 
         .rauha-avatar {

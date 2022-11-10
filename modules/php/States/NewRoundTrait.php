@@ -19,16 +19,17 @@ trait NewRoundTrait
       $this->gamestate->nextState('game_end');
     } else {
       //shuffle deckAge1 ou DeckAge2
-      $active_deck = (Globals::getTurn() < 8) ? 'DeckAge1' : 'DeckAge2';
+      $active_deck = Globals::getTurn() < 8 ? 'DeckAge1' : 'DeckAge2';
       BiomeCards::shuffle($active_deck);
 
       //trash remaining cards and pick 4 cards per players and put it in deck1, deck2, deck3...
       for ($i = 1; $i <= Players::count(); $i++) {
-        BiomeCards::moveAllInLocation('deck' . $i, "trash");
+        BiomeCards::moveAllInLocation('deck' . $i, 'trash');
         BiomeCards::pickForLocation(CARDS_PER_DECK, $active_deck, 'deck' . $i);
       }
     }
 
+    Globals::setBiomeChoices([]);
     $this->gamestate->nextState('round_start');
   }
 
