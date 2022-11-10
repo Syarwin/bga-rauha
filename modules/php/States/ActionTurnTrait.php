@@ -134,7 +134,7 @@ trait ActionTurnTrait
   public function actDiscardCrystal()
   {
     // Sanity checks
-    $this->gamestate->checkPossibleAction('actDiscardCrystal');
+    $this->checkAction('actDiscardCrystal');
 
     // get infos
     $currentPlayer = Players::getCurrent();
@@ -154,7 +154,7 @@ trait ActionTurnTrait
   public function actDiscardSpore($x, $y)
   {
     // Sanity checks
-    $this->gamestate->checkPossibleAction('actDiscardSpore');
+    $this->checkAction('actDiscardSpore');
     $args = $this->argPlaceBiome();
     if (!in_array([$x, $y], $args['possibleSporePlaces'])) {
       throw new \BgaVisibleSystemException('You can\'t choose this place for spore. Should not happen');
@@ -175,7 +175,7 @@ trait ActionTurnTrait
   public function actPlaceBiome($x, $y)
   {
     // Sanity checks
-    $this->gamestate->checkPossibleAction('actPlaceBiome');
+    $this->checkAction('actPlaceBiome');
 
     $currentPlayer = Players::getCurrent();
     $args = $this->argPlaceBiome();
@@ -226,7 +226,7 @@ trait ActionTurnTrait
   public function actSkip()
   {
     // Sanity checks
-    $this->gamestate->checkPossibleAction('actSkip');
+    $this->checkAction('actSkip');
 
     // Notification
     Notifications::skip(Players::getCurrent());
@@ -238,7 +238,7 @@ trait ActionTurnTrait
   public function actActivateElement($elementId, $isGod)
   {
     // Sanity checks
-    $this->gamestate->checkPossibleAction('actActivateBiome');
+    $this->checkAction('actActivateBiome');
     $args = $this->argActBiome();
     if ((!in_array($elementId, $args['activableBiomes']) && !$isGod) ||
       (!in_array($elementId, $args['activableGods']) && $isGod)
