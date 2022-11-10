@@ -25,7 +25,7 @@ class Player extends \RAUHA\Helpers\DB_Model
     'eliminated' => 'player_eliminated',
     'score' => ['player_score', 'int'],
     'scoreAux' => ['player_score_aux', 'int'],
-    'crystal' => ['player_crystal', 'int'],
+    CRYSTAL => ['player_crystal', 'int'],
     'board' => ['player_board', 'obj'],
     'zombie' => 'player_zombie',
   ];
@@ -76,7 +76,7 @@ class Player extends \RAUHA\Helpers\DB_Model
    */
   public function getSporesPlaces($boolWithSpore)
   {
-    $seek = ($boolWithSpore) ? 1 : 0;
+    $seek = $boolWithSpore ? 1 : 0;
     $places = [];
     for ($y = 0; $y < 3; $y++) {
       for ($x = 0; $x < 3; $x++) {

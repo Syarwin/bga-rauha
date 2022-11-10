@@ -32,6 +32,7 @@ define([
       this._notifications = [
         ['chooseBiome', 100],
         ['confirmChoices', 1000],
+        ['placeBiome', 1200],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -192,9 +193,7 @@ define([
       let selectedPlace = null;
       let selectedCell = null;
       args.possiblePlaces.forEach((place) => {
-        console.log(place);
         let cell = this.getCell(this.player_id, place[0], place[1]);
-        console.log(cell);
         this.onClick(cell, () => {
           if (selectedCell !== null) {
             selectedCell.classList.remove('selected');
@@ -209,11 +208,20 @@ define([
             selectedCell.classList.add('selected');
             selectedPlace = place;
             this.addPrimaryActionButton('btnConfirmPlace', _('Confirm'), () =>
-              this.takeAction('actPlaceBiome', { x: place[0], y: place[1] }),
+              this.takeAction('actPlaceBiome', { x: selectedPlace[0], y: selectedPlace[1] }),
             );
           }
         });
       });
+    },
+
+    notif_placeBiome(n) {
+      debug('Notif: placing biome', n);
+      let biome = n.args.biome;
+      if (!$(`biome-${biome.id}`)) {
+        this.place('tplBiome', biome, 'page-title');
+      }
+      this.slide(`biome-${biome.id}`, this.getCell(n.args.player_id, n.args.x, n.args.y));
     },
   });
 });

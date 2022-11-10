@@ -124,7 +124,7 @@ trait ActionTurnTrait
     return [
       'biome' => $biome,
       'possiblePlaces' => $possiblePlaces,
-      'possibleSporePlaces' => $player->getSporesPlaces(false)
+      'possibleSporePlaces' => $player->getSporesPlaces(false),
     ];
   }
 
@@ -188,14 +188,15 @@ trait ActionTurnTrait
     BiomeCards::getBiomeOnPlayerBoard($currentPlayer, $x, $y)->setLocation('discard');
 
     // move biome on 'board' 'y' 'x'
-    $biome = BiomeCards::getInLocation('hand', $currentPlayer);
-    $biome->placeOnPlayerBoard($x, $y);
+    $biome = $currentPlayer->getBiomeInHand();
+    $biome->placeOnPlayerBoard($currentPlayer, $x, $y);
 
     // pay for it
-    $currentPlayer->incCrystal(-$biome->getLayingCost());
+    $cost = $biome->getLayingCost();
+    $currentPlayer->incCrystal(-$cost);
 
     // notification
-    Notifications::placeBiome($currentPlayer, $x, $y, $biome);
+    Notifications::placeBiome($currentPlayer, $x, $y, $biome, $cost);
 
     // check if there is alignment
     $alignedTypes = BiomeCards::checkAlignment($currentPlayer, $x, $y, $biome);
@@ -216,11 +217,11 @@ trait ActionTurnTrait
   {
     $player = Players::getActive();
     return [
-      //TODO choose Biomes or Places
-      'activableBiomes' => BiomeCards::getActivableBiomes($player, Globals::getTurn()),
-      'activableGods' => GodCards::getActivableGods($player),
-      'possibleSporePlaces' => $player->getSporesPlaces(false)
-    ];
+        //TODO choose Biomes or Places
+        //   'activableBiomes' => BiomeCards::getActivableBiomes($player, Globals::getTurn()),
+        //   'activableGods' => GodCards::getActivableGods($player),
+        //   'possibleSporePlaces' => $player->getSporesPlaces(false),
+      ];
   }
 
   public function actSkip()
@@ -240,7 +241,8 @@ trait ActionTurnTrait
     // Sanity checks
     $this->checkAction('actActivateBiome');
     $args = $this->argActBiome();
-    if ((!in_array($elementId, $args['activableBiomes']) && !$isGod) ||
+    if (
+      (!in_array($elementId, $args['activableBiomes']) && !$isGod) ||
       (!in_array($elementId, $args['activableGods']) && $isGod)
     ) {
       throw new \BgaVisibleSystemException('You can\'t activate this Biome/God now. Should not happen');

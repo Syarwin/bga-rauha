@@ -4,6 +4,12 @@
  * Game Constants
  */
 
+const MOUNTAIN = 'mountain';
+const FOREST = 'forest';
+const MUSHROOM = 'mushroom';
+const CRYSTAL = 'crystal';
+const DESERT = 'desert';
+
 const CARDS_PER_DECK = 4;
 const MOON = 1;
 const STAR = 0;

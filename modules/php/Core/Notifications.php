@@ -47,22 +47,43 @@ class Notifications
       'player' => $currentPlayer,
       'biomeInDiscard' => $discardCount,
       'x' => $x,
-      'y' => $y
+      'y' => $y,
     ];
     $msg = clienttranslate('${player_name} discards their Biome and place a spore on place ${x}, ${y}');
     self::notifyAll('discard', $msg, $data);
   }
 
-  public static function placeBiome($player, $x, $y, $biome)
+  public static function placeBiome($player, $x, $y, $biome, $cost)
   {
+    $types = [
+      MOUNTAIN => clienttranslate('mountain'),
+      CRYSTAL => clienttranslate('crystal'),
+      FOREST => clienttranslate('forest'),
+      MUSHROOM => clienttranslate('mushroom'),
+    ];
+    $biomeTypes = ['log' => [], 'args' => []];
+    foreach ($biome->getTypes() as $i => $type) {
+      $key = 'biome_type' . $i;
+      $biomeTypes['log'][] = '${' . $key . '}';
+      $biomeTypes['args']['i18n'][] = $key;
+      $biomeTypes['args'][$key] = $types[$type];
+    }
+    $biomeTypes['log'] = join($biomeTypes['log'], '/');
+
     $data = [
       'player' => $player,
       'x' => $x,
       'y' => $y,
-      'biomeId' => $biome->getId(),
-      'biomeTypes' => join($biome->getType(), ', '),
+      'cost' => $cost,
+      'biome' => $biome,
+      'biomeTypes' => $biomeTypes,
     ];
-    $msg = clienttranslate('${player_name} plays ${biomeTypes} on their board on place ${x}, ${y}');
+    $msg =
+      $cost == 0
+        ? clienttranslate('${player_name} plays a ${biomeTypes} biome on their board at position (${x}, ${y})')
+        : clienttranslate(
+          '${player_name} pays ${cost} crystal(s) to play a ${biomeTypes} biome on their board at position (${x}, ${y})'
+        );
     self::notifyAll('placeBiome', $msg, $data);
   }
 
