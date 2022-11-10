@@ -3,6 +3,7 @@
 namespace RAUHA\States;
 
 use PDO;
+use RAUHA\Core\Game;
 use RAUHA\Core\Globals;
 use RAUHA\Core\Notifications;
 use RAUHA\Core\Engine;
@@ -37,15 +38,15 @@ trait ActionTurnTrait
         ];
     }
 
-    public function actChooseBiome($biomeId)
+    public function actChooseBiome($biomeId, $pId = null)
     {
         // Sanity checks
-        $this->checkAction('actPlaybiome');
-        $pId = Players::getCurrent()->getId();
+        //TODO $this->checkAction('actChoosebiome');
+        $pId = $pId ?? Players::getCurrent()->getId();
         //check that this biome was available to be choosen
         $args = $this->argChooseBiome();
 
-        if (!in_array($biomeId, $args['_private'][$pId]['biomes_ids'])) {
+        if (!in_array($biomeId, $args['_private'][$pId]['biomesIds'])) {
             throw new \BgaVisibleSystemException('You can\'t choose this biome. Should not happen');
         }
 
@@ -57,7 +58,7 @@ trait ActionTurnTrait
         //notification
         Notifications::message(
             clienttranslate('${player_name} chooses their Biome'),
-            ['player' => Players::getCurrent()]
+            ['player' => Players::get($pId)]
         );
 
         //TODO HOW to allow player to cancel and play again
@@ -91,6 +92,7 @@ trait ActionTurnTrait
         $biome = BiomeCards::getInLocation('hand', $player->getId());
 
         // if no layingconstraints all places are possible 
+        // TODO error on getLayingConstraints
         if (empty($biome->getLayingConstraints())) $possiblePlaces = ALL_BIOME_PLACES;
         else $possiblePlaces = $biome->getLayingConstraints();
 
@@ -167,8 +169,8 @@ trait ActionTurnTrait
     public function argActBiome()
     {
         return [
-            'activableBiomes' => BiomeCards::getActivableBiomes(Players::getActive(), Globals::getTurn()),
-            'activableGods' => GodCards::getActivableGods(Players::getActive()),
+            'activableBiomes' => BiomeCards::getActivablePlaces(Players::getActive(), Globals::getTurn()),
+            'activableGods' => GodCards::getActivableGodsIds(Players::getActive()),
         ];
     }
 
@@ -184,16 +186,18 @@ trait ActionTurnTrait
         $this->gamestate->nextState('actSkip');
     }
 
-    public function actActivateBiome($biomeId)
+    public function actActivateElement($elementId, $isGod)
     {
         // Sanity checks
         $this->checkAction('actActivateBiome');
         $args = $this->argActBiome();
-        if (!in_array($biomeId, $args['activableBiomes'])) {
-            throw new \BgaVisibleSystemException('You can\'t activate this Biome now. Should not happen');
+        if ((!in_array($elementId, $args['activableBiomes']) && !$isGod) ||
+            (!in_array($elementId, $args['activableGods']) && $isGod)
+        ) {
+            throw new \BgaVisibleSystemException('You can\'t activate this Biome/God now. Should not happen');
         }
 
-        BiomeCards::activate($biomeId);
+        $isGod ? GodCards::activate($elementId) : BiomeCards::activate($elementId);
 
         // Change state
         $this->gamestate->nextState('actActivate');

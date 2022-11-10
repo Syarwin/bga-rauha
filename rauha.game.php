@@ -118,9 +118,39 @@ class Rauha extends Table
    *   This method is called each time it is the turn of a player who has quit the game (= "zombie" player).
    *   You can do whatever you want in order to make sure the turn of this player ends appropriately
    */
-  public function zombieTurn($state, $activePlayer)
+  public function zombieTurn($state, $activePlayerId)
   {
-    die('TODO');
+    $statename = $state['name'];
+
+    switch ($statename) {
+      case 'chooseBiome':
+        $args = $this->argChooseBiome();
+        $biomesIds = $args['_private'][$activePlayerId]['biomesIds'];
+        $answer = bga_rand(0, count($biomesIds) - 1);
+        $this->actChooseBiome($biomesIds[$answer], $activePlayerId);
+
+      case 'placeBiome':
+        # code...actDiscard
+        break;
+
+      case 'actBiomes':
+        # code...actSkip
+        break;
+
+      case 'placeBiome':
+        # code...skip
+        break;
+
+      case 'countAction':
+        # code...actSkipCount
+        break;
+
+      default:
+        # code...
+        break;
+    }
+
+    throw new feException("Zombie mode not supported at this game state: " . $statename);
   }
 
   /////////////////////////////////////
@@ -156,10 +186,19 @@ class Rauha extends Table
     return self::_($text);
   }
 
-  public static function test($criteria)
+  public static function test($arg)
   {
-    echo 'test :' . var_dump(GodCards::get($criteria)->getName());
-    // echo 'test' . GodCards::getActivableGods(Players::get(self::getCurrentPId())) . 'test';
-    // echo BiomeCards::countOnAPlayerBoard(self::getCurrentPId(), $criteria);
+    echo "<pre>";
+    var_dump(Players::countHowManyPlayerswithThatScore($arg));
+    echo "</pre>";
+    die('ok');
+  }
+
+  public static function displayVariable($var)
+  {
+    echo "<pre>";
+    var_dump($var);
+    echo "</pre>";
+    die('ok');
   }
 }

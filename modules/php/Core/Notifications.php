@@ -60,6 +60,19 @@ class Notifications
     self::message(clienttranslate('${player_name} passes.'), $data);
   }
 
+  public static function actCount($player, $message, $biome, $cost, $crystalIncome, $pointIncome)
+  {
+    $data = [
+      'player' => $player,
+      'cost' => $cost,
+      'crystalIncome' => $crystalIncome,
+      'pointIncome' => $pointIncome,
+      'x' => $biome->getX(),
+      'y' => $biome->getY(),
+    ];
+    self::notifyAll($player, $message, $data);
+  }
+
   /*************************
    **** GENERIC METHODS ****
    *************************/

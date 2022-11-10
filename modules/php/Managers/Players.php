@@ -158,4 +158,18 @@ class Players extends \RAUHA\Helpers\DB_Manager
       ->getSingle()
       ->getId();
   }
+
+  public function countHowManyPlayerswithThatScore($score)
+  {
+    return self::DB()->where('player_score', $score)
+      ->count();
+  }
+
+  public function movePointsToken($player, $pointIncome)
+  {
+    $player->incScore($pointIncome);
+
+    $score_aux = self::countHowManyPlayersWithThatScore($player->getScore);
+    $player->setScore_aux($score_aux);
+  }
 }

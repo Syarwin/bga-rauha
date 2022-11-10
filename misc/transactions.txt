@@ -65,9 +65,23 @@ Action:
 ST_ACT_BIOMES = 8;
 --->>> args
         return [
-            'activableBiomes' => BiomeCards::getActivableBiomes($player, Globals::getTurn()),
-            'activableGods' => GodCards::getActivableGods($player),
+            'activablePlaces' => BiomeCards::getActivablePlaces($player, Globals::getTurn()),
+            'activableGods' => GodCards::getActivableGodsIds($player),
         ];
+
+<<<---actActivateBiome(biomeId)
+<<<---actActivateGod(godId)
+????? TODO activate and place spore ?????
+
+--->>>Notification
+  $data = [
+      'player' => $player,
+      'cost' => $cost,
+      'crystalIncome' => $crystalIncome,
+      'pointIncome' => $pointIncome,
+      'x' => $biome->getX(),
+      'y' => $biome->getY(),
+    ];
 
 const ST_COUNT_NEXT_PLAYER = 9;
 const ST_COUNT_ACTION = 10;

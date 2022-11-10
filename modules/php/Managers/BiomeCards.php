@@ -78,10 +78,10 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
   }
 
   /**
-   * Retuns activable Biomes in the row or column of the avatar if a Turn has been furnished, 
+   * Retuns activable Places in the row or column of the avatar if a Turn has been furnished, 
    * all activable Biomes with spore in other cases
    */
-  public static function getActivableBiomes($player, $turn = null)
+  public static function getActivablePlaces($player, $turn = null)
   {
     if ($turn != null) {
       $activableBiomes = [];
@@ -111,20 +111,20 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
 
     $crystalIncome = $biome->getCrystalIncome() * $multiplier;
     if ($crystalIncome > 0) {
-      $message .= clienttranslate('${player_name} activate their Biome and receives ${crystalIncome} crystal(s)');
+      $message .= clienttranslate('${player_name} activate their Biome on (${x},${y}) and receives ${crystalIncome} crystal(s)');
     }
 
     $pointIncome = $biome->getPointIncome() * $multiplier;
     if ($pointIncome > 0) {
-      $message .= clienttranslate('${player_name} activate their Biome and receives ${pointIncome} point(s)');
+      $message .= clienttranslate('${player_name} activate their Biome on (${x},${y}) and receives ${pointIncome} point(s)');
     }
 
     $player->incCrystal($crystalIncome - $cost);
-    $player->incScore($pointIncome);
+    $player->movePointsToken($pointIncome);
     $biome->setUsed(USED);
 
     // TODO Notifications
-
+    Notifications::actCount($player, $message, $biome, $cost, $crystalIncome, $pointIncome);
   }
 
   /**
@@ -132,8 +132,6 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
    */
   public static function countOnAPlayerBoard($player, $criteria)
   {
-    $player = Players::get($player);
-    echo count(self::getAllBiomesOnPlayerBoard($player));
 
     switch ($criteria) {
       case 'marine':
@@ -141,10 +139,12 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
       case 'flying':
         $board = self::getAllAnimalsOnPlayerBoard($player);
         return array_count_values($board)[$criteria];
+        break;
 
       case 'animals':
         $board = self::getAllAnimalsOnPlayerBoard($player);
         return count($board);
+        break;
 
       case 'forest':
       case 'mushroom':
@@ -152,23 +152,29 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
       case 'desert':
       case 'mountain':
         $board = self::getAllTypesOnPlayerBoard($player);
+        echo var_dump($board);
         return array_count_values($board)[$criteria];
+        break;
 
       case 'spore':
         return $player->countSpores();
+        break;
 
       case 'waterSource':
         return self::countAllWaterSourceOnPlayerBoard($player);
+        break;
 
       default:
-        return 0;
+        return -1;
     }
   }
 
   public static function getBiomeOnPlayerBoard($player, $x, $y)
   {
     return self::getInLocationQ('board')
-      ->where(['player_id', $player->getId()], ['x', $x], ['y', $y])
+      ->where('player_id', $player->getId())
+      ->where('x', $x)
+      ->where('y', $y)
       ->get();
   }
 

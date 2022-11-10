@@ -71,7 +71,7 @@ class action_rauha extends APP_GameAction
   {
     self::setAjaxMode();
     $biomeId = self::getArg('biomeId', AT_posint, true);
-    $this->game->actActivateBiome($biomeId);
+    $this->game->actActivateElement($biomeId, false);
     self::ajaxResponse();
   }
 
@@ -79,7 +79,7 @@ class action_rauha extends APP_GameAction
   {
     self::setAjaxMode();
     $godId = self::getArg('godId', AT_posint, true);
-    $this->game->actActivateGod($godId);
+    $this->game->actActivateElement($godId, true);
     self::ajaxResponse();
   }
 
