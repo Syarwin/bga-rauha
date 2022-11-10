@@ -131,10 +131,10 @@ trait ActionTurnTrait
   /**
    * Instead of placing their Biome, player can discard it to win 4 crystals
    */
-  public function actDiscard()
+  public function actDiscardCrystal()
   {
     // Sanity checks
-    $this->checkAction('actDiscard');
+    $this->gamestate->checkPossibleAction('actDiscardCrystal');
 
     // get infos
     $currentPlayer = Players::getCurrent();
@@ -145,13 +145,37 @@ trait ActionTurnTrait
     Notifications::discard($currentPlayer, BiomeCards::countInLocation('discard'));
 
     // Change state
-    $this->gamestate->nextState('actDiscard');
+    $this->gamestate->nextState('');
+  }
+
+  /**
+   * Instead of placing their Biome, player can discard it to place a Spore
+   */
+  public function actDiscardSpore($x, $y)
+  {
+    // Sanity checks
+    $this->gamestate->checkPossibleAction('actDiscardSpore');
+    $args = $this->argPlaceBiome();
+    if (!in_array([$x, $y], $args['possibleSporePlaces'])) {
+      throw new \BgaVisibleSystemException('You can\'t choose this place for spore. Should not happen');
+    }
+
+    // get infos
+    $currentPlayer = Players::getCurrent();
+    BiomeCards::moveAllInLocation('hand', 'discard', $currentPlayer->getId());
+    $currentPlayer->placeSpore($x, $y);
+
+    // Notification
+    Notifications::discard($currentPlayer, BiomeCards::countInLocation('discard'));
+
+    // Change state
+    $this->gamestate->nextState('');
   }
 
   public function actPlaceBiome($x, $y)
   {
     // Sanity checks
-    $this->checkAction('actPlaceBiome');
+    $this->gamestate->checkPossibleAction('actPlaceBiome');
 
     $currentPlayer = Players::getCurrent();
     $args = $this->argPlaceBiome();
@@ -202,7 +226,7 @@ trait ActionTurnTrait
   public function actSkip()
   {
     // Sanity checks
-    $this->checkAction('actSkip');
+    $this->gamestate->checkPossibleAction('actSkip');
 
     // Notification
     Notifications::skip(Players::getCurrent());
@@ -214,7 +238,7 @@ trait ActionTurnTrait
   public function actActivateElement($elementId, $isGod)
   {
     // Sanity checks
-    $this->checkAction('actActivateBiome');
+    $this->gamestate->checkPossibleAction('actActivateBiome');
     $args = $this->argActBiome();
     if ((!in_array($elementId, $args['activableBiomes']) && !$isGod) ||
       (!in_array($elementId, $args['activableGods']) && $isGod)

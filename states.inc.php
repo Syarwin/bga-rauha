@@ -98,7 +98,7 @@ $machinestates = [
     'descriptionmyturn' => clienttranslate('${you} must place or discard your Biome'),
     'args' => 'argPlaceBiome',
     'type' => 'activeplayer',
-    'possibleactions' => ['actPlaceBiome', 'actDiscard'],
+    'possibleactions' => ['actPlaceBiome', 'actDiscardSpore', 'actDiscardCrystal'],
     'transitions' => [
       '' => ST_ACT_BIOMES,
     ],

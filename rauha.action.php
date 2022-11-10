@@ -44,10 +44,19 @@ class action_rauha extends APP_GameAction
     self::ajaxResponse();
   }
 
-  public function actDiscard()
+  public function actDiscardCristal()
   {
     self::setAjaxMode();
-    $this->game->actDiscard();
+    $this->game->actDiscardCristal();
+    self::ajaxResponse();
+  }
+
+  public function actDiscardSpore()
+  {
+    self::setAjaxMode();
+    $x = self::getArg('x', AT_posint, true);
+    $y = self::getArg('y', AT_posint, true);
+    $this->game->actDiscardSpore($x, $y);
     self::ajaxResponse();
   }
 

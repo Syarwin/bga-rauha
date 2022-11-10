@@ -76,11 +76,11 @@ class Player extends \RAUHA\Helpers\DB_Model
    */
   public function getSporesPlaces($boolWithSpore)
   {
-    $seek = ($boolWithSpore) ? 1 : 0 ;
+    $seek = ($boolWithSpore) ? 1 : 0;
     $places = [];
-    for ($y=0; $y < 3; $y++) { 
-      for ($x=0; $x < 3; $x++) { 
-        if ($this->board[$x][$y] == $seek){
+    for ($y = 0; $y < 3; $y++) {
+      for ($x = 0; $x < 3; $x++) {
+        if ($this->board[$x][$y] == $seek) {
           $places[] = [$x, $y];
         }
       }
@@ -88,7 +88,12 @@ class Player extends \RAUHA\Helpers\DB_Model
     return $places;
   }
 
-  public function 
+  public function placeSpore($x, $y)
+  {
+    $board = $this->board;
+    $board[$x][$y] = 1;
+    $this->setBoard($board);
+  }
 
   // public function hasVuoriOnBoard(){
   //   return GodCards::
