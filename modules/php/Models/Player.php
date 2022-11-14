@@ -94,6 +94,8 @@ class Player extends \RAUHA\Helpers\DB_Model
     $board = $this->board;
     $board[$x][$y] = 1;
     $this->setBoard($board);
+
+    Notifications::placeSpore($this, $x, $y);
   }
 
   // public function hasVuoriOnBoard(){

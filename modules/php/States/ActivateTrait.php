@@ -39,7 +39,7 @@ trait ActivateTrait
     $this->gamestate->nextState('actSkip');
   }
 
-  public function actActivateElement($elementId, $isGod)
+  public function actActivateElement($elementId, $isGod, $x = null, $y = null)
   {
     // Sanity checks
     $this->checkAction('actActivateBiome');
@@ -51,7 +51,11 @@ trait ActivateTrait
       throw new \BgaVisibleSystemException('You can\'t activate this Biome/God now. Should not happen');
     }
 
-    $isGod ? GodCards::activate($elementId) : BiomeCards::activate($elementId);
+    $boolSpore = $isGod ? GodCards::activate($elementId) : BiomeCards::activate($elementId);
+
+    if ($boolSpore && $x != null && $y != null) {
+      Players::getCurrent()->placeSpore($x, $y);
+    }
 
     // Change state
     $this->gamestate->nextState('actActivate');

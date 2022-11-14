@@ -101,9 +101,11 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
     $cost = $biome->getUsageCost();
     $crystalIncome = $biome->getCrystalIncome() * $multiplier;
     $pointIncome = $biome->getPointIncome() * $multiplier;
+    $spore = $biome->getSporeIncome();
 
     if ($cost > 0) {
-      $message = clienttranslate('By paying ${cost} crystal(s), ${player_name} activate their Biome on place ${x}, ${y} and receives ${pointIncome} point(s)');
+      if ($crystalIncome > 0) $message = clienttranslate('By paying ${cost} crystal(s), ${player_name} activate their Biome on place ${x}, ${y} and receives ${pointIncome} point(s)');
+      else if ($spore == 1) $message  = clienttranslate('By paying ${cost} crystal(s), ${player_name} activate their Biome on place ${x}, ${y} and receives a new spore');
     } else if ($crystalIncome > 0) {
       $message = clienttranslate('${player_name} activate their Biome on place ${x}, ${y} and receives ${crystalIncome} crystal(s)');
     } else if ($pointIncome > 0) {
@@ -116,6 +118,7 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
 
     // Notifications
     Notifications::actCount($player, $message, $biome, $cost, $crystalIncome, $pointIncome);
+    return $spore;
   }
 
   /**

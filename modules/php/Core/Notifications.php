@@ -53,6 +53,19 @@ class Notifications
     self::notifyAll('discard', $msg, $data);
   }
 
+  public static function placeSpore($player, $x, $y)
+  {
+    $data = [
+      'player' => $player,
+      'x' => $x,
+      'y' => $y,
+
+    ];
+
+    $msg = clienttranslate('${player_name} puts a new spore on their board at position (${x}, ${y})');
+    self::notifyAll('placeSpore', $msg, $data);
+  }
+
   public static function placeBiome($player, $x, $y, $biome, $cost)
   {
     $types = [
