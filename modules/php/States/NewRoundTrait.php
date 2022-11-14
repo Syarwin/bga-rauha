@@ -39,10 +39,12 @@ trait NewRoundTrait
 
     Notifications::newTurn(Globals::getTurn());
 
+    Players::determineFirstPlayer();
     Players::refreshBiomes();
 
     //each 4 turn, that's a 'count turn', else it's a normal turn
     if (Globals::getTurn() % 4 == 0) {
+      Players::refreshGods();
       $this->gamestate->nextState('count_turn');
     } else {
       $this->gamestate->nextState('action_turn');

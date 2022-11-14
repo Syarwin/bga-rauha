@@ -24,7 +24,7 @@ class GodCards extends \RAUHA\Helpers\Pieces
 
   public static function getUiData()
   {
-    return [];
+    return self::getAll();
   }
 
   /* Creation of the gods */
@@ -51,13 +51,19 @@ class GodCards extends \RAUHA\Helpers\Pieces
     }
   }
 
+  public function whoHasVuori()
+  {
+    $god = self::getGodByType(MOUNTAIN);
+    return $god->getPId();
+  }
+
   /*
    * Get activable god for a player
    */
   public function getActivableGods($player)
   {
     $result = [];
-    foreach (self::getAll() as $id => $god) {
+    foreach (self::getGodsByPlayer($player) as $id => $god) {
       if ($god->isActivable()) {
         $result[] = $god;
       }
@@ -68,6 +74,22 @@ class GodCards extends \RAUHA\Helpers\Pieces
     //   ->where('player_id', $player->getId())
     //   ->where('used', NOT_USED)
     //   ->get();
+  }
+
+  public function getGodsByPlayer($player)
+  {
+    return self::getInLocationQ('board')
+      ->where('player_id', $player->getId())
+      ->get();
+  }
+
+  public function countAllWaterSourceOnPlayerGods($player)
+  {
+    $result = 0;
+    foreach (self::getGodsByPlayer($player) as $id => $god) {
+      $result += $god->getWaterSource();
+    }
+    return $result;
   }
 
   public static function activate($godId)
@@ -117,13 +139,13 @@ class GodCards extends \RAUHA\Helpers\Pieces
     };
 
     return [
-      1 => $f(['TAIVAS', 'flying', 0, 7, 1, 4, 0, 0]),
+      1 => $f(['TAIVAS', FLYING, 0, 7, 1, 4, 0, 0]),
       2 => $f(['SIENET', MUSHROOM, 3, 0, 1, 0, 0, 0]),
-      3 => $f(['MERI', 'marine', 0, 1, 'waterSource', 0, 0, 0]),
-      4 => $f(['METSAT', FOREST, 0, 1, 'animals', 0, 0, 0]),
-      5 => $f(['KITEET', 'crytal', 0, 3, 1, 0, 0, 0]),
+      3 => $f(['MERI', MARINE, 0, 1, WATER_SOURCE, 0, 0, 0]),
+      4 => $f(['METSAT', FOREST, 0, 1, ANIMALS, 0, 0, 0]),
+      5 => $f(['KITEET', CRYSTAL, 0, 3, 1, 0, 0, 0]),
       6 => $f(['VUORI', MOUNTAIN, 0, 0, 1, 0, 0, 2]),
-      7 => $f(['MAA', 'walking', 0, 1, 'spore', 0, 0, 0]),
+      7 => $f(['MAA', WALKING, 0, 1, SPORE, 0, 0, 0]),
     ];
   }
 }

@@ -39,20 +39,11 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
     $biome2 = self::getBiomeOnPlayerBoard($player, $x, 1);
     $biome3 = self::getBiomeOnPlayerBoard($player, $x, 2);
 
-    foreach ($biome->getTypes() as $type) {
+    foreach ($biome->getElements() as $type) {
       if (
         in_array($type, $biome1->getTypes()) &&
         in_array($type, $biome2->getTypes()) &&
         in_array($type, $biome3->getTypes())
-      ) {
-        $alignedTypes[] = $type;
-      }
-    }
-    foreach ($biome->getAnimals() as $type) {
-      if (
-        in_array($type, $biome1->getAnimals()) &&
-        in_array($type, $biome2->getAnimals()) &&
-        in_array($type, $biome3->getAnimals())
       ) {
         $alignedTypes[] = $type;
       }
@@ -63,20 +54,11 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
     $biome2 = self::getBiomeOnPlayerBoard($player, 1, $y);
     $biome3 = self::getBiomeOnPlayerBoard($player, 2, $y);
 
-    foreach ($biome->getTypes() as $type) {
+    foreach ($biome->getElements() as $type) {
       if (
         in_array($type, $biome1->getTypes()) &&
         in_array($type, $biome2->getTypes()) &&
         in_array($type, $biome3->getTypes())
-      ) {
-        $alignedTypes[] = $type;
-      }
-    }
-    foreach ($biome->getAnimals() as $type) {
-      if (
-        in_array($type, $biome1->getAnimals()) &&
-        in_array($type, $biome2->getAnimals()) &&
-        in_array($type, $biome3->getAnimals())
       ) {
         $alignedTypes[] = $type;
       }
@@ -86,24 +68,25 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
   }
 
   /**
-   * Retuns activable Places in the row or column of the avatar if a Turn has been furnished,
+   * Retuns activable Biomes in the row or column of the avatar if a Turn has been furnished,
    * all activable Biomes with spore in other cases
    */
-  public static function getActivablePlaces($player, $turn = null)
+  public static function getActivableBiomes($player, $turn = null)
   {
-    if ($turn != null) {
-      $activableBiomes = [];
 
-      foreach (BOARD_ACTIVATION[$turn] as $place) {
-        $x = $place[0];
-        $y = $place[1];
-        if (BiomeCards::getBiomeOnPlayerBoard($player, $x, $y)->isActivable()) {
-          $activableBiomes[] = $place;
-        }
+    $possiblePlaces = ($turn == null) ? $player->getSporesPlaces(true) : BOARD_ACTIVATION[$turn];
+
+    $activableBiomes = [];
+
+    foreach ($possiblePlaces as $place) {
+      $x = $place[0];
+      $y = $place[1];
+      $biome = BiomeCards::getBiomeOnPlayerBoard($player, $x, $y);
+      if ($biome->isActivable()) {
+        $activableBiomes[] = $biome;
       }
-      return $activableBiomes;
     }
-    //TODO if $turn=null
+    return $activableBiomes;
   }
 
   public static function activate($biomeId)
@@ -149,14 +132,14 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
   public static function countOnAPlayerBoard($player, $criteria)
   {
     switch ($criteria) {
-      case 'marine':
-      case 'walking':
-      case 'flying':
+      case MARINE:
+      case WALKING:
+      case FLYING:
         $board = self::getAllAnimalsOnPlayerBoard($player);
         return array_count_values($board)[$criteria];
         break;
 
-      case 'animals':
+      case ANIMALS:
         $board = self::getAllAnimalsOnPlayerBoard($player);
         return count($board);
         break;
@@ -175,7 +158,7 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
         return $player->countSpores();
         break;
 
-      case 'waterSource':
+      case WATER_SOURCE:
         return self::countAllWaterSourceOnPlayerBoard($player);
         break;
 
@@ -229,7 +212,6 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
     foreach (self::getAllBiomesOnPlayerBoard($player) as $biome) {
       $result += $biome->getWaterSource;
     }
-    //TODO add 2 waterSources if VUORI is on player board
 
     return $result;
   }
@@ -293,7 +275,7 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
         'multiplier' => $t[6],
         'usageCost' => $t[7],
         'sporeIncome' => $t[8],
-        'waterSource' => $t[9],
+        WATER_SOURCE => $t[9],
       ];
     };
 
@@ -337,44 +319,44 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
       ///////////////////////////////
       100 => $f([[CRYSTAL], [], [], 2, 4, 0, '1', 0, 0, 0]),
       101 => $f([[CRYSTAL], [], [[0, 2], [1, 2], [2, 2]], 0, 0, 5, '1', 3, 0, 0]),
-      102 => $f([[CRYSTAL], ['flying'], [], 0, 2, 0, '1', 0, 0, 0]),
-      103 => $f([[CRYSTAL], ['flying'], [], 3, 0, 1, 'flying', 0, 0, 0]),
-      104 => $f([[CRYSTAL], ['marine'], [], 1, 0, 4, '1', 2, 0, 0]),
-      105 => $f([[CRYSTAL], ['marine'], [], 0, 2, 0, '1', 0, 0, 0]),
-      106 => $f([[CRYSTAL], ['walking'], [[0, 0], [1, 0], [2, 0]], 0, 3, 0, '1', 0, 0, 0]),
-      107 => $f([[CRYSTAL], ['walking'], [], 0, 2, 0, '1', 0, 0, 0]),
-      108 => $f([[FOREST], ['walking'], [], 0, 0, 1, 'flying', 0, 0, 0]),
-      109 => $f([[FOREST], ['marine'], [], 2, 0, 1, 'marine', 0, 0, 0]),
-      110 => $f([[FOREST], ['flying'], [[0, 0], [2, 1], [0, 2]], 0, 0, 1, 'flying', 0, 0, 0]),
+      102 => $f([[CRYSTAL], [FLYING], [], 0, 2, 0, '1', 0, 0, 0]),
+      103 => $f([[CRYSTAL], [FLYING], [], 3, 0, 1, FLYING, 0, 0, 0]),
+      104 => $f([[CRYSTAL], [MARINE], [], 1, 0, 4, '1', 2, 0, 0]),
+      105 => $f([[CRYSTAL], [MARINE], [], 0, 2, 0, '1', 0, 0, 0]),
+      106 => $f([[CRYSTAL], [WALKING], [[0, 0], [1, 0], [2, 0]], 0, 3, 0, '1', 0, 0, 0]),
+      107 => $f([[CRYSTAL], [WALKING], [], 0, 2, 0, '1', 0, 0, 0]),
+      108 => $f([[FOREST], [WALKING], [], 0, 0, 1, FLYING, 0, 0, 0]),
+      109 => $f([[FOREST], [MARINE], [], 2, 0, 1, MARINE, 0, 0, 0]),
+      110 => $f([[FOREST], [FLYING], [[0, 0], [2, 1], [0, 2]], 0, 0, 1, FLYING, 0, 0, 0]),
       111 => $f([[FOREST], [], [[2, 0], [0, 1], [2, 2]], 0, 3, 0, '1', 0, 0, 0]),
-      112 => $f([[FOREST], ['marine'], [], 0, 0, 1, 'walking', 0, 0, 0]),
-      113 => $f([[FOREST], ['flying'], [], 0, 0, 1, 'marine', 0, 0, 0]),
+      112 => $f([[FOREST], [MARINE], [], 0, 0, 1, WALKING, 0, 0, 0]),
+      113 => $f([[FOREST], [FLYING], [], 0, 0, 1, MARINE, 0, 0, 0]),
       114 => $f([[FOREST], [], [], 4, 0, 4, '1', 0, 0, 0]),
-      115 => $f([[FOREST], ['walking'], [], 2, 0, 1, 'walking', 0, 0, 0]),
+      115 => $f([[FOREST], [WALKING], [], 2, 0, 1, WALKING, 0, 0, 0]),
       116 => $f([[MUSHROOM], [], [], 4, 0, 4, '1', 0, 0, 0]),
       117 => $f([[MUSHROOM], [], [], 0, 0, 0, '1', 2, 1, 0]),
-      118 => $f([[MUSHROOM], ['flying'], [], 2, 0, 0, '1', 2, 1, 0]),
-      119 => $f([[MUSHROOM], ['flying'], [], 0, 0, 0, '1', 3, 1, 0]),
-      120 => $f([[MUSHROOM], ['marine'], [[0, 0], [0, 2], [2, 1]], 0, 0, 1, 'spore', 0, 0, 0]),
-      121 => $f([[MUSHROOM], ['marine'], [], 0, 0, 0, '1', 3, 1, 0]),
-      122 => $f([[MUSHROOM], ['walking'], [], 3, 0, 1, 'walking', 0, 0, 0]),
-      123 => $f([[MUSHROOM], ['walking'], [[1, 0], [0, 2], [2, 2]], 0, 3, 0, '1', 0, 0, 0]),
+      118 => $f([[MUSHROOM], [FLYING], [], 2, 0, 0, '1', 2, 1, 0]),
+      119 => $f([[MUSHROOM], [FLYING], [], 0, 0, 0, '1', 3, 1, 0]),
+      120 => $f([[MUSHROOM], [MARINE], [[0, 0], [0, 2], [2, 1]], 0, 0, 1, 'spore', 0, 0, 0]),
+      121 => $f([[MUSHROOM], [MARINE], [], 0, 0, 0, '1', 3, 1, 0]),
+      122 => $f([[MUSHROOM], [WALKING], [], 3, 0, 1, WALKING, 0, 0, 0]),
+      123 => $f([[MUSHROOM], [WALKING], [[1, 0], [0, 2], [2, 2]], 0, 3, 0, '1', 0, 0, 0]),
       124 => $f([[MOUNTAIN], [], [], 0, 0, 2, '1', 0, 0, 1]),
       125 => $f([[MOUNTAIN], [], [], 0, 0, 0, '1', 0, 0, 2]),
-      126 => $f([[MOUNTAIN], ['flying'], [[0, 2], [1, 2], [2, 2]], 0, 0, 2, '1', 0, 0, 1]),
-      127 => $f([[MOUNTAIN], ['flying'], [], 2, 0, 0, '1', 0, 0, 2]),
-      128 => $f([[MOUNTAIN], ['marine'], [], 4, 0, 1, 'marine', 0, 0, 1]),
-      129 => $f([[MOUNTAIN], ['marine'], [[0, 0], [1, 0], [2, 0]], 0, 1, 0, '1', 0, 0, 1]),
-      130 => $f([[MOUNTAIN], ['walking'], [], 6, 0, 1, 'waterSource', 0, 0, 1]),
-      131 => $f([[MOUNTAIN], ['walking'], [], 2, 0, 0, '1', 0, 0, 2]),
+      126 => $f([[MOUNTAIN], [FLYING], [[0, 2], [1, 2], [2, 2]], 0, 0, 2, '1', 0, 0, 1]),
+      127 => $f([[MOUNTAIN], [FLYING], [], 2, 0, 0, '1', 0, 0, 2]),
+      128 => $f([[MOUNTAIN], [MARINE], [], 4, 0, 1, MARINE, 0, 0, 1]),
+      129 => $f([[MOUNTAIN], [MARINE], [[0, 0], [1, 0], [2, 0]], 0, 1, 0, '1', 0, 0, 1]),
+      130 => $f([[MOUNTAIN], [WALKING], [], 6, 0, 1, WATER_SOURCE, 0, 0, 1]),
+      131 => $f([[MOUNTAIN], [WALKING], [], 2, 0, 0, '1', 0, 0, 2]),
       132 => $f([[MOUNTAIN, FOREST], [], [], 0, 2, 0, '1', 0, 0, 0]),
-      133 => $f([[MOUNTAIN, FOREST], ['flying', ' walking'], [], 0, 0, 0, '1', 0, 0, 0]),
+      133 => $f([[MOUNTAIN, FOREST], [FLYING, WALKING], [], 0, 0, 0, '1', 0, 0, 0]),
       134 => $f([[CRYSTAL, MUSHROOM], [], [], 0, 0, 2, '1', 0, 0, 0]),
-      135 => $f([[CRYSTAL, MUSHROOM], ['flying', ' walking'], [], 0, 0, 0, '1', 0, 0, 0]),
-      136 => $f([[MOUNTAIN, MUSHROOM], ['flying', ' marine'], [], 0, 0, 0, '1', 0, 0, 0]),
-      137 => $f([[MUSHROOM, FOREST], ['flying', ' marine'], [], 0, 0, 0, '1', 0, 0, 0]),
-      138 => $f([[MOUNTAIN, CRYSTAL], ['flying', ' marine'], [], 0, 0, 0, '1', 0, 0, 0]),
-      139 => $f([[FOREST, CRYSTAL], ['marine', ' walking'], [], 0, 0, 0, '1', 0, 0, 0]),
+      135 => $f([[CRYSTAL, MUSHROOM], [FLYING, WALKING], [], 0, 0, 0, '1', 0, 0, 0]),
+      136 => $f([[MOUNTAIN, MUSHROOM], [FLYING, MARINE], [], 0, 0, 0, '1', 0, 0, 0]),
+      137 => $f([[MUSHROOM, FOREST], [FLYING, MARINE], [], 0, 0, 0, '1', 0, 0, 0]),
+      138 => $f([[MOUNTAIN, CRYSTAL], [FLYING, MARINE], [], 0, 0, 0, '1', 0, 0, 0]),
+      139 => $f([[FOREST, CRYSTAL], [MARINE, WALKING], [], 0, 0, 0, '1', 0, 0, 0]),
 
       ////////////////////////////////////
       //      _                ___ ___
@@ -386,42 +368,42 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
       ////////////////////////////////////
       140 => $f([[CRYSTAL], [], [], 0, 5, 0, '1', 0, 0, 0]),
       141 => $f([[CRYSTAL], [], [], 5, 0, 7, '1', 2, 0, 0]),
-      142 => $f([[CRYSTAL], ['walking'], [[0, 1], [1, 1], [2, 1]], 0, 4, 0, '1', 0, 0, 0]),
-      143 => $f([[CRYSTAL], ['walking'], [], 3, 0, 6, '1', 3, 0, 0]),
-      144 => $f([[CRYSTAL], ['marine'], [[1, 0], [1, 1], [2, 1]], 0, 4, 0, '1', 0, 0, 0]),
-      145 => $f([[CRYSTAL], ['marine'], [], 0, 3, 0, '1', 0, 0, 0]),
-      146 => $f([[CRYSTAL], ['flying'], [], 6, 0, 2, 'flying', 0, 0, 0]),
-      147 => $f([[CRYSTAL], ['flying', ' flying'], [], 4, 0, 1, 'flying', 0, 0, 0]),
+      142 => $f([[CRYSTAL], [WALKING], [[0, 1], [1, 1], [2, 1]], 0, 4, 0, '1', 0, 0, 0]),
+      143 => $f([[CRYSTAL], [WALKING], [], 3, 0, 6, '1', 3, 0, 0]),
+      144 => $f([[CRYSTAL], [MARINE], [[1, 0], [1, 1], [2, 1]], 0, 4, 0, '1', 0, 0, 0]),
+      145 => $f([[CRYSTAL], [MARINE], [], 0, 3, 0, '1', 0, 0, 0]),
+      146 => $f([[CRYSTAL], [FLYING], [], 6, 0, 2, FLYING, 0, 0, 0]),
+      147 => $f([[CRYSTAL], [FLYING, FLYING], [], 4, 0, 1, FLYING, 0, 0, 0]),
       148 => $f([[FOREST], [], [[0, 0], [0, 1], [1, 1]], 0, 0, 5, '1', 0, 0, 0]),
-      149 => $f([[FOREST], ['walking', ' walking'], [[1, 1], [2, 1], [2, 2]], 0, 0, 1, 'walking', 0, 0, 0]),
-      150 => $f([[FOREST], ['marine', ' marine'], [], 0, 0, 1, 'flying', 0, 0, 0]),
-      151 => $f([[FOREST], ['flying', ' flying'], [], 0, 0, 1, 'marine', 0, 0, 0]),
-      152 => $f([[FOREST], ['walking', ' marine'], [], 4, 0, 2, 'flying', 0, 0, 0]),
-      153 => $f([[FOREST], ['walking', ' flying'], [], 4, 0, 2, 'marine', 0, 0, 0]),
-      154 => $f([[FOREST], ['flying', ' marine'], [], 4, 0, 2, 'walking', 0, 0, 0]),
-      155 => $f([[FOREST], ['walking', ' marine', ' flying'], [], 4, 0, 3, '1', 0, 0, 0]),
+      149 => $f([[FOREST], [WALKING, WALKING], [[1, 1], [2, 1], [2, 2]], 0, 0, 1, WALKING, 0, 0, 0]),
+      150 => $f([[FOREST], [MARINE, MARINE], [], 0, 0, 1, FLYING, 0, 0, 0]),
+      151 => $f([[FOREST], [FLYING, FLYING], [], 0, 0, 1, MARINE, 0, 0, 0]),
+      152 => $f([[FOREST], [WALKING, MARINE], [], 4, 0, 2, FLYING, 0, 0, 0]),
+      153 => $f([[FOREST], [WALKING, FLYING], [], 4, 0, 2, MARINE, 0, 0, 0]),
+      154 => $f([[FOREST], [FLYING, MARINE], [], 4, 0, 2, WALKING, 0, 0, 0]),
+      155 => $f([[FOREST], [WALKING, MARINE, FLYING], [], 4, 0, 3, '1', 0, 0, 0]),
       156 => $f([[MUSHROOM], [], [], 5, 0, 2, 'spore', 0, 0, 0]),
       157 => $f([[MUSHROOM], [], [], 3, 0, 5, '1', 0, 0, 0]),
-      158 => $f([[MUSHROOM], ['marine'], [], 0, 0, 2, '1', 2, 1, 0]),
-      159 => $f([[MUSHROOM], ['marine'], [[0, 1], [0, 2], [1, 1]], 0, 0, 0, '1', 1, 1, 0]),
-      160 => $f([[MUSHROOM], ['flying'], [], 0, 0, 0, '1', 2, 1, 0]),
-      161 => $f([[MUSHROOM], ['flying'], [[1, 1], [2, 0], [2, 1]], 0, 0, 4, '1', 0, 0, 0]),
-      162 => $f([[MUSHROOM], ['walking'], [], 6, 0, 2, 'walking', 0, 0, 0]),
-      163 => $f([[MUSHROOM], ['walking', ' walking'], [], 4, 0, 1, 'walking', 0, 0, 0]),
-      164 => $f([[MOUNTAIN], [], [], 6, 0, 1, 'waterSource', 0, 0, 2]),
+      158 => $f([[MUSHROOM], [MARINE], [], 0, 0, 2, '1', 2, 1, 0]),
+      159 => $f([[MUSHROOM], [MARINE], [[0, 1], [0, 2], [1, 1]], 0, 0, 0, '1', 1, 1, 0]),
+      160 => $f([[MUSHROOM], [FLYING], [], 0, 0, 0, '1', 2, 1, 0]),
+      161 => $f([[MUSHROOM], [FLYING], [[1, 1], [2, 0], [2, 1]], 0, 0, 4, '1', 0, 0, 0]),
+      162 => $f([[MUSHROOM], [WALKING], [], 6, 0, 2, WALKING, 0, 0, 0]),
+      163 => $f([[MUSHROOM], [WALKING, WALKING], [], 4, 0, 1, WALKING, 0, 0, 0]),
+      164 => $f([[MOUNTAIN], [], [], 6, 0, 1, WATER_SOURCE, 0, 0, 2]),
       165 => $f([[MOUNTAIN], [], [[0, 0], [1, 1], [2, 2]], 0, 0, 0, '1', 0, 0, 3]),
-      166 => $f([[MOUNTAIN], ['walking'], [], 5, 0, 1, 'waterSource', 0, 0, 1]),
-      167 => $f([[MOUNTAIN], ['walking'], [], 0, 0, 0, '1', 0, 0, 2]),
-      168 => $f([[MOUNTAIN], ['marine', ' marine'], [], 4, 0, 1, 'marine', 0, 0, 1]),
-      169 => $f([[MOUNTAIN], ['marine'], [], 7, 0, 2, 'marine', 0, 0, 1]),
-      170 => $f([[MOUNTAIN], ['flying'], [], 0, 0, 0, '1', 0, 0, 2]),
-      171 => $f([[MOUNTAIN], ['flying'], [[2, 0], [1, 1], [0, 2]], 0, 0, 3, '1', 0, 0, 1]),
+      166 => $f([[MOUNTAIN], [WALKING], [], 5, 0, 1, WATER_SOURCE, 0, 0, 1]),
+      167 => $f([[MOUNTAIN], [WALKING], [], 0, 0, 0, '1', 0, 0, 2]),
+      168 => $f([[MOUNTAIN], [MARINE, MARINE], [], 4, 0, 1, MARINE, 0, 0, 1]),
+      169 => $f([[MOUNTAIN], [MARINE], [], 7, 0, 2, MARINE, 0, 0, 1]),
+      170 => $f([[MOUNTAIN], [FLYING], [], 0, 0, 0, '1', 0, 0, 2]),
+      171 => $f([[MOUNTAIN], [FLYING], [[2, 0], [1, 1], [0, 2]], 0, 0, 3, '1', 0, 0, 1]),
       172 => $f([[FOREST, CRYSTAL], [], [[0, 0], [2, 0], [0, 2], [2, 2]], 0, 0, 4, '1', 0, 0, 0]),
-      173 => $f([[FOREST, CRYSTAL], ['walking', ' marine'], [], 2, 0, 2, '1', 0, 0, 0]),
-      174 => $f([[MOUNTAIN, MUSHROOM], ['walking', ' marine'], [], 2, 0, 2, '1', 0, 0, 0]),
+      173 => $f([[FOREST, CRYSTAL], [WALKING, MARINE], [], 2, 0, 2, '1', 0, 0, 0]),
+      174 => $f([[MOUNTAIN, MUSHROOM], [WALKING, MARINE], [], 2, 0, 2, '1', 0, 0, 0]),
       175 => $f([
         [MOUNTAIN, MUSHROOM],
-        ['walking', ' marine', ' flying'],
+        [WALKING, MARINE, FLYING],
         [[1, 0], [0, 1], [2, 1], [1, 2]],
         0,
         0,
@@ -431,10 +413,10 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
         0,
         0,
       ]),
-      176 => $f([[FOREST, MUSHROOM], ['flying', ' marine'], [], 2, 0, 2, '1', 0, 0, 0]),
-      177 => $f([[CRYSTAL, MUSHROOM], ['walking', ' flying'], [], 2, 0, 2, '1', 0, 0, 0]),
-      178 => $f([[FOREST, MOUNTAIN], ['walking', ' flying'], [], 2, 0, 2, '1', 0, 0, 0]),
-      179 => $f([[MOUNTAIN, CRYSTAL], ['flying', ' marine'], [], 2, 0, 2, '1', 0, 0, 0]),
+      176 => $f([[FOREST, MUSHROOM], [FLYING, MARINE], [], 2, 0, 2, '1', 0, 0, 0]),
+      177 => $f([[CRYSTAL, MUSHROOM], [WALKING, FLYING], [], 2, 0, 2, '1', 0, 0, 0]),
+      178 => $f([[FOREST, MOUNTAIN], [WALKING, FLYING], [], 2, 0, 2, '1', 0, 0, 0]),
+      179 => $f([[MOUNTAIN, CRYSTAL], [FLYING, MARINE], [], 2, 0, 2, '1', 0, 0, 0]),
     ];
   }
 }

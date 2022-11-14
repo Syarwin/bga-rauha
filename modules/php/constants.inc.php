@@ -10,6 +10,13 @@ const MUSHROOM = 'mushroom';
 const CRYSTAL = 'crystal';
 const DESERT = 'desert';
 
+const FLYING = 'flying animals';
+const WALKING = 'terrestrial animal';
+const MARINE = 'marine animal';
+const ANIMALS = 'animals';
+const WATER_SOURCE = 'waterSource';
+const SPORE = 'spore';
+
 const CARDS_PER_DECK = 4;
 const MOON = 1;
 const STAR = 0;

@@ -99,4 +99,11 @@ class Player extends \RAUHA\Helpers\DB_Model
   // public function hasVuoriOnBoard(){
   //   return GodCards::
   // }
+
+  public function getWaterSource()
+  {
+    $result = BiomeCards::countAllWaterSourceOnPlayerBoard($this);
+    $result += GodCards::countAllWaterSourceOnPlayerGods($this);
+    return $result;
+  }
 }

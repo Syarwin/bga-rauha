@@ -37,12 +37,11 @@ class Players extends \RAUHA\Helpers\DB_Manager
     ]);
 
     $values = [];
+    $index = 1;
     foreach ($players as $pId => $player) {
       $color = array_shift($colors);
-      //TODO check if player_table_order is good
-      $playerScoreAux = $player['player_table_order'];
 
-      //if ($playerScoreAux == count($players)) Globals::setFirstPlayer($pId);
+      $playerScoreAux = $index++;
 
       $values[] = [
         $pId,
@@ -57,7 +56,7 @@ class Players extends \RAUHA\Helpers\DB_Manager
 
     $query->values($values);
 
-    Globals::setFirstPlayer(self::getFirstPlayerId());
+    self::determineFirstPlayer();
 
     Game::get()->reattributeColorsBasedOnPreferences($players, $gameInfos['player_colors']);
     Game::get()->reloadPlayersBasicInfos();
@@ -153,6 +152,11 @@ class Players extends \RAUHA\Helpers\DB_Manager
   ///// RAUHA Specific ////
   /////////////////////////
 
+  public function determineFirstPlayer()
+  {
+    Globals::setFirstPlayer(self::getFirstPlayerId());
+  }
+
   /*
    * Get first player according to points
    */
@@ -188,5 +192,9 @@ class Players extends \RAUHA\Helpers\DB_Manager
         $biome->setUsed(NOT_USED);
       }
     }
+  }
+
+  public function refreshGods()
+  {
   }
 }

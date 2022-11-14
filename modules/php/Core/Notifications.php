@@ -77,13 +77,14 @@ class Notifications
       'cost' => $cost,
       'biome' => $biome,
       'biomeTypes' => $biomeTypes,
+      'waterSourceCount' => $player->getWaterSource()
     ];
     $msg =
       $cost == 0
-        ? clienttranslate('${player_name} plays a ${biomeTypes} biome on their board at position (${x}, ${y})')
-        : clienttranslate(
-          '${player_name} pays ${cost} crystal(s) to play a ${biomeTypes} biome on their board at position (${x}, ${y})'
-        );
+      ? clienttranslate('${player_name} plays a ${biomeTypes} biome on their board at position (${x}, ${y})')
+      : clienttranslate(
+        '${player_name} pays ${cost} crystal(s) to play a ${biomeTypes} biome on their board at position (${x}, ${y})'
+      );
     self::notifyAll('placeBiome', $msg, $data);
   }
 
