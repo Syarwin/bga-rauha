@@ -88,13 +88,16 @@ class Notifications
     self::notifyAll('placeBiome', $msg, $data);
   }
 
-  public static function newAlignment($player, $god, $type)
+  public static function newAlignment($player, $god, $type, $playerLoosingGod)
   {
     $data = [
       'player' => $player,
       'godId' => $god->getId(),
       'godName' => $god->getName(),
       'type' => $type,
+      'waterSourceCount' => $player->getWaterSource(),
+      'playerLoosingGod' => $playerLoosingGod,
+      'waterSourceCountPlayerLoosingGod' => $playerLoosingGod->getWaterSource(),
     ];
     $msg = clienttranslate('By aligning 3 Biomes with ${type}, ${player_name} receives ${godName}');
     self::notifyAll('nexAlignment', $msg, $data);

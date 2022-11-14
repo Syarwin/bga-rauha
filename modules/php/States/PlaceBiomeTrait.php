@@ -137,10 +137,15 @@ trait PlaceBiomeTrait
     foreach ($alignedTypes as $type) {
       // get God
       $god = GodCards::getGodByType($type);
+      $playerLoosingGodId = $god->getPId();
+      if ($playerLoosingGodId != null) {
+        $playerLoosingGod = Players::get($playerLoosingGodId);
+      }
+
       $god->moveOnPlayerBoard($currentPlayer);
 
       // notification
-      Notifications::newAlignment($currentPlayer, $god, $type);
+      Notifications::newAlignment($currentPlayer, $god, $type, $playerLoosingGod);
     }
 
     $this->gamestate->nextState('');

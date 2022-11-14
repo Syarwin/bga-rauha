@@ -118,8 +118,8 @@ $machinestates = [
 
   ST_ACT_BIOMES => [
     'name' => 'actBiomes',
-    'description' => clienttranslate('${actplayer} must activate their Biomes'),
-    'descriptionmyturn' => clienttranslate('${you} must activate your Biomes'),
+    'description' => clienttranslate('${actplayer} must activate their Biomes and new god(s)'),
+    'descriptionmyturn' => clienttranslate('${you} must activate your Biomes and new god(s)'),
     'args' => 'argActBiome',
     'type' => 'activeplayer',
     'possibleactions' => ['actActivateBiome', 'actActivateGod', 'actSkip'],
