@@ -15,7 +15,7 @@ class GodCard extends \RAUHA\Helpers\DB_Model
     'state' => ['god_state', 'int'], //useless in this game
     'location' => 'god_location', //"table" or "player" //TODO CHECK THIS
     'pId' => ['player_id', 'int'],
-    'used' => ['used', 'int'], //0:not used, 1=used
+    'used' => ['used', 'int'], //USED or NOT_USED
     'extraDatas' => ['extra_datas', 'obj'], //not used for now
   ];
 
@@ -54,7 +54,7 @@ class GodCard extends \RAUHA\Helpers\DB_Model
   public function isActivable()
   {
     if ($this->name == 'MERI') return False;
-    else return ($this->used == 0);
+    else return ($this->used == NOT_USED);
   }
 
   /* NOT IMPLEMENTED

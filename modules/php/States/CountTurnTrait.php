@@ -12,6 +12,6 @@ use RAUHA\Managers\Players;
 use RAUHA\Managers\BiomeCards;
 use RAUHA\Managers\GodCards;
 
-trait ActionTurnTrait
+trait CountTurnTrait
 {
 }
