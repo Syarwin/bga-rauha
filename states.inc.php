@@ -53,7 +53,7 @@ $machinestates = [
     'updateGameProgression' => true,
     'transitions' => [
       'action_turn' => ST_CHOOSE_BIOME,
-      'count_turn' => ST_DISCARD_LAST_CARDS,
+      'count_turn' => ST_COUNT_NEXT_PLAYER,
     ],
   ],
 
@@ -129,16 +129,17 @@ $machinestates = [
     ],
   ],
 
-  ST_DISCARD_LAST_CARDS => [
-    'name' => 'discardLastCards',
-    'description' => '',
-    'type' => 'game',
-    'action' => 'stDiscardLastCards',
-    'updateGameProgression' => false,
-    'transitions' => [
-      '' => ST_COUNT_NEXT_PLAYER,
-    ],
-  ],
+  //SKIPPED
+  // ST_DISCARD_LAST_CARDS => [
+  //   'name' => 'discardLastCards',
+  //   'description' => '',
+  //   'type' => 'game',
+  //   'action' => 'stDiscardLastCards',
+  //   'updateGameProgression' => false,
+  //   'transitions' => [
+  //     '' => ST_COUNT_NEXT_PLAYER,
+  //   ],
+  // ],
 
   ST_COUNT_NEXT_PLAYER => [
     'name' => 'countNextPlayer',
