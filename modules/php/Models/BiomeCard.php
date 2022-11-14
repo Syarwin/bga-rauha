@@ -2,6 +2,8 @@
 
 namespace RAUHA\Models;
 
+use RAUHA\Managers\Players;
+
 /*
  * BiomeCard
  */
@@ -62,7 +64,16 @@ class BiomeCard extends \RAUHA\Helpers\DB_Model
       return false;
     }
 
-    return $this->used == NOT_USED;
+    if ($this->used == USED) return false;
+
+    $owner = Players::get($this->pId);
+
+    if ($this->usageCost > $owner->getCrystal()) return false;
+
+    //if this biome give a new spore and this player has no available spot for spore, return false;
+    if ($this->sporeIncome && empty($owner->getSporesPlaces(false))) return false;
+
+    return true;
   }
 
   public function getElements()

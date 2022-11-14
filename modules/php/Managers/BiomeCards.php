@@ -73,7 +73,8 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
    */
   public static function getActivableBiomes($player, $turn = null)
   {
-
+    //if a turn has been given, possibleplaces are limited to board activation of the turn
+    //if no turn has been given, possibles places depends on spores places
     $possiblePlaces = ($turn == null) ? $player->getSporesPlaces(true) : BOARD_ACTIVATION[$turn];
 
     $activableBiomes = [];
