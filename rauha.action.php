@@ -44,18 +44,18 @@ class action_rauha extends APP_GameAction
     self::ajaxResponse();
   }
 
-  public function actDiscardCristal()
+  public function actDiscardCrystals()
   {
     self::setAjaxMode();
-    $this->game->actDiscardCristal();
+    $this->game->actDiscardCrystals();
     self::ajaxResponse();
   }
 
   public function actDiscardSpore()
   {
     self::setAjaxMode();
-    $x = self::getArg('x', AT_posint, true);
-    $y = self::getArg('y', AT_posint, true);
+    $x = (int) self::getArg('x', AT_posint, true);
+    $y = (int) self::getArg('y', AT_posint, true);
     $this->game->actDiscardSpore($x, $y);
     self::ajaxResponse();
   }
@@ -63,8 +63,8 @@ class action_rauha extends APP_GameAction
   public function actPlaceBiome()
   {
     self::setAjaxMode();
-    $x = self::getArg('x', AT_posint, true);
-    $y = self::getArg('y', AT_posint, true);
+    $x = (int) self::getArg('x', AT_posint, true);
+    $y = (int) self::getArg('y', AT_posint, true);
     $this->game->actPlaceBiome($x, $y);
     self::ajaxResponse();
   }

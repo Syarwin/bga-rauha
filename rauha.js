@@ -32,6 +32,8 @@ define([
       this._notifications = [
         ['chooseBiome', 100],
         ['confirmChoices', 1000],
+        ['placeBiome', 1200],
+        ['discardBiomeCrystals', 1000],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -62,9 +64,19 @@ define([
     setupPlayers() {
       let currentPlayerNo = 1;
       let nPlayers = 0;
+      this._crystalCounters = {};
       this.forEachPlayer((player) => {
         let isCurrent = player.id == this.player_id;
+        this.place('tplPlayerPanel', player, `player_panel_content_${player.color}`);
+        this._crystalCounters[player.id] = this.createCounter(`crystal-counter-${player.id}`, player.crystal);
+
         this.place('tplPlayerBoard', player, 'rauha-boards-container');
+        player.board.forEach((biome) => {
+          if (biome.dataId < 100) return;
+
+          let cell = this.getCell(player.id, biome.x, biome.y);
+          this.place('tplBiome', biome, cell);
+        });
 
         if (player.hand !== null) {
           this.place('tplBiome', player.hand, 'pending-biomes');
@@ -133,6 +145,43 @@ define([
       </div>`;
     },
 
+    /**
+     * Player panel : display crystal
+     */
+
+    tplPlayerPanel(player) {
+      return `<div class='rauha-panel'>
+        <div class='crystal-counter' id='crystal-counter-${player.id}'></div>
+        <div class='rauha-gods-container' id='gods-${player.id}'></div>
+      </div>`;
+    },
+
+    gainPayCrystal(pId, n) {
+      if (this.isFastMode()) {
+        this._crystalCounters[pId].incValue(n);
+        return;
+      }
+
+      let elem = `<div id='crystal-animation' class='crystal-icon'>${Math.abs(n)}</div>`;
+      $('page-content').insertAdjacentHTML('beforeend', elem);
+      if (n > 0) {
+        this.slide('crystal-animation', `crystal-counter-${pId}`, {
+          from: 'page-title',
+          destroy: true,
+          phantom: false,
+          duration: 1000,
+        }).then(() => this._crystalCounters[pId].incValue(n));
+      } else {
+        this._crystalCounters[pId].incValue(n);
+        this.slide('crystal-animation', 'page-title', {
+          from: `crystal-counter-${pId}`,
+          destroy: true,
+          phantom: false,
+          duration: 1000,
+        });
+      }
+    },
+
     //////////////////////////////////////////////////////////////////////
     //    ____ _                            ____  _
     //   / ___| |__   ___   ___  ___  ___  | __ )(_) ___  _ __ ___   ___
@@ -186,15 +235,17 @@ define([
     // |_|   |_|\__,_|\___\___| |____/|_|\___/|_| |_| |_|\___|
     //////////////////////////////////////////////////////////////
     onEnteringStatePlaceBiome(args) {
-      this.addDangerActionButton('btnDiscardCrystal', _('Discard and get 4 Crystals'), () => debug('TODO'));
+      this.addDangerActionButton('btnDiscardCrystal', _('Discard and get 4 Crystals'), () => {
+        this.confirmationDialog(_('Are you sure you want to discard the biome card to get 4 Crystals?'), () => {
+          this.takeAction('actDiscardCrystals', {});
+        });
+      });
       this.addDangerActionButton('btnDiscardSpore', _('Discard and get 1 Spore'), () => debug('TODO'));
 
       let selectedPlace = null;
       let selectedCell = null;
       args.possiblePlaces.forEach((place) => {
-        console.log(place);
         let cell = this.getCell(this.player_id, place[0], place[1]);
-        console.log(cell);
         this.onClick(cell, () => {
           if (selectedCell !== null) {
             selectedCell.classList.remove('selected');
@@ -209,11 +260,33 @@ define([
             selectedCell.classList.add('selected');
             selectedPlace = place;
             this.addPrimaryActionButton('btnConfirmPlace', _('Confirm'), () =>
-              this.takeAction('actPlaceBiome', { x: place[0], y: place[1] }),
+              this.takeAction('actPlaceBiome', { x: selectedPlace[0], y: selectedPlace[1] }),
             );
           }
         });
       });
+    },
+
+    notif_placeBiome(n) {
+      debug('Notif: placing biome', n);
+      let biome = n.args.biome;
+      if (!$(`biome-${biome.id}`)) {
+        this.place('tplBiome', biome, 'page-title');
+      }
+      this.slide(`biome-${biome.id}`, this.getCell(n.args.player_id, n.args.x, n.args.y));
+    },
+
+    notif_discardBiomeCrystals(n) {
+      debug('Notif: discard a biome for 4 crystals', n);
+      if (this.player_id == n.args.player_id) {
+        let biome = $('pending-biomes').querySelector('.biome-card');
+        this.slide(biome, 'page-title', {
+          phantom: false,
+          destroy: true,
+        });
+      }
+
+      this.gainPayCrystal(n.args.player_id, 4);
     },
   });
 });

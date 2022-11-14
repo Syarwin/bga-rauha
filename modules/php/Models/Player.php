@@ -35,6 +35,7 @@ class Player extends \RAUHA\Helpers\DB_Model
     $data = parent::getUiData();
     $current = $this->id == $currentPlayerId;
     $data['hand'] = $current ? $this->getBiomeInHand() : null;
+    $data['board'] = BiomeCards::getAllBiomesOnPlayerBoard($this);
 
     return $data;
   }
@@ -76,7 +77,7 @@ class Player extends \RAUHA\Helpers\DB_Model
    */
   public function getSporesPlaces($boolWithSpore)
   {
-    $seek = ($boolWithSpore) ? 1 : 0;
+    $seek = $boolWithSpore ? 1 : 0;
     $places = [];
     for ($y = 0; $y < 3; $y++) {
       for ($x = 0; $x < 3; $x++) {

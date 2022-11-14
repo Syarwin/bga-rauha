@@ -48,10 +48,11 @@ class BiomeCard extends \RAUHA\Helpers\DB_Model
     return true; // Useful for expansion/ban list/ etc...
   }
 
-  public function placeOnPlayerBoard($x, $y)
+  public function placeOnPlayerBoard($player, $x, $y)
   {
     $this->setX($x);
     $this->setY($y);
+    $this->setPId($player->getId());
     $this->setLocation('board');
   }
 

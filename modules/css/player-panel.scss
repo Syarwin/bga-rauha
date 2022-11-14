@@ -5,3 +5,39 @@
 .player-board {
     background-color: #f5f3ef;
 }
+
+.crystal-icon {
+    width: 35px;
+    height: 45px;
+    background-image: url("img/crystal.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    font-family: "Bernard MT Condensed";
+    font-size: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 2px;
+    box-sizing: border-box;
+}
+
+.rauha-panel {
+    padding: 2px 8px;
+    display: flex;
+
+    .crystal-counter {
+        font-family: "Bernard MT Condensed";
+        font-size: 20px;
+
+        &::after {
+            content: "";
+            display: inline-block;
+            vertical-align: bottom;
+            width: 23px;
+            height: 30px;
+            background-image: url("img/crystal.png");
+            background-size: 100%;
+            background-repeat: no-repeat;
+        }
+    }
+}

@@ -33,6 +33,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
+
+            .biome-card {
+                box-shadow: none;
+            }
         }
         .cell-node {
             &.selectable {

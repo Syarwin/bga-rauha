@@ -45,7 +45,9 @@ class GodCards extends \RAUHA\Helpers\Pieces
   public function getGodByType($type)
   {
     foreach (self::getAll() as $id => $god) {
-      if ($god->getType() == $type) return $god;
+      if ($god->getType() == $type) {
+        return $god;
+      }
     }
   }
 
@@ -116,12 +118,12 @@ class GodCards extends \RAUHA\Helpers\Pieces
 
     return [
       1 => $f(['TAIVAS', 'flying', 0, 7, 1, 4, 0, 0]),
-      2 => $f(['SIENET', 'mushroom', 3, 0, 1, 0, 0, 0]),
+      2 => $f(['SIENET', MUSHROOM, 3, 0, 1, 0, 0, 0]),
       3 => $f(['MERI', 'marine', 0, 1, 'waterSource', 0, 0, 0]),
-      4 => $f(['METSAT', 'forest', 0, 1, 'animals', 0, 0, 0]),
+      4 => $f(['METSAT', FOREST, 0, 1, 'animals', 0, 0, 0]),
       5 => $f(['KITEET', 'crytal', 0, 3, 1, 0, 0, 0]),
-      6 => $f(['VUORI', 'mountain', 0, 0, 1, 0, 0, 2]),
-      7 => $f(['MAA', 'walking', 0, 1, 'spore', 0, 0, 0])
+      6 => $f(['VUORI', MOUNTAIN, 0, 0, 1, 0, 0, 2]),
+      7 => $f(['MAA', 'walking', 0, 1, 'spore', 0, 0, 0]),
     ];
   }
 }
