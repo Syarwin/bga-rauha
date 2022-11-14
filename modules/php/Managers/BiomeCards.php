@@ -123,7 +123,7 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
     $player->movePointsToken($pointIncome);
     $biome->setUsed(USED);
 
-    // TODO Notifications
+    // Notifications
     Notifications::actCount($player, $message, $biome, $cost, $crystalIncome, $pointIncome);
   }
 

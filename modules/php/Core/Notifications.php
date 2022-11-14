@@ -99,6 +99,18 @@ class Notifications
     self::notifyAll($player, $message, $data);
   }
 
+  public static function actCountGod($player, $message, $god, $cost, $crystalIncome, $pointIncome)
+  {
+    $data = [
+      'player' => $player,
+      'cost' => $cost,
+      'crystalIncome' => $crystalIncome,
+      'pointIncome' => $pointIncome,
+      'godName' => $god->getName()
+    ];
+    self::notifyAll($player, $message, $data);
+  }
+
   /*************************
    **** GENERIC METHODS ****
    *************************/

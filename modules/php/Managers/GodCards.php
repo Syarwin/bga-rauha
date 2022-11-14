@@ -68,6 +68,37 @@ class GodCards extends \RAUHA\Helpers\Pieces
     //   ->get();
   }
 
+  public static function activate($godId)
+  {
+    $message = "";
+    $god = self::get($godId);
+    $playerId = $god->getPId();
+    $player = Players::get($playerId);
+
+    $multiplier = ($god->getMultiplier() == 1) ? 1 : BiomeCards::countOnAPlayerBoard($player, $god->getMultiplier());
+
+    $cost = $god->getUsageCost();
+
+    if ($cost > 0)    $message .= clienttranslate('By paying ${cost} crystal(s), ');
+
+    $crystalIncome = $god->getCrystalIncome() * $multiplier;
+    if ($crystalIncome > 0) {
+      $message .= clienttranslate('${player_name} activate ${godName} and receives ${crystalIncome} crystal(s)');
+    }
+
+    $pointIncome = $god->getPointIncome() * $multiplier;
+    if ($pointIncome > 0) {
+      $message .= clienttranslate('${player_name} activate ${godName} and receives ${pointIncome} point(s)');
+    }
+
+    $player->incCrystal($crystalIncome - $cost);
+    $player->movePointsToken($pointIncome);
+    $god->setUsed(USED);
+
+    // TODO Notifications
+    Notifications::actCountGod($player, $message, $god, $cost, $crystalIncome, $pointIncome);
+  }
+
   public function getGods()
   {
     $f = function ($t) {
