@@ -29,8 +29,11 @@ trait ActivateTrait
     // Sanity checks
     $this->checkAction('actSkip');
 
+    $player = Players::getCurrent();
+    $player->setGodsUsed();
+
     // Notification
-    Notifications::skip(Players::getCurrent());
+    Notifications::skip($player);
 
     // Change state
     $this->gamestate->nextState('actSkip');

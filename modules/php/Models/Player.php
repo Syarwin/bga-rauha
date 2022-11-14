@@ -106,4 +106,11 @@ class Player extends \RAUHA\Helpers\DB_Model
     $result += GodCards::countAllWaterSourceOnPlayerGods($this);
     return $result;
   }
+
+  public function setGodsUsed()
+  {
+    foreach (GodCards::getGodsByPlayer($this) as $id => $god) {
+      $god->setUsed(USED);
+    }
+  }
 }

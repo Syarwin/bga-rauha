@@ -99,23 +99,15 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
     $multiplier = $biome->getMultiplier() == 1 ? 1 : self::countOnAPlayerBoard($player, $biome->getMultiplier());
 
     $cost = $biome->getUsageCost();
+    $crystalIncome = $biome->getCrystalIncome() * $multiplier;
+    $pointIncome = $biome->getPointIncome() * $multiplier;
 
     if ($cost > 0) {
-      $message .= clienttranslate('By paying ${cost} crystal(s), ');
-    }
-
-    $crystalIncome = $biome->getCrystalIncome() * $multiplier;
-    if ($crystalIncome > 0) {
-      $message .= clienttranslate(
-        '${player_name} activate their Biome on place ${x}, ${y} and receives ${crystalIncome} crystal(s)'
-      );
-    }
-
-    $pointIncome = $biome->getPointIncome() * $multiplier;
-    if ($pointIncome > 0) {
-      $message .= clienttranslate(
-        '${player_name} activate their Biome on place ${x}, ${y} and receives ${pointIncome} point(s)'
-      );
+      $message = clienttranslate('By paying ${cost} crystal(s), ${player_name} activate their Biome on place ${x}, ${y} and receives ${pointIncome} point(s)');
+    } else if ($crystalIncome > 0) {
+      $message = clienttranslate('${player_name} activate their Biome on place ${x}, ${y} and receives ${crystalIncome} crystal(s)');
+    } else if ($pointIncome > 0) {
+      $message = clienttranslate('${player_name} activate their Biome on place ${x}, ${y} and receives ${pointIncome} point(s)');
     }
 
     $player->incCrystal($crystalIncome - $cost);
