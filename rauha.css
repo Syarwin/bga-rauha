@@ -13,11 +13,47 @@
  * Rauha stylesheet
  *
  */
+@font-face {
+  font-family: "Bernard MT Condensed";
+  src: url("img/fonts/BernardMT-Condensed.woff2") format("woff2"), url("img/fonts/BernardMT-Condensed.woff") format("woff"), url("img/fonts/BernardMT-Condensed.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap; }
 .player-info {
   display: flex; }
 
 .player-board {
   background-color: #f5f3ef; }
+
+.crystal-icon {
+  width: 35px;
+  height: 45px;
+  background-image: url("img/crystal.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  font-family: "Bernard MT Condensed";
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 2px;
+  box-sizing: border-box; }
+
+.rauha-panel {
+  padding: 2px 8px;
+  display: flex; }
+  .rauha-panel .crystal-counter {
+    font-family: "Bernard MT Condensed";
+    font-size: 20px; }
+    .rauha-panel .crystal-counter::after {
+      content: "";
+      display: inline-block;
+      vertical-align: bottom;
+      width: 23px;
+      height: 30px;
+      background-image: url("img/crystal.png");
+      background-size: 100%;
+      background-repeat: no-repeat; }
 
 #rauha-boards-container {
   display: flex;

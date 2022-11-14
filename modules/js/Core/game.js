@@ -1160,7 +1160,6 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
         },
         incValue(n) {
           let m = +n;
-          debug(this.targetValue, n, this.targetValue + m);
           this.toValue(this.targetValue + m);
         },
         makeCounterProgress() {

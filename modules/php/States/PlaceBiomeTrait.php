@@ -12,75 +12,8 @@ use RAUHA\Managers\Players;
 use RAUHA\Managers\BiomeCards;
 use RAUHA\Managers\GodCards;
 
-trait ActionTurnTrait
+trait PlaceBiomeTrait
 {
-  public function argChooseBiome()
-  {
-    $choices = Globals::getBiomeChoices();
-    $turn = Globals::getTurn();
-    $private = [];
-
-    foreach (Players::getAll() as $id => $player) {
-      //select a deck depending on turn id
-      $deckId = $player->getNo() + DECK_TO_CHOOSE[$turn];
-      if ($deckId > Players::count()) {
-        $deckId = 1;
-      }
-      $deck = 'deck' . $deckId;
-
-      $biomes = BiomeCards::getInLocation($deck);
-
-      $private[$id] = [
-        'choice' => $choices[$id] ?? null,
-        'deck' => $deck,
-        'biomes' => $biomes,
-      ];
-    }
-
-    return [
-      '_private' => $private,
-    ];
-  }
-
-  public function actChooseBiome($biomeId, $pId)
-  {
-    // Sanity checks
-    $this->gamestate->checkPossibleAction('actChooseBiome');
-    $pId = $pId ?? Players::getCurrentId();
-    //check that this biome was available to be choosen
-    $args = $this->argChooseBiome();
-    if (!array_key_exists($biomeId, $args['_private'][$pId]['biomes'])) {
-      throw new \BgaVisibleSystemException('You can\'t choose this biome. Should not happen');
-    }
-
-    // Highligh that card and make the player inactive
-    $choices = Globals::getBiomeChoices();
-    $choices[$pId] = $biomeId;
-    Globals::setBiomeChoices($choices);
-    Notifications::chooseBiome($pId, $biomeId);
-    $this->gamestate->setPlayerNonMultiactive($pId, '');
-  }
-
-  /**
-   * Confirm player choices by moving the selected cards to hand and removing other cards
-   */
-  public function stConfirmChoices()
-  {
-    $choices = Globals::getBiomeChoices();
-    foreach (Players::getAll() as $pId => $player) {
-      $choice = $choices[$pId] ?? null;
-      if (is_null($choice)) {
-        throw new \BgaVisibleSystemException('Someone hasnt made any choice yet. Should not happen');
-      }
-
-      BiomeCards::move($choice, 'hand', $pId);
-    }
-
-    $turn = Globals::getTurn();
-    Notifications::confirmChoices($turn);
-    $this->gamestate->nextState();
-  }
-
   /**
    * Determine who's next player (the first player in turn order with a Biome in hand)
    */
@@ -131,10 +64,10 @@ trait ActionTurnTrait
   /**
    * Instead of placing their Biome, player can discard it to win 4 crystals
    */
-  public function actDiscardCrystal()
+  public function actDiscardCrystals()
   {
     // Sanity checks
-    $this->checkAction('actDiscardCrystal');
+    $this->checkAction('actDiscardCrystals');
 
     // get infos
     $currentPlayer = Players::getCurrent();
@@ -142,7 +75,7 @@ trait ActionTurnTrait
     $currentPlayer->incCrystal(4);
 
     // Notification
-    Notifications::discard($currentPlayer, BiomeCards::countInLocation('discard'));
+    Notifications::discardBiomeCrystals($currentPlayer, BiomeCards::countInLocation('discard'));
 
     // Change state
     $this->gamestate->nextState('');
@@ -211,46 +144,5 @@ trait ActionTurnTrait
     }
 
     $this->gamestate->nextState('');
-  }
-
-  public function argActBiome()
-  {
-    $player = Players::getActive();
-    return [
-        //TODO choose Biomes or Places
-        //   'activableBiomes' => BiomeCards::getActivableBiomes($player, Globals::getTurn()),
-        //   'activableGods' => GodCards::getActivableGods($player),
-        //   'possibleSporePlaces' => $player->getSporesPlaces(false),
-      ];
-  }
-
-  public function actSkip()
-  {
-    // Sanity checks
-    $this->checkAction('actSkip');
-
-    // Notification
-    Notifications::skip(Players::getCurrent());
-
-    // Change state
-    $this->gamestate->nextState('actSkip');
-  }
-
-  public function actActivateElement($elementId, $isGod)
-  {
-    // Sanity checks
-    $this->checkAction('actActivateBiome');
-    $args = $this->argActBiome();
-    if (
-      (!in_array($elementId, $args['activableBiomes']) && !$isGod) ||
-      (!in_array($elementId, $args['activableGods']) && $isGod)
-    ) {
-      throw new \BgaVisibleSystemException('You can\'t activate this Biome/God now. Should not happen');
-    }
-
-    $isGod ? GodCards::activate($elementId) : BiomeCards::activate($elementId);
-
-    // Change state
-    $this->gamestate->nextState('actActivate');
   }
 }

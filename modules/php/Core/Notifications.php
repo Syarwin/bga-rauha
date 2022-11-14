@@ -31,14 +31,14 @@ class Notifications
     ]);
   }
 
-  public static function discardCrystal($currentPlayer, $discardCount)
+  public static function discardBiomeCrystals($currentPlayer, $discardCount)
   {
     $data = [
       'player' => $currentPlayer,
-      'biomeInDiscard' => $discardCount,
+      'biomesInDiscard' => $discardCount,
     ];
     $msg = clienttranslate('${player_name} discards their Biome to receive 4 crystals');
-    self::notifyAll('discard', $msg, $data);
+    self::notifyAll('discardBiomeCrystals', $msg, $data);
   }
 
   public static function discardSpore($currentPlayer, $discardCount, $x, $y)

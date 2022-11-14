@@ -43,9 +43,10 @@ use RAUHA\Core\Stats;
 class Rauha extends Table
 {
   use RAUHA\DebugTrait;
-  use RAUHA\States\TurnTrait;
   use RAUHA\States\NewRoundTrait;
-  use RAUHA\States\ActionTurnTrait;
+  use RAUHA\States\ChooseBiomeTrait;
+  use RAUHA\States\PlaceBiomeTrait;
+  use RAUHA\States\ActivateTrait;
 
   public static $instance = null;
   function __construct()
@@ -102,7 +103,7 @@ class Rauha extends Table
    */
   function getGameProgression()
   {
-    return Globals::getTurn() / 16 * 100;
+    return (Globals::getTurn() / 16) * 100;
   }
 
   function actChangePreference($pref, $value)
@@ -154,7 +155,7 @@ class Rauha extends Table
         break;
     }
 
-    throw new feException("Zombie mode not supported at this game state: " . $statename);
+    throw new feException('Zombie mode not supported at this game state: ' . $statename);
   }
 
   /////////////////////////////////////
@@ -192,17 +193,17 @@ class Rauha extends Table
 
   public static function test($arg)
   {
-    echo "<pre>";
+    echo '<pre>';
     var_dump(Players::countHowManyPlayerswithThatScore($arg));
-    echo "</pre>";
+    echo '</pre>';
     die('ok');
   }
 
   public static function displayVariable($var)
   {
-    echo "<pre>";
+    echo '<pre>';
     var_dump($var);
-    echo "</pre>";
+    echo '</pre>';
     die('ok');
   }
 }
