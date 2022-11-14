@@ -11,29 +11,30 @@ use RAUHA\Core\Stats;
 use RAUHA\Managers\Players;
 use RAUHA\Managers\BiomeCards;
 use RAUHA\Managers\GodCards;
+use RAUHA\Models\Player;
 
 trait CountTurnTrait
 {
     /**
-     * Determine who's next player (the first player in turn order with spore NOT_USED)
+     * Determine who's next player (the first player if turn is not on going, the next player else)
      */
     public function stCountNextPlayer()
     {
+        if (Globals::getTurnOnGoing() == 0) {
+            Globals::setTurnOnGoing(1);
+            Players::changeActive(Globals::getFirstPlayer());
+            $this->gamestate->nextState('next_player_count');
+        } else {
+            $nextPlayerId = Players::getNextId();
 
-        // $playerToPlay = null;
-        // foreach (Players::getTurnOrder() as $pId) {
-        //     if (Players::get($pId)->hasBiomeInHand()) {
-        //         $playerToPlay = $pId;
-        //         break;
-        //     }
-        // }
-
-        // // active a player and change state
-        // if ($playerToPlay) {
-        //     Players::changeActive($playerToPlay);
-        //     $this->gamestate->nextState('next_player_action');
-        // } else {
-        //     $this->gamestate->nextState('end_turn');
-        // }
+            //if next player is first player, round is done
+            if ($nextPlayerId == Globals::getFirstPlayer()) {
+                Globals::setTurnOnGoing(0);
+                $this->gamestate->nextState('end_turn');
+            } else {
+                Players::changeActive($nextPlayerId);
+                $this->gamestate->nextState('next_player_count');
+            }
+        }
     }
 }

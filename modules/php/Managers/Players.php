@@ -98,12 +98,15 @@ class Players extends \RAUHA\Helpers\DB_Manager
     return self::get(self::getCurrentId());
   }
 
-  public function getNextId($player)
+  public function getNextId($player = null)
   {
+    $player = $player ?? Players::getCurrent();
     $pId = is_int($player) ? $player : $player->getId();
     $table = Game::get()->getNextPlayerTable();
     return $table[$pId];
   }
+
+
 
   /*
    * Return the number of players
