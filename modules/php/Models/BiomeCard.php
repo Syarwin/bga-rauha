@@ -58,7 +58,7 @@ class BiomeCard extends \RAUHA\Helpers\DB_Model
 
   public function isActivable()
   {
-    if ($this->crystalIcome == 0 && $this->pointIncome == 0 && $this->sporeIncome == 0) {
+    if ($this->crystalIncome == 0 && $this->pointIncome == 0 && $this->sporeIncome == 0) {
       return false;
     }
 
