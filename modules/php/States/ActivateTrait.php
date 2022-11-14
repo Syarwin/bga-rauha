@@ -18,7 +18,6 @@ trait ActivateTrait
   {
     $player = Players::getActive();
     return [
-      //TODO choose Biomes or Places
       'activableBiomes' => BiomeCards::getActivableBiomes($player, Globals::getTurn()),
       'activableGods' => GodCards::getActivableGods($player),
       'possibleSporePlaces' => $player->getSporesPlaces(false),
