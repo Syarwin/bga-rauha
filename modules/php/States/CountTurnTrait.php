@@ -37,4 +37,14 @@ trait CountTurnTrait
             }
         }
     }
+
+    public function argCountAction()
+    {
+        $player = Players::getActive();
+        return [
+            'activableBiomes' => BiomeCards::getActivableBiomes($player),
+            'activableGods' => GodCards::getActivableGods($player),
+            'possibleSporePlaces' => $player->getSporesPlaces(false),
+        ];
+    }
 }
