@@ -50,7 +50,7 @@ class Notifications
       'x' => $x,
       'y' => $y,
     ];
-    $msg = clienttranslate('${player_name} discards their Biome and place a spore on place ${x}, ${y}');
+    $msg = clienttranslate('${player_name} discards their Biome and place a new spore on their board at position (${x}, ${y})');
     self::notifyAll('discard', $msg, $data);
   }
 

@@ -105,12 +105,12 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
     $spore = $biome->getSporeIncome();
 
     if ($cost > 0) {
-      if ($crystalIncome > 0) $message = clienttranslate('By paying ${cost} crystal(s), ${player_name} activate their Biome on place ${x}, ${y} and receives ${pointIncome} point(s)');
-      else if ($spore == 1) $message  = clienttranslate('By paying ${cost} crystal(s), ${player_name} activate their Biome on place ${x}, ${y} and receives a new spore');
+      if ($crystalIncome > 0) $message = clienttranslate('By paying ${cost} crystal(s), ${player_name} activate their Biome at position (${x}, ${y}) and receives ${pointIncome} point(s)');
+      else if ($spore == 1) $message  = clienttranslate('By paying ${cost} crystal(s), ${player_name} activate their Biome at position (${x}, ${y}) and receives a new spore');
     } else if ($crystalIncome > 0) {
-      $message = clienttranslate('${player_name} activate their Biome on place ${x}, ${y} and receives ${crystalIncome} crystal(s)');
+      $message = clienttranslate('${player_name} activate their Biome at position (${x}, ${y}) and receives ${crystalIncome} crystal(s)');
     } else if ($pointIncome > 0) {
-      $message = clienttranslate('${player_name} activate their Biome on place ${x}, ${y} and receives ${pointIncome} point(s)');
+      $message = clienttranslate('${player_name} activate their Biome at position (${x}, ${y}) and receives ${pointIncome} point(s)');
     }
 
     $player->incCrystal($crystalIncome - $cost);
