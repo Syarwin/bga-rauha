@@ -30,13 +30,13 @@ trait NewRoundTrait
       }
     }
 
-    Globals::setBiomeChoices([]);
     $this->gamestate->nextState('round_start');
   }
 
   function stMoveAvatars()
   {
     Globals::incTurn(1);
+    Globals::setBiomeChoices([]);
 
     Notifications::newTurn(Globals::getTurn());
 
@@ -50,5 +50,12 @@ trait NewRoundTrait
     } else {
       $this->gamestate->nextState('action_turn');
     }
+  }
+
+  function stPreEndOfGame()
+  {
+    //TODO Stats
+
+    $this->gamestate->nextState('');
   }
 }

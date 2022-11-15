@@ -53,7 +53,7 @@ trait ChooseBiomeTrait
       throw new \BgaVisibleSystemException('You can\'t choose this biome. Should not happen');
     }
 
-    // Highligh that card and make the player inactive
+    // Highlight that card and make the player inactive
     $choices = Globals::getBiomeChoices();
     $choices[$pId] = $biomeId;
     Globals::setBiomeChoices($choices);
