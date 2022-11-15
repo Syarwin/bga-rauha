@@ -205,7 +205,7 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
   {
     $result = 0;
     foreach (self::getAllBiomesOnPlayerBoard($player) as $biome) {
-      $result += $biome->getWaterSource;
+      $result += $biome->getWaterSource();
     }
 
     return $result;
