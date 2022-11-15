@@ -146,7 +146,6 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
       case DESERT:
       case MOUNTAIN:
         $board = self::getAllTypesOnPlayerBoard($player);
-        echo var_dump($board);
         return array_count_values($board)[$criteria];
         break;
 
@@ -212,6 +211,11 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
     return $result;
   }
 
+  public static function refreshAll()
+  {
+    self::DB()->update(['used' => NOT_USED]);
+  }
+
   /* Creation of the biomes */
   public static function setupNewGame($players, $options)
   {
@@ -271,7 +275,7 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
         'multiplier' => $t[6],
         'usageCost' => $t[7],
         'sporeIncome' => $t[8],
-        WATER_SOURCE => $t[9],
+        'waterSource' => $t[9],
       ];
     };
 

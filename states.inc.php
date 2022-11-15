@@ -159,10 +159,21 @@ $machinestates = [
     'descriptionmyturn' => clienttranslate('${you} must activate your Biome(s) and god(s)'),
     'type' => 'activeplayer',
     'args' => 'argCountAction',
-    'possibleactions' => ['actCount', 'actSkipCount'],
+    'possibleactions' => ['actActivateBiome', 'actActivateGod', 'actSkip'],
     'transitions' => [
-      'count' => ST_COUNT_ACTION,
-      'skip_count' => ST_COUNT_NEXT_PLAYER,
+      'actActivate' => ST_COUNT_ACTION,
+      'actSkip' => ST_COUNT_NEXT_PLAYER,
+    ],
+  ],
+
+  ST_COUNT_WATER_SOURCE => [
+    'name' => 'countWaterSource',
+    'description' => '',
+    'type' => 'game',
+    'action' => 'stCountWaterSource',
+    'updateGameProgression' => false,
+    'transitions' => [
+      '' => ST_COUNT_NEXT_PLAYER,
     ],
   ],
 

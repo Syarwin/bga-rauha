@@ -7,6 +7,7 @@ use RAUHA\Core\Notifications;
 use RAUHA\Core\Preferences;
 use RAUHA\Managers\BiomeCards;
 use RAUHA\Managers\GodCards;
+use RAUHA\Managers\Players;
 
 /*
  * Player: all utility functions concerning a player
@@ -107,6 +108,14 @@ class Player extends \RAUHA\Helpers\DB_Model
     $result = BiomeCards::countAllWaterSourceOnPlayerBoard($this);
     $result += GodCards::countAllWaterSourceOnPlayerGods($this);
     return $result;
+  }
+
+  public function movePointsToken($pointIncome)
+  {
+    $this->incScore($pointIncome);
+
+    $score_aux = Players::countHowManyPlayersWithThatScore($this->score);
+    $this->setScore_aux($score_aux);
   }
 
   public function setGodsUsed()

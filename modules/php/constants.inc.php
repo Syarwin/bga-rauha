@@ -62,6 +62,8 @@ const BOARD_ACTIVATION = [
 const NOT_USED = 0;
 const USED = 1;
 
+const POINTS_FOR_WATER_SOURCE = [0, 1, 3, 6, 10, 15];
+
 /*
  * Game options
  */
@@ -96,6 +98,7 @@ const ST_ACT_BIOMES = 8;
 const ST_DISCARD_LAST_CARDS = 9;
 const ST_COUNT_NEXT_PLAYER = 10;
 const ST_COUNT_ACTION = 11;
+const ST_COUNT_WATER_SOURCE = 12;
 
 const ST_PRE_END_OF_GAME = 98;
 const ST_END_GAME = 99;

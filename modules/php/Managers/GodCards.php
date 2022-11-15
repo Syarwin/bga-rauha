@@ -27,6 +27,11 @@ class GodCards extends \RAUHA\Helpers\Pieces
     return self::getAll();
   }
 
+  public static function refreshAll()
+  {
+    self::DB()->update(['used' => NOT_USED]);
+  }
+
   /* Creation of the gods */
   public static function setupNewGame($players, $options)
   {
@@ -49,12 +54,6 @@ class GodCards extends \RAUHA\Helpers\Pieces
         return $god;
       }
     }
-  }
-
-  public function whoHasVuori()
-  {
-    $god = self::getGodByType(MOUNTAIN);
-    return $god->getPId();
   }
 
   /*

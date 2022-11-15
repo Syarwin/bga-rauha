@@ -47,4 +47,15 @@ trait CountTurnTrait
             'possibleSporePlaces' => $player->getSporesPlaces(false),
         ];
     }
+
+    public function stCountWaterSource()
+    {
+        $minWaterSource = Players::getMinWaterSource();
+
+        foreach (Players::getAll() as $id => $player) {
+            $water_Source = $player->getWaterSource();
+            $points = POINTS_FOR_WATER_SOURCE[max(5, ($water_Source - $minWaterSource))];
+            $player->movePointsToken($points);
+        }
+    }
 }

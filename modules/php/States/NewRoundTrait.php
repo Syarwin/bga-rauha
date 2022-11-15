@@ -9,6 +9,7 @@ use RAUHA\Core\Stats;
 use RAUHA\Managers\Players;
 
 use RAUHA\Managers\BiomeCards;
+use RAUHA\Managers\GodCards;
 
 trait NewRoundTrait
 {
@@ -40,11 +41,11 @@ trait NewRoundTrait
     Notifications::newTurn(Globals::getTurn());
 
     Players::determineFirstPlayer();
-    Players::refreshBiomes();
+    BiomeCards::refreshAll();
 
     //each 4 turn, that's a 'count turn', else it's a normal turn
     if (Globals::getTurn() % 4 == 0) {
-      Players::refreshGods();
+      GodCards::refreshAll();
       $this->gamestate->nextState('count_turn');
     } else {
       $this->gamestate->nextState('action_turn');

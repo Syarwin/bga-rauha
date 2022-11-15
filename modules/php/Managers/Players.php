@@ -180,24 +180,22 @@ class Players extends \RAUHA\Helpers\DB_Manager
       ->count();
   }
 
-  public function movePointsToken($player, $pointIncome)
-  {
-    $player->incScore($pointIncome);
+  // Deprecated -> Biomes::refreshAll()
+  // public function refreshBiomes()
+  // {
+  //   foreach (self::getAll() as $id => $player) {
+  //     foreach (BiomeCards::getAllBiomesOnPlayerBoard($player) as $biome) {
+  //       $biome->setUsed(NOT_USED);
+  //     }
+  //   }
+  // }
 
-    $score_aux = self::countHowManyPlayersWithThatScore($player->getScore);
-    $player->setScore_aux($score_aux);
-  }
-
-  public function refreshBiomes()
+  public function getMinWaterSource()
   {
+    $min = 50;
     foreach (self::getAll() as $id => $player) {
-      foreach (BiomeCards::getAllBiomesOnPlayerBoard($player) as $biome) {
-        $biome->setUsed(NOT_USED);
-      }
+      $min = min($player->getWaterSource(), $min);
     }
-  }
-
-  public function refreshGods()
-  {
+    return $min;
   }
 }
