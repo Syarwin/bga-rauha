@@ -36,7 +36,7 @@
     }
 
     @for $i from 1 through 7 {
-        &#god-#{$i} {
+        &[data-id="#{$i}"] {
             .god-front,
             .god-back {
                 background-position-x: ($i - 1) * 100% / 6;
@@ -46,5 +46,14 @@
 
     &[data-used="0"] .rauha-god-inner {
         transform: rotateY(180deg);
+    }
+}
+
+.god-tooltip {
+    display: flex;
+    --rauhaGodScale: 0.3;
+
+    .god-tooltip-desc {
+        text-align: center;
     }
 }

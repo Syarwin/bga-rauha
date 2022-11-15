@@ -357,29 +357,35 @@
     .rauha-god .rauha-god-inner .god-back {
       transform: rotateY(180deg);
       background-position-y: 100%; }
-  .rauha-god#god-1 .god-front,
-  .rauha-god#god-1 .god-back {
+  .rauha-god[data-id="1"] .god-front,
+  .rauha-god[data-id="1"] .god-back {
     background-position-x: 0%; }
-  .rauha-god#god-2 .god-front,
-  .rauha-god#god-2 .god-back {
+  .rauha-god[data-id="2"] .god-front,
+  .rauha-god[data-id="2"] .god-back {
     background-position-x: 16.6666666667%; }
-  .rauha-god#god-3 .god-front,
-  .rauha-god#god-3 .god-back {
+  .rauha-god[data-id="3"] .god-front,
+  .rauha-god[data-id="3"] .god-back {
     background-position-x: 33.3333333333%; }
-  .rauha-god#god-4 .god-front,
-  .rauha-god#god-4 .god-back {
+  .rauha-god[data-id="4"] .god-front,
+  .rauha-god[data-id="4"] .god-back {
     background-position-x: 50%; }
-  .rauha-god#god-5 .god-front,
-  .rauha-god#god-5 .god-back {
+  .rauha-god[data-id="5"] .god-front,
+  .rauha-god[data-id="5"] .god-back {
     background-position-x: 66.6666666667%; }
-  .rauha-god#god-6 .god-front,
-  .rauha-god#god-6 .god-back {
+  .rauha-god[data-id="6"] .god-front,
+  .rauha-god[data-id="6"] .god-back {
     background-position-x: 83.3333333333%; }
-  .rauha-god#god-7 .god-front,
-  .rauha-god#god-7 .god-back {
+  .rauha-god[data-id="7"] .god-front,
+  .rauha-god[data-id="7"] .god-back {
     background-position-x: 100%; }
   .rauha-god[data-used="0"] .rauha-god-inner {
     transform: rotateY(180deg); }
+
+.god-tooltip {
+  display: flex;
+  --rauhaGodScale: 0.3; }
+  .god-tooltip .god-tooltip-desc {
+    text-align: center; }
 
 #player_board_config {
   position: relative;
@@ -588,5 +594,25 @@ html {
   background: url("img/background.jpg");
   background-size: cover;
   background-attachment: fixed; }
+
+#ebd-body.help-mode .tooltipable {
+  cursor: help; }
+
+.help-marker {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  z-index: 900;
+  border: 1px solid black;
+  border-radius: 50%; }
+  .help-marker svg {
+    width: 20px;
+    height: 20px; }
+
+#ebd-body:not(.help-mode) .help-marker {
+  opacity: 0;
+  pointer-events: none; }
 
 /*# sourceMappingURL=rauha.css.map */

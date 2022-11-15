@@ -304,6 +304,7 @@ define([
       Object.keys(this.gamedatas.gods).forEach((godId) => {
         let god = this.gamedatas.gods[godId];
         this.place('tplGod', god, this.getGodContainer(god));
+        this.addCustomTooltip(`god-${god.id}`, this.tplGodTooltip(god));
       });
     },
 
@@ -314,12 +315,102 @@ define([
     },
 
     tplGod(god) {
-      return `<div class='rauha-god' id='god-${god.id}' data-used='${god.used}'>
+      return `<div class='rauha-god' id='god-${god.id}' data-id='${god.id}' data-used='${god.used}'>
         <div class="rauha-god-inner">
           <div class='god-front'></div>
           <div class='god-back'></div>
         </div>
       </div>`;
+    },
+
+    tplGodTooltip(god) {
+      let infos = this.getGodInformation(god);
+      return `<div class='god-tooltip'>      
+      <div class='rauha-god' data-id='${god.id}' data-used='0'>
+        <div class="rauha-god-inner">
+          <div class='god-front'></div>
+          <div class='god-back'></div>
+        </div>
+      </div>
+      <div class='god-tooltip-desc'>
+        ${infos.name} <br />
+        ${infos.title} <br />
+        ${infos.desc.join('<br />')}
+      </div>
+    </div>`;
+    },
+
+    getGodInformation(god) {
+      let infos = {
+        1: {
+          name: _('Taivas'),
+          type: 'flying',
+          title: _('Elder of Skies'),
+          desc: [
+            _('When you welcome this Divine Entity and at each scoring if she is still with you:'),
+            _('spend 4 crystals to score 7 Life Energy Points.'),
+          ],
+        },
+        2: {
+          name: _('Sienet'),
+          type: 'mushroom',
+          title: _('Disciple of the Mushrooms'),
+          desc: [
+            _('When you welcome this Divine Entity and at each scoring if she is still with you:'),
+            _('take 3 Crystals from the supply.'),
+          ],
+        },
+        3: {
+          name: _('Meri'),
+          type: 'marine',
+          title: _('Elder of Seas'),
+          desc: [
+            _('When you welcome this Divine Entity and at each scoring if she is still with you:'),
+            _('score 1 Life Energy Point for each Water Source on your board.'),
+          ],
+        },
+        4: {
+          name: _('Metsat'),
+          type: 'forest',
+          title: _('Disciple of the Forest'),
+          desc: [
+            _('When you welcome this Divine Entity and at each scoring if she is still with you:'),
+            _(
+              'choose a type of animals (Flying, Land or Marine) and score 1 Life Energy Point per matching symbolon your board.',
+            ),
+          ],
+        },
+        5: {
+          name: _('Kiteet'),
+          type: 'mushroom',
+          title: _('Disciple of the Crystals'),
+          desc: [
+            _('When you welcome this Divine Entity and at each scoring if she is still with you:'),
+            _('score 3 Life Energy Points.'),
+          ],
+        },
+        6: {
+          name: _('Vuori'),
+          type: 'water',
+          title: _('Disciple of the Hills and Water'),
+          desc: [
+            _(
+              'This Divine Entity has no immediate effect but continuously adds 2 Water Sources to your number of Water Sources as long as she is with you.',
+            ),
+          ],
+        },
+        7: {
+          name: _('Maa'),
+          type: 'land',
+          title: _('Elder of Earths'),
+          desc: [
+            _('When you welcome this Divine Entity and at each scoring if she is still with you:'),
+            _('score 1 Life Energy Point for each Spore on your board.'),
+          ],
+        },
+      };
+
+      return infos[god.id];
     },
 
     ////////////////////////////////////////////////////////
