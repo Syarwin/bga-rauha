@@ -17,9 +17,10 @@ class Notifications
     self::notifyAll('newTurn', $msg, $data);
   }
 
-  public static function chooseBiome($currentPlayer, $biomeId)
+  public static function chooseBiome($currentPlayer, $biomeId, $msg)
   {
-    self::notify($currentPlayer, 'chooseBiome', '', [
+    self::notifyAll('chooseBiome', $msg, [
+      'player' => $currentPlayer,
       'biomeId' => $biomeId,
     ]);
   }

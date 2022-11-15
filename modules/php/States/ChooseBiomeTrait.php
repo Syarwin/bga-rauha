@@ -55,9 +55,12 @@ trait ChooseBiomeTrait
 
     // Highlight that card and make the player inactive
     $choices = Globals::getBiomeChoices();
+    $msg = (array_key_exists($pId, $choices)) ?
+      clienttranslate('${player_name} changes their choice.') :
+      clienttranslate('${player_name} chooses their biome.');
     $choices[$pId] = $biomeId;
     Globals::setBiomeChoices($choices);
-    Notifications::chooseBiome($pId, $biomeId);
+    Notifications::chooseBiome(Players::get($pId), $biomeId, $msg);
     $this->gamestate->setPlayerNonMultiactive($pId, '');
   }
 
