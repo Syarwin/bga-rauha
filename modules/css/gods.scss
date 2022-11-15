@@ -1,0 +1,50 @@
+:root {
+    --rauhaGodScale: 0.06;
+}
+
+.rauha-god {
+    background-color: transparent;
+    perspective: 1000px;
+    width: calc(var(--rauhaGodScale) * 715px);
+    height: calc(var(--rauhaGodScale) * 1131px);
+    flex-shrink: 0;
+
+    .rauha-god-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        transition: transform 1s;
+        transform: rotateY(0deg);
+
+        .god-front,
+        .god-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+            transform: rotateY(0deg);
+            background: url("img/gods.png");
+            background-size: 700% 200%;
+        }
+
+        .god-back {
+            transform: rotateY(180deg);
+            background-position-y: 100%;
+        }
+    }
+
+    @for $i from 1 through 7 {
+        &#god-#{$i} {
+            .god-front,
+            .god-back {
+                background-position-x: ($i - 1) * 100% / 6;
+            }
+        }
+    }
+
+    &[data-used="0"] .rauha-god-inner {
+        transform: rotateY(180deg);
+    }
+}

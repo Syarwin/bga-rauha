@@ -95,6 +95,7 @@ class Rauha extends Table
       'prefs' => Preferences::getUiData($pId),
       'players' => Players::getUiData($pId),
       'turn' => Globals::getTurn(),
+      'gods' => GodCards::getUiData(),
     ];
   }
 

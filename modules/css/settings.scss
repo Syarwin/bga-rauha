@@ -4,8 +4,6 @@
 }
 
 #player_config {
-    padding-bottom: 8px;
-
     .player_config_row {
         display: flex;
         justify-content: space-around;
@@ -18,35 +16,35 @@
     }
 
     #round-counter-wrapper {
-        border-bottom: 1px solid #6a4b2f;
-        margin: 4px 3px 0px;
         text-align: center;
-        font-size: 19px;
-        padding: 5px;
+        margin: -5px -3px 0px;
+        background: #e3bc9280;
+        padding: 8px 0px 4px;
+        border-bottom: 1px solid #8080808a;
+        border-top-left-radius: 7px;
+        border-top-right-radius: 7px;
+        font-weight: bold;
+        font-size: 20px;
+        font-family: "Bernard MT Condensed";
+        color: black;
         display: block;
-        position: relative;
-
-        .icon-container {
-            vertical-align: bottom;
-            .icon-break {
-                width: 30px;
-                height: 30px;
-            }
-        }
     }
 
-    #uwe-help {
-        width: 32px;
-        height: 32px;
-        // background: url("img/help/uwe.png");
-        background-size: 80%;
-        background-repeat: no-repeat;
-        background-color: #fbfbfb;
-        background-position: bottom right;
-        border-radius: 50%;
-        border: 1px solid black;
-        margin: 3px -10px 3px 0px;
-        cursor: pointer;
+    #round-phase {
+        text-align: center;
+        margin: 0px -3px 0px;
+        background: #fff;
+        padding: 5px 0px 3px;
+        border-bottom: 1px solid #8080808c;
+        font-weight: normal;
+        font-size: 17px;
+        font-family: "Bernard MT Condensed";
+        color: black;
+        display: block;
+
+        &:empty {
+            display: none;
+        }
     }
 
     #help-mode-switch {
@@ -111,6 +109,14 @@
 
         &:hover .fa-primary {
             transform: rotate(180deg);
+        }
+    }
+
+    #pending-gods {
+        flex-wrap: wrap;
+
+        .rauha-god {
+            margin: 2px 5px;
         }
     }
 }

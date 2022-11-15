@@ -23,14 +23,6 @@ $machinestates = [
     'type' => 'manager',
     'action' => 'stGameSetup',
     'transitions' => ['' => ST_NEXT_ROUND],
-    // 'transitions' => ['' => 80],
-  ],
-  80 => [
-    'name' => 'test',
-    'description' => clienttranslate('Launched game'),
-    'descriptionmyturn' => clienttranslate('Launched game'),
-    'type' => 'activeplayer',
-    'possibleactions' => [],
   ],
 
   ST_NEXT_ROUND => [
@@ -118,8 +110,8 @@ $machinestates = [
 
   ST_ACT_BIOMES => [
     'name' => 'actBiomes',
-    'description' => clienttranslate('${actplayer} must activate their Biomes and new god(s)'),
-    'descriptionmyturn' => clienttranslate('${you} must activate your Biomes and new god(s)'),
+    'description' => clienttranslate('${actplayer} may activate their Biomes and new god(s)'),
+    'descriptionmyturn' => clienttranslate('${you} may activate your Biomes and new god(s)'),
     'args' => 'argActBiome',
     'type' => 'activeplayer',
     'possibleactions' => ['actActivateBiome', 'actActivateGod', 'actSkip'],
