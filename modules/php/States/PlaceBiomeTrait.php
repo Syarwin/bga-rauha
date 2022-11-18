@@ -64,13 +64,13 @@ trait PlaceBiomeTrait
   /**
    * Instead of placing their Biome, player can discard it to win 4 crystals
    */
-  public function actDiscardCrystals()
+  public function actDiscardCrystals($pId = null)
   {
     // Sanity checks
     $this->checkAction('actDiscardCrystals');
 
     // get infos
-    $currentPlayer = Players::getCurrent();
+    $currentPlayer = $pId ? Players::get($pId) : Players::getCurrent();
     BiomeCards::moveAllInLocation('hand', 'discard', $currentPlayer->getId());
     $currentPlayer->incCrystal(4);
 

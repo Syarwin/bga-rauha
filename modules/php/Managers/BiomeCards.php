@@ -137,7 +137,7 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
 
       case ANIMALS:
         $board = self::getAllAnimalsOnPlayerBoard($player);
-        return count($board);
+        return max(array_count_values($board));
         break;
 
       case FOREST:

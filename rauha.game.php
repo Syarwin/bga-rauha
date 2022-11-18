@@ -128,23 +128,16 @@ class Rauha extends Table
       case 'chooseBiome':
         $args = $this->argChooseBiome();
         $biomes = $args['_private'][$activePlayerId]['biomes'];
-        $possibleChoices = [];
-        foreach ($biomes as $id => $biome) {
-          $possibleChoices[] = $id;
-        }
-        $answer = bga_rand(0, count($possibleChoices) - 1);
-        $this->actChooseBiome($possibleChoices[$answer], (int) $activePlayerId);
-        return;
+
+        $choice = bga_rand(0, count($biomes) - 1);
+        $this->actChooseBiome(array_keys($biomes)[$choice], (int) $activePlayerId);
+        break;
       case 'placeBiome':
-        # code...actDiscard
+        $this->actDiscardCrystals($activePlayerId);
         break;
 
       case 'actBiomes':
         # code...actSkip
-        break;
-
-      case 'placeBiome':
-        # code...skip
         break;
 
       case 'countAction':
