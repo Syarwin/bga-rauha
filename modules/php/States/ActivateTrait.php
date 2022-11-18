@@ -24,12 +24,12 @@ trait ActivateTrait
     ];
   }
 
-  public function actSkip()
+  public function actSkip($pId = null)
   {
     // Sanity checks
     $this->checkAction('actSkip');
 
-    $player = Players::getCurrent();
+    $player = $pId ? Players::get($pId) : Players::getCurrent();
     $player->setGodsUsed();
 
     // Notification
@@ -39,11 +39,23 @@ trait ActivateTrait
     $this->gamestate->nextState('actSkip');
   }
 
+  $state=$this->gamestate->state(); if( $state['name'] == 'myGameState' ) {...}
+  I suggest to define and use this function in your php class to access state name:
+  
+     public function getStateName() {
+         $state = $this->gamestate->state();
+         return $state['name'];
+     }
+
   public function actActivateElement($elementId, $isGod, $x = null, $y = null)
   {
     // Sanity checks
     $this->checkAction('actActivateBiome');
-    $args = $this->argActBiome();
+
+    $state = $this->gamestate->state();
+
+    //possibilities depend on which state we are (ST_ACT_BIOMES or ST_COUNT_ACTION)
+    $args = $state['id']==ST_ACT_BIOMES ? $this->argActBiome() : $this->argCountAction();
     if (
       (!in_array($elementId, $args['activableBiomes']) && !$isGod) ||
       (!in_array($elementId, $args['activableGods']) && $isGod)

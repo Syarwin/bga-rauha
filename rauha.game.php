@@ -136,20 +136,14 @@ class Rauha extends Table
         $this->actDiscardCrystals($activePlayerId);
         break;
 
-      case 'actBiomes':
-        # code...actSkip
-        break;
-
       case 'countAction':
-        # code...actSkipCount
+      case 'actBiomes':
+        $this->actSkip($activePlayerId);
         break;
 
       default:
-        # code...
-        break;
+        throw new feException('Zombie mode not supported at this game state: ' . $statename);
     }
-
-    throw new feException('Zombie mode not supported at this game state: ' . $statename);
   }
 
   /////////////////////////////////////
