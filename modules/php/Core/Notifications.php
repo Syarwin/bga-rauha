@@ -92,12 +92,12 @@ class Notifications
 
     $msg =
       $cost == 0
-        ? clienttranslate(
-          '${player_name} plays a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
-        )
-        : clienttranslate(
-          '${player_name} pays ${cost} crystal(s) to play a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
-        );
+      ? clienttranslate(
+        '${player_name} plays a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
+      )
+      : clienttranslate(
+        '${player_name} pays ${cost} crystal(s) to play a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
+      );
     self::notifyAll('placeBiome', $msg, $data);
   }
 
@@ -124,7 +124,7 @@ class Notifications
     self::message(clienttranslate('${player_name} passes.'), $data);
   }
 
-  public static function activateBiome($player, $biome, $cost, $crystalIncome, $pointIncome)
+  public static function activateBiome($player, $biome, $cost, $crystalIncome, $pointIncome, $sporeIncome)
   {
     $message = '';
     if ($cost > 0) {
@@ -132,7 +132,7 @@ class Notifications
         $message = clienttranslate(
           'By paying ${cost} crystal(s), ${player_name} activate their Biome at position (${displayX}, ${displayY}) and receives ${pointIncome} point(s)'
         );
-      } elseif ($spore == 1) {
+      } elseif ($sporeIncome == 1) {
         $message = clienttranslate(
           'By paying ${cost} crystal(s), ${player_name} activate their Biome at position (${displayX}, ${displayY}) and receives a new spore'
         );

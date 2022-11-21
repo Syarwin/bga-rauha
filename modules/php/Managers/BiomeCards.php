@@ -102,15 +102,15 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
     $cost = $biome->getUsageCost();
     $crystalIncome = $biome->getCrystalIncome() * $multiplier;
     $pointIncome = $biome->getPointIncome() * $multiplier;
-    $spore = $biome->getSporeIncome();
+    $sporeIncome = $biome->getSporeIncome();
 
     $player->incCrystal($crystalIncome - $cost);
     $player->movePointsToken($pointIncome);
     $biome->setUsed(USED);
 
     // Notifications
-    Notifications::activateBiome($player, $biome, $cost, $crystalIncome, $pointIncome);
-    return $spore;
+    Notifications::activateBiome($player, $biome, $cost, $crystalIncome, $pointIncome, $sporeIncome);
+    return $sporeIncome;
   }
 
   /**
