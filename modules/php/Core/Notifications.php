@@ -41,15 +41,25 @@ class Notifications
     self::notifyAll('discardBiomeCrystals', $msg, $data);
   }
 
+  private static function addDataCoord($data, $x, $y)
+  {
+    $data += [
+      'x' => $x,
+      'y' => $y,
+      'displayX' => $x+1,
+      'displayY' => $y+1,
+    ]
+    return 
+  }
+
   public static function discardSpore($currentPlayer, $discardCount, $x, $y)
   {
     $data = [
       'player' => $currentPlayer,
-      'biomeInDiscard' => $discardCount,
-      'x' => $x,
-      'y' => $y,
+      'biomeInDiscard' => $discardCount,      
     ];
-    $msg = clienttranslate('${player_name} discards their Biome and place a new spore on their board at position (${x}, ${y})');
+    $data = self::addDataCoord($data, $x, $y);
+    $msg = clienttranslate('${player_name} discards their Biome and place a new spore on their board at position (${displayX}, ${displayY})');
     self::notifyAll('discard', $msg, $data);
   }
 
@@ -57,12 +67,9 @@ class Notifications
   {
     $data = [
       'player' => $player,
-      'x' => $x,
-      'y' => $y,
-
     ];
-
-    $msg = clienttranslate('${player_name} puts a new spore on their board at position (${x}, ${y})');
+    $data = addDataCoord($data,$x,$y);
+    $msg = clienttranslate('${player_name} puts a new spore on their board at position (${displayX}, ${displayY})');
     self::notifyAll('placeSpore', $msg, $data);
   }
 
@@ -85,18 +92,17 @@ class Notifications
 
     $data = [
       'player' => $player,
-      'x' => $x,
-      'y' => $y,
       'cost' => $cost,
       'biome' => $biome,
       'biomeTypes' => $biomeTypes,
       'waterSourceCount' => $player->getWaterSource()
     ];
+    $data = self::addDataCoord($data, $x, $y);
     $msg =
       $cost == 0
-      ? clienttranslate('${player_name} plays a ${biomeTypes} biome on their board at position (${x}, ${y})')
+      ? clienttranslate('${player_name} plays a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})')
       : clienttranslate(
-        '${player_name} pays ${cost} crystal(s) to play a ${biomeTypes} biome on their board at position (${x}, ${y})'
+        '${player_name} pays ${cost} crystal(s) to play a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
       );
     self::notifyAll('placeBiome', $msg, $data);
   }
@@ -131,9 +137,9 @@ class Notifications
       'cost' => $cost,
       'crystalIncome' => $crystalIncome,
       'pointIncome' => $pointIncome,
-      'x' => $biome->getX(),
-      'y' => $biome->getY(),
     ];
+    
+    $data = self::addDataCoord($data, $biome->getX(), $biome->getY());
     self::notifyAll($player, $message, $data);
   }
 
