@@ -33,7 +33,9 @@ trait ActivateTrait
     if (empty($arg['activableGods']) && empty($arg['activableBiomes'])) {
       // Change state
       $this->gamestate->nextState('actSkip');
-    } else self::activateAutomaticElements($player, $arg, Globals::getTurn());
+    } else {
+      self::activateAutomaticElements($player, $arg, Globals::getTurn());
+    }
   }
 
   public function activateAutomaticElements($player, $arg, $turn = null)
@@ -43,10 +45,14 @@ trait ActivateTrait
 
     $sporeCanBeAdded = false;
     foreach ($arg['activableBiomes'] as $biome) {
-      if ($biome->getSporeIncome()) $sporeCanBeAdded = true;
+      if ($biome->getSporeIncome()) {
+        $sporeCanBeAdded = true;
+      }
     }
     foreach ($arg['activableGods'] as $god) {
-      if ($god->getSporeIncome()) $sporeCanBeAdded = true;
+      if ($god->getSporeIncome()) {
+        $sporeCanBeAdded = true;
+      }
     }
 
     // search if a biome can be automaticly activated
@@ -93,11 +99,7 @@ trait ActivateTrait
     // Sanity checks
     $this->checkAction('actActivateBiome');
     $player = $player ?? Players::getCurrent();
-
-    $state = $this->gamestate->state();
-
-    //possibilities depend on which state we are (ST_ACT_BIOMES or ST_COUNT_ACTION)
-    $args = $state['name'] == 'actBiomes' ? self::argActBiomes() : self::argCountAction();
+    $args = $this->getArgs();
     if (
       (!$isGod && !in_array(BiomeCards::get($elementId), $args['activableBiomes'])) ||
       ($isGod && !in_array(GodCards::get($elementId), $args['activableGods']))

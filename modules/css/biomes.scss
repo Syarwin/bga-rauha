@@ -4,11 +4,6 @@
 
     .biome-card {
         margin: 8px;
-
-        &.selected,
-        &.choice {
-            margin: 5px;
-        }
     }
 }
 
@@ -16,28 +11,56 @@
     position: absolute;
 }
 
+.rauha-board .board-grid .board-cell {
+    .biome-card.selectable::before {
+        border: 3px solid rgba(255, 0, 0, 0.438);
+    }
+}
 .biome-card {
+    position: relative;
     width: 230px;
     height: 230px;
     background-image: url("img/age1.jpg");
     background-size: 500% 800%;
     border-radius: 40px;
     box-shadow: 2px 2px 5px -1px black;
+    &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        border: 3px solid transparent;
+        border-radius: 40px;
+    }
+
     &.phantom {
         visibility: hidden;
     }
 
+    &.starting {
+        background: none;
+        box-shadow: none;
+    }
+
     &.selectable {
         cursor: pointer;
-        &:hover {
+        &:not(.starting):hover {
             transform: scale(1.1);
+        }
+
+        &.starting:hover::before {
+            border: 3px solid rgba(255, 0, 0, 0.738);
         }
     }
 
-    &.selected {
+    &.selected::before {
         border: 3px solid red;
     }
-    &.choice {
+    &.choice::before {
         border: 3px solid green;
     }
 

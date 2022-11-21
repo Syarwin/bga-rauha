@@ -48,6 +48,7 @@ trait NewRoundTrait
       GodCards::refreshAll();
       $this->gamestate->nextState('count_turn');
     } else {
+      $this->gamestate->setAllPlayersMultiactive();
       $this->gamestate->nextState('action_turn');
     }
   }

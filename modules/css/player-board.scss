@@ -30,12 +30,13 @@
         grid-gap: 5px;
 
         .board-cell {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            position: relative;
 
             .biome-card {
                 box-shadow: none;
+                position: absolute;
+                top: 0;
+                left: 0;
             }
         }
         .cell-node {

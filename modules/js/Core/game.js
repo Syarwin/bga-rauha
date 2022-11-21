@@ -6,6 +6,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
   declare,
   noUiSlider,
 ) => {
+  const isPromise = (v) => typeof v === 'object' && typeof v.then === 'function';
+
   return declare('customgame.game', ebg.core.gamegui, {
     /*
      * Constructor
@@ -215,7 +217,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
             timing = this.isFastMode() ? 0 : notif[1];
           }
 
-          if (timing !== null) {
+          if (timing !== null && !isPromise(timing)) {
             this.notifqueue.setSynchronousDuration(timing);
           }
         };
@@ -1107,7 +1109,6 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
 
     addLogClass() {
       if (this._last_notif == null) return;
-
       let notif = this._last_notif;
       if ($('log_' + notif.logId)) {
         let type = notif.msg.type;

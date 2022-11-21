@@ -179,6 +179,12 @@ class Rauha extends Table
     return self::_($text);
   }
 
+  // Shorthand
+  public function getArgs()
+  {
+    return $this->gamestate->state()['args'];
+  }
+
   public static function test($arg)
   {
     echo '<pre>';

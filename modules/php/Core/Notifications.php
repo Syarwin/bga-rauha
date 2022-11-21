@@ -41,25 +41,16 @@ class Notifications
     self::notifyAll('discardBiomeCrystals', $msg, $data);
   }
 
-  private static function addDataCoord($data, $x, $y)
-  {
-    $data += [
-      'x' => $x,
-      'y' => $y,
-      'displayX' => $x + 1,
-      'displayY' => $y + 1,
-    ];
-    return $data;
-  }
-
   public static function discardSpore($currentPlayer, $discardCount, $x, $y)
   {
     $data = [
       'player' => $currentPlayer,
       'biomeInDiscard' => $discardCount,
     ];
-    $data = self::addDataCoord($data, $x, $y);
-    $msg = clienttranslate('${player_name} discards their Biome and place a new spore on their board at position (${displayX}, ${displayY})');
+    self::addDataCoord($data, $x, $y);
+    $msg = clienttranslate(
+      '${player_name} discards their Biome and place a new spore on their board at position (${displayX}, ${displayY})'
+    );
     self::notifyAll('discard', $msg, $data);
   }
 
@@ -68,7 +59,7 @@ class Notifications
     $data = [
       'player' => $player,
     ];
-    $data = addDataCoord($data, $x, $y);
+    addDataCoord($data, $x, $y);
     $msg = clienttranslate('${player_name} puts a new spore on their board at position (${displayX}, ${displayY})');
     self::notifyAll('placeSpore', $msg, $data);
   }
@@ -95,15 +86,18 @@ class Notifications
       'cost' => $cost,
       'biome' => $biome,
       'biomeTypes' => $biomeTypes,
-      'waterSourceCount' => $player->getWaterSource()
+      'waterSourceCount' => $player->getWaterSource(),
     ];
-    $data = self::addDataCoord($data, $x, $y);
+    self::addDataCoord($data, $x, $y);
+
     $msg =
       $cost == 0
-      ? clienttranslate('${player_name} plays a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})')
-      : clienttranslate(
-        '${player_name} pays ${cost} crystal(s) to play a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
-      );
+        ? clienttranslate(
+          '${player_name} plays a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
+        )
+        : clienttranslate(
+          '${player_name} pays ${cost} crystal(s) to play a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
+        );
     self::notifyAll('placeBiome', $msg, $data);
   }
 
@@ -130,17 +124,39 @@ class Notifications
     self::message(clienttranslate('${player_name} passes.'), $data);
   }
 
-  public static function actCount($player, $message, $biome, $cost, $crystalIncome, $pointIncome)
+  public static function activateBiome($player, $biome, $cost, $crystalIncome, $pointIncome)
   {
+    $message = '';
+    if ($cost > 0) {
+      if ($crystalIncome > 0) {
+        $message = clienttranslate(
+          'By paying ${cost} crystal(s), ${player_name} activate their Biome at position (${displayX}, ${displayY}) and receives ${pointIncome} point(s)'
+        );
+      } elseif ($spore == 1) {
+        $message = clienttranslate(
+          'By paying ${cost} crystal(s), ${player_name} activate their Biome at position (${displayX}, ${displayY}) and receives a new spore'
+        );
+      }
+    } elseif ($crystalIncome > 0) {
+      $message = clienttranslate(
+        '${player_name} activate their Biome at position (${displayX}, ${displayY}) and receives ${crystalIncome} crystal(s)'
+      );
+    } elseif ($pointIncome > 0) {
+      $message = clienttranslate(
+        '${player_name} activate their Biome at position (${displayX}, ${displayY}) and receives ${pointIncome} point(s)'
+      );
+    }
+
     $data = [
       'player' => $player,
+      'biomeId' => $biome->getId(),
       'cost' => $cost,
       'crystalIncome' => $crystalIncome,
       'pointIncome' => $pointIncome,
     ];
 
-    $data = self::addDataCoord($data, $biome->getX(), $biome->getY());
-    self::notifyAll($player, $message, $data);
+    self::addDataCoord($data, $biome->getX(), $biome->getY());
+    self::notifyAll('activateBiome', $message, $data);
   }
 
   public static function actCountGod($player, $message, $god, $cost, $crystalIncome, $pointIncome)
@@ -150,9 +166,9 @@ class Notifications
       'cost' => $cost,
       'crystalIncome' => $crystalIncome,
       'pointIncome' => $pointIncome,
-      'godName' => $god->getName()
+      'godName' => $god->getName(),
     ];
-    self::notifyAll($player, $message, $data);
+    self::notifyAll('activateGod', $message, $data);
   }
 
   /*************************
@@ -185,6 +201,15 @@ class Notifications
   /*********************
    **** UPDATE ARGS ****
    *********************/
+
+  private static function addDataCoord(&$data, $x, $y)
+  {
+    $data['x'] = $x;
+    $data['y'] = $y;
+    $data['displayX'] = $x + 1;
+    $data['displayY'] = $y + 1;
+  }
+
   /*
    * Automatically adds some standard field about player and/or card
    */

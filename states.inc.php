@@ -55,7 +55,6 @@ $machinestates = [
     'descriptionmyturn' => clienttranslate('${you} must choose a Biome'),
     'args' => 'argChooseBiome',
     'type' => 'multipleactiveplayer',
-    'action' => 'stMakeEveryoneActive',
     'possibleactions' => ['actChooseBiome'],
     'transitions' => [
       '' => ST_CONFIRM_CHOICES,
@@ -86,7 +85,7 @@ $machinestates = [
 
   ST_PLACE_BIOME => [
     'name' => 'placeBiome',
-    'description' => clienttranslate('${actplayer} place or discard their Biome'),
+    'description' => clienttranslate('${actplayer} must place or discard their Biome'),
     'descriptionmyturn' => clienttranslate('${you} must place or discard your Biome'),
     'args' => 'argPlaceBiome',
     'type' => 'activeplayer',
@@ -109,7 +108,7 @@ $machinestates = [
   // ],
 
   ST_ACT_BIOMES => [
-    'name' => 'actBiomes',
+    'name' => 'activate',
     'description' => clienttranslate('${actplayer} may activate their Biomes and new god(s)'),
     'descriptionmyturn' => clienttranslate('${you} may activate your Biomes and new god(s)'),
     'args' => 'argActBiomes',

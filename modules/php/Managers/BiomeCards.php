@@ -75,7 +75,7 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
   {
     //if a turn has been given, possibleplaces are limited to board activation of the turn
     //if no turn has been given, possibles places depends on spores places
-    $possiblePlaces = ($turn == null) ? $player->getSporesPlaces(true) : BOARD_ACTIVATION[$turn];
+    $possiblePlaces = $turn == null ? $player->getSporesPlaces(true) : BOARD_ACTIVATION[$turn];
 
     $activableBiomes = [];
 
@@ -104,21 +104,12 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
     $pointIncome = $biome->getPointIncome() * $multiplier;
     $spore = $biome->getSporeIncome();
 
-    if ($cost > 0) {
-      if ($crystalIncome > 0) $message = clienttranslate('By paying ${cost} crystal(s), ${player_name} activate their Biome at position (${displayX}, ${displayY}) and receives ${pointIncome} point(s)');
-      else if ($spore == 1) $message  = clienttranslate('By paying ${cost} crystal(s), ${player_name} activate their Biome at position (${displayX}, ${displayY}) and receives a new spore');
-    } else if ($crystalIncome > 0) {
-      $message = clienttranslate('${player_name} activate their Biome at position (${displayX}, ${displayY}) and receives ${crystalIncome} crystal(s)');
-    } else if ($pointIncome > 0) {
-      $message = clienttranslate('${player_name} activate their Biome at position (${displayX}, ${displayY}) and receives ${pointIncome} point(s)');
-    }
-
     $player->incCrystal($crystalIncome - $cost);
     $player->movePointsToken($pointIncome);
     $biome->setUsed(USED);
 
     // Notifications
-    Notifications::actCount($player, $message, $biome, $cost, $crystalIncome, $pointIncome);
+    Notifications::activateBiome($player, $biome, $cost, $crystalIncome, $pointIncome);
     return $spore;
   }
 
@@ -187,7 +178,7 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
   {
     $result = [];
     foreach (self::getAllBiomesOnPlayerBoard($player) as $biome) {
-      array_merge($result, $biome->getAnimals());
+      $result = array_merge($result, $biome->getAnimals());
     }
     return $result;
   }
@@ -196,7 +187,7 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
   {
     $result = [];
     foreach (self::getAllBiomesOnPlayerBoard($player) as $biome) {
-      array_merge($result, $biome->getTypes());
+      $result = array_merge($result, $biome->getTypes());
     }
     return $result;
   }
