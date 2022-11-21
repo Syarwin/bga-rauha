@@ -46,17 +46,17 @@ class Notifications
     $data += [
       'x' => $x,
       'y' => $y,
-      'displayX' => $x+1,
-      'displayY' => $y+1,
-    ]
-    return 
+      'displayX' => $x + 1,
+      'displayY' => $y + 1,
+    ];
+    return $data;
   }
 
   public static function discardSpore($currentPlayer, $discardCount, $x, $y)
   {
     $data = [
       'player' => $currentPlayer,
-      'biomeInDiscard' => $discardCount,      
+      'biomeInDiscard' => $discardCount,
     ];
     $data = self::addDataCoord($data, $x, $y);
     $msg = clienttranslate('${player_name} discards their Biome and place a new spore on their board at position (${displayX}, ${displayY})');
@@ -68,7 +68,7 @@ class Notifications
     $data = [
       'player' => $player,
     ];
-    $data = addDataCoord($data,$x,$y);
+    $data = addDataCoord($data, $x, $y);
     $msg = clienttranslate('${player_name} puts a new spore on their board at position (${displayX}, ${displayY})');
     self::notifyAll('placeSpore', $msg, $data);
   }
@@ -138,7 +138,7 @@ class Notifications
       'crystalIncome' => $crystalIncome,
       'pointIncome' => $pointIncome,
     ];
-    
+
     $data = self::addDataCoord($data, $biome->getX(), $biome->getY());
     self::notifyAll($player, $message, $data);
   }

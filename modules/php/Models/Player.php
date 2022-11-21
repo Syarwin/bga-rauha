@@ -115,7 +115,7 @@ class Player extends \RAUHA\Helpers\DB_Model
     $this->incScore($pointIncome);
 
     $score_aux = Players::countHowManyPlayersWithThatScore($this->score);
-    $this->setScore_aux($score_aux);
+    $this->setScoreAux($score_aux);
   }
 
   public function setGodsUsed()

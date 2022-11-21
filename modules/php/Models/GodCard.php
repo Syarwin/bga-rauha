@@ -57,6 +57,12 @@ class GodCard extends \RAUHA\Helpers\DB_Model
     else return ($this->used == NOT_USED);
   }
 
+  // a god can be automatic if it has no usage cost and has no SPORE multiplier
+  public function isAutomatic($sporeCanBeAdded)
+  {
+    return (!$sporeCanBeAdded || $this->multiplier != SPORE) && $this->usageCost == 0;
+  }
+
   /* NOT IMPLEMENTED
   public function getTypeStr()
   {

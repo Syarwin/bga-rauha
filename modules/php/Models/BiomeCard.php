@@ -81,6 +81,12 @@ class BiomeCard extends \RAUHA\Helpers\DB_Model
     return array_merge($this->types, $this->animals);
   }
 
+  // a biome can be automatic if it has no usage cost and has no SPORE multiplier
+  public function isAutomatic($sporeCanBeAdded)
+  {
+    return (!$sporeCanBeAdded || $this->multiplier != SPORE) && $this->usageCost == 0;
+  }
+
   /*NOT IMPLEMENTED
   public function getTypeStr()
   {
