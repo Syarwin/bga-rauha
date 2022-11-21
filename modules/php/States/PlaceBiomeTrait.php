@@ -42,7 +42,6 @@ trait PlaceBiomeTrait
     $biome = $player->getBiomeInHand();
 
     // if no layingconstraints all places are possible
-    // TODO error on getLayingConstraints
     if (empty($biome->getLayingConstraints())) {
       $possiblePlaces = ALL_BIOME_PLACES;
     } else {

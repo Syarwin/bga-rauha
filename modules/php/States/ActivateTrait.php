@@ -28,17 +28,17 @@ trait ActivateTrait
   public function stActBiomes()
   {
     $player = Players::getActive();
-    $arg = self::argActBiomes();
+    $arg = $this->getArgs();
 
     if (empty($arg['activableGods']) && empty($arg['activableBiomes'])) {
-      // Change state
-      $this->gamestate->nextState('actSkip');
+
+      $this->actSkip($player->getId());
     } else {
-      self::activateAutomaticElements($player, $arg, Globals::getTurn());
+      $this->activateAutomaticElements($arg);
     }
   }
 
-  public function activateAutomaticElements($player, $arg, $turn = null)
+  public function activateAutomaticElements($arg)
   {
     $isGod = false;
     $elementIdToActivate = null;
@@ -75,16 +75,21 @@ trait ActivateTrait
     }
     //if something found activate it
     if ($elementIdToActivate !== null) {
-      self::actActivateElement($elementIdToActivate, $isGod);
+      self::actActivateElement($elementIdToActivate, $isGod, Players::getActive());
     }
   }
 
   public function actSkip($pId = null)
   {
-    // Sanity checks
-    $this->checkAction('actSkip');
+    // Sanity checks and bypass for automatisation
+    if ($pId) {
+      $this->gamestate->checkPossibleAction('actSkip');
+      $player = Players::get($pId);
+    } else {
+      $this->checkAction('actSkip');
+      $player = Players::getCurrent();
+    }
 
-    $player = $pId ? Players::get($pId) : Players::getCurrent();
     $player->setGodsUsed();
 
     // Notification
@@ -96,9 +101,14 @@ trait ActivateTrait
 
   public function actActivateElement($elementId, $isGod, $player = null, $x = null, $y = null)
   {
-    // Sanity checks
-    $this->checkAction('actActivateBiome');
-    $player = $player ?? Players::getCurrent();
+    // Sanity checks and bypass for automatisation
+    if ($player) {
+      $this->gamestate->checkPossibleAction('actActivateBiome');
+    } else {
+      $this->checkAction('actActivateBiome');
+      $player = Players::getCurrent();
+    }
+
     $args = $this->getArgs();
     if (
       (!$isGod && !in_array(BiomeCards::get($elementId), $args['activableBiomes'])) ||

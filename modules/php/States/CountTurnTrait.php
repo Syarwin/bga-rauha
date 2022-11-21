@@ -48,14 +48,30 @@ trait CountTurnTrait
         ];
     }
 
+    public function stCountAction()
+    {
+        $player = Players::getActive();
+        $arg = $this->getArgs();
+
+        if (empty($arg['activableGods']) && empty($arg['activableBiomes'])) {
+            self::actSkip($player->getId());
+        } else {
+            self::activateAutomaticElements($arg);
+        }
+    }
+
     public function stCountWaterSource()
     {
         $minWaterSource = Players::getMinWaterSource();
 
         foreach (Players::getAll() as $id => $player) {
-            $water_Source = $player->getWaterSource();
-            $points = POINTS_FOR_WATER_SOURCE[max(5, ($water_Source - $minWaterSource))];
+            $waterSource = $player->getWaterSource();
+            $waterSourceDelta = $waterSource - $minWaterSource;
+            $points = POINTS_FOR_WATER_SOURCE[max(5, $waterSourceDelta)];
             $player->movePointsToken($points);
+            if ($points > 0) {
+                Notifications::waterSourceCount($player, $waterSourceDelta, $points);
+            }
         }
     }
 }

@@ -88,12 +88,12 @@ class Players extends \RAUHA\Helpers\DB_Manager
       ->getSingle();
   }
 
-  public function getActive()
+  public static function getActive()
   {
     return self::get();
   }
 
-  public function getCurrent()
+  public static function getCurrent()
   {
     return self::get(self::getCurrentId());
   }
@@ -146,7 +146,7 @@ class Players extends \RAUHA\Helpers\DB_Manager
   /**
    * This allow to change active player
    */
-  public function changeActive($pId)
+  public static function changeActive($pId)
   {
     Game::get()->gamestate->changeActivePlayer($pId);
   }
@@ -155,7 +155,7 @@ class Players extends \RAUHA\Helpers\DB_Manager
   ///// RAUHA Specific ////
   /////////////////////////
 
-  public function determineFirstPlayer()
+  public static function determineFirstPlayer()
   {
     Globals::setFirstPlayer(self::getFirstPlayerId());
   }
@@ -163,7 +163,7 @@ class Players extends \RAUHA\Helpers\DB_Manager
   /*
    * Get first player according to points
    */
-  public function getFirstPlayerId()
+  public static function getFirstPlayerId()
   {
     //TODO what is select columns
     return self::DB()
@@ -174,7 +174,7 @@ class Players extends \RAUHA\Helpers\DB_Manager
       ->getId();
   }
 
-  public function countHowManyPlayerswithThatScore($score)
+  public static function countHowManyPlayerswithThatScore($score)
   {
     return self::DB()->where('player_score', $score)
       ->count();
@@ -190,7 +190,7 @@ class Players extends \RAUHA\Helpers\DB_Manager
   //   }
   // }
 
-  public function getMinWaterSource()
+  public static function getMinWaterSource()
   {
     $min = 50;
     foreach (self::getAll() as $id => $player) {

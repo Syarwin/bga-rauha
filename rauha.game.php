@@ -47,6 +47,7 @@ class Rauha extends Table
   use RAUHA\States\ChooseBiomeTrait;
   use RAUHA\States\PlaceBiomeTrait;
   use RAUHA\States\ActivateTrait;
+  use RAUHA\States\CountTurnTrait;
 
   public static $instance = null;
   function __construct()

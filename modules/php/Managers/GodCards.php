@@ -59,7 +59,7 @@ class GodCards extends \RAUHA\Helpers\Pieces
   /*
    * Get activable god for a player
    */
-  public function getActivableGods($player)
+  public static function getActivableGods($player)
   {
     $result = [];
     foreach (self::getGodsByPlayer($player) as $id => $god) {

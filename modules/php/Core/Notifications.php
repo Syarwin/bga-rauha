@@ -171,6 +171,20 @@ class Notifications
     self::notifyAll('activateGod', $message, $data);
   }
 
+  public static function waterSourceCount($player, $waterSourceDelta, $points)
+  {
+    $data = [
+      'player' => $player,
+      'points' => $points,
+      'waterSource' => $player->getWaterSource(),
+      'waterSourceDelta' => $waterSourceDelta
+    ];
+    $message = clienttranslate(
+      'With ${waterSource} water source(s) (${waterSourceDelta} more than the minimum), ${player_name} receives ${points} points.'
+    );
+    self::notifyAll('waterSourceCount', $message, $data);
+  }
+
   /*************************
    **** GENERIC METHODS ****
    *************************/
