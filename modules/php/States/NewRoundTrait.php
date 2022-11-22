@@ -49,6 +49,9 @@ trait NewRoundTrait
       $this->gamestate->nextState('count_turn');
     } else {
       $this->gamestate->setAllPlayersMultiactive();
+      foreach (Players::getAll() as $id => $player) {
+        self::giveExtraTime($id);
+      }
       $this->gamestate->nextState('action_turn');
     }
   }

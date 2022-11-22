@@ -29,7 +29,7 @@ class GodCards extends \RAUHA\Helpers\Pieces
 
   public static function refreshAll()
   {
-    self::DB()->update(['used' => NOT_USED]);
+    self::DB()->update(['used' => NOT_USED])->run();
   }
 
   /* Creation of the gods */

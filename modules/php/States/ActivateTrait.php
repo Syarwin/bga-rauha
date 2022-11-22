@@ -76,6 +76,8 @@ trait ActivateTrait
     //if something found activate it
     if ($elementIdToActivate !== null) {
       self::actActivateElement($elementIdToActivate, $isGod, Players::getActive());
+    } else { //it means that there is element to activate but it can't be automatic, then give time to player
+      self::giveExtraTime(Players::getActive()->getId());
     }
   }
 

@@ -59,7 +59,7 @@ class Notifications
     $data = [
       'player' => $player,
     ];
-    addDataCoord($data, $x, $y);
+    self::addDataCoord($data, $x, $y);
     $msg = clienttranslate('${player_name} puts a new spore on their board at position (${displayX}, ${displayY})');
     self::notifyAll('placeSpore', $msg, $data);
   }
@@ -79,7 +79,7 @@ class Notifications
       $biomeTypes['args']['i18n'][] = $key;
       $biomeTypes['args'][$key] = $types[$type];
     }
-    $biomeTypes['log'] = join($biomeTypes['log'], '/');
+    $biomeTypes['log'] = join('/', $biomeTypes['log']);
 
     $data = [
       'player' => $player,
