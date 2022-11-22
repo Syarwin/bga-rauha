@@ -104,21 +104,13 @@ class GodCards extends \RAUHA\Helpers\Pieces
     $crystalIncome = $god->getCrystalIncome() * $multiplier;
     $pointIncome = $god->getPointIncome() * $multiplier;
 
-
-    if ($cost > 0) {
-      $message = clienttranslate('By paying ${cost} crystal(s), ${player_name} activate ${godName} and receives ${crystalIncome} point(s)');
-    } else if ($crystalIncome > 0) {
-      $message = clienttranslate('${player_name} activate ${godName} and receives ${crystalIncome} crystal(s)');
-    } else if ($pointIncome > 0) {
-      $message = clienttranslate('${player_name} activate ${godName} and receives ${pointIncome} point(s)');
-    }
-
     $player->incCrystal($crystalIncome - $cost);
     $player->movePointsToken($pointIncome);
     $god->setUsed(USED);
 
     // Notifications
     Notifications::actCountGod($player, $message, $god, $cost, $crystalIncome, $pointIncome);
+    return false;
   }
 
   public function getGods()

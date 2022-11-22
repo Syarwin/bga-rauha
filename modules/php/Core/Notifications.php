@@ -161,6 +161,16 @@ class Notifications
 
   public static function actCountGod($player, $message, $god, $cost, $crystalIncome, $pointIncome)
   {
+    $message = '';
+
+    if ($cost > 0) {
+      $message = clienttranslate('By paying ${cost} crystal(s), ${player_name} activate ${godName} and receives ${crystalIncome} point(s)');
+    } else if ($crystalIncome > 0) {
+      $message = clienttranslate('${player_name} activate ${godName} and receives ${crystalIncome} crystal(s)');
+    } else if ($pointIncome > 0) {
+      $message = clienttranslate('${player_name} activate ${godName} and receives ${pointIncome} point(s)');
+    }
+
     $data = [
       'player' => $player,
       'cost' => $cost,

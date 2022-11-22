@@ -110,7 +110,8 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
 
     // Notifications
     Notifications::activateBiome($player, $biome, $cost, $crystalIncome, $pointIncome, $sporeIncome);
-    return $sporeIncome;
+
+    return ($sporeIncome > 0);
   }
 
   /**
