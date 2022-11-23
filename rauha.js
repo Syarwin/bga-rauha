@@ -35,6 +35,7 @@ define([
         ['confirmChoices', 1000],
         ['placeBiome', null],
         ['discardBiomeCrystals', 1000],
+        ['discardBiomeSpore', null],
         ['activateBiome', null],
         ['newTurn', 1000],
       ];
@@ -78,13 +79,16 @@ define([
         this._crystalCounters[player.id] = this.createCounter(`crystal-counter-${player.id}`, player.crystal);
 
         this.place('tplPlayerBoard', player, 'rauha-boards-container');
-        player.board.forEach((biome) => {
+        player.biomes.forEach((biome) => {
           this.addBiome(biome);
         });
 
         if (player.hand !== null) {
           this.place('tplBiome', player.hand, 'pending-biomes');
         }
+
+        // Change default point icon
+        dojo.place(`<svg><use href="#points-svg" /></svg>`, `icon_point_${player.id}`, 'after');
 
         // Useful to order boards
         nPlayers++;
@@ -101,40 +105,24 @@ define([
     },
 
     tplPlayerBoard(player) {
+      let content = '';
+      for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < 5; j++) {
+          if (i == 0 || j == 0 || i == 4 || j == 4) {
+            content += '<div></div>';
+          } else {
+            let y = i - 1,
+              x = j - 1;
+            let spore = player.board[y][x] == 1 ? `<div class='spore'></div>` : '';
+            content += `<div class='board-cell cell-node' data-x='${x}' data-y='${y}'><div class='spore-holder'>${spore}</div></div>`;
+          }
+        }
+      }
       return `<div class='rauha-board' id='board-${player.id}' data-color='${player.color}'>
         <div class='player-name' style='color:#${player.color}'>${player.name}</div>
         <div class='board-grid'>
           <div class="rauha-avatar"></div>
-
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-
-          <div></div>
-          <div class='board-cell cell-node'  data-x='0' data-y='0'></div>
-          <div class='board-cell cell-node'  data-x='1' data-y='0'></div>
-          <div class='board-cell cell-node'  data-x='2' data-y='0'></div>
-          <div></div>
-
-          <div></div>
-          <div class='board-cell cell-node'  data-x='0' data-y='1'></div>
-          <div class='board-cell cell-node'  data-x='1' data-y='1'></div>
-          <div class='board-cell cell-node'  data-x='2' data-y='1'></div>
-          <div></div>
-
-          <div></div>
-          <div class='board-cell cell-node'  data-x='0' data-y='2'></div>
-          <div class='board-cell cell-node'  data-x='1' data-y='2'></div>
-          <div class='board-cell cell-node'  data-x='2' data-y='2'></div>
-          <div></div>
-
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          ${content}
         </div>
       </div>`;
     },
@@ -167,7 +155,7 @@ define([
           from: targetSource || 'page-title',
           destroy: true,
           phantom: false,
-          duration: 1000,
+          duration: 1200,
         }).then(() => this._crystalCounters[pId].incValue(n));
       } else {
         this._crystalCounters[pId].incValue(n);
@@ -175,9 +163,25 @@ define([
           from: `crystal-counter-${pId}`,
           destroy: true,
           phantom: false,
-          duration: 1000,
+          duration: 1200,
         });
       }
+    },
+
+    gainPoints(pId, n, targetSource = null) {
+      if (this.isFastMode()) {
+        this.scoreCtrl[pId].incValue(n);
+        return Promise.resolve();
+      }
+
+      let elem = `<div id='points-animation' class='points-icon'>${Math.abs(n)}</div>`;
+      $('page-content').insertAdjacentHTML('beforeend', elem);
+      return this.slide('points-animation', `player_score_${pId}`, {
+        from: targetSource || 'page-title',
+        destroy: true,
+        phantom: false,
+        duration: 1200,
+      }).then(() => this.scoreCtrl[pId].incValue(n));
     },
 
     ////////////////////////////////////////////
@@ -409,7 +413,9 @@ define([
           this.takeAction('actDiscardCrystals', {});
         });
       });
-      this.addDangerActionButton('btnDiscardSpore', _('Discard and get 1 Spore'), () => debug('TODO'));
+      this.addDangerActionButton('btnDiscardSpore', _('Discard and get 1 Spore'), () =>
+        this.clientState('discardBiomeSpore', _('Select the place where you want to place the spore'), args),
+      );
 
       let selectedPlace = null;
       let selectedCell = null;
@@ -432,6 +438,28 @@ define([
               this.takeAction('actPlaceBiome', { x: selectedPlace[0], y: selectedPlace[1] }),
             );
           }
+        });
+      });
+    },
+
+    onEnteringStateDiscardBiomeSpore(args) {
+      this.addCancelStateBtn();
+
+      let selectedPlace = null;
+      let selectedCell = null;
+      args.possibleSporePlaces.forEach((place) => {
+        let cell = this.getCell(this.player_id, place[0], place[1]);
+        this.onClick(cell, () => {
+          if (selectedCell !== null) {
+            selectedCell.classList.remove('selected');
+          }
+
+          selectedCell = cell;
+          selectedCell.classList.add('selected');
+          selectedPlace = place;
+          this.addDangerActionButton('btnConfirmPlace', _('Confirm and discard biome'), () =>
+            this.takeAction('actDiscardSpore', { x: selectedPlace[0], y: selectedPlace[1] }),
+          );
         });
       });
     },
@@ -463,6 +491,24 @@ define([
       }
 
       this.gainPayCrystal(n.args.player_id, 4);
+    },
+
+    notif_discardBiomeSpore: async function (n) {
+      debug('Notif: discard a biome for a spore crystals', n);
+      if (this.player_id == n.args.player_id) {
+        let biome = $('pending-biomes').querySelector('.biome-card');
+        await this.slide(biome, 'page-title', {
+          phantom: false,
+          destroy: true,
+        });
+      }
+
+      let elem = dojo.place(`<div class='spore'></div>`, 'page-title');
+      await this.slide(elem, this.getCell(n.args.player_id, n.args.x, n.args.y).querySelector('.spore-holder'), {
+        phantom: false,
+      });
+
+      this.notifqueue.setSynchronousDuration(200);
     },
 
     ////////////////////////////////////////////////
@@ -508,10 +554,10 @@ define([
 
       // Gain points
       if (n.args.pointIncome > 0) {
-        this.scoreCtrl[n.args.player_id].incValue(+n.args.pointIncome);
+        await this.gainPoints(n.args.player_id, +n.args.pointIncome);
       }
 
-      this.notifqueue.setSynchronousDuration(100);
+      this.notifqueue.setSynchronousDuration(200);
     },
 
     ////////////////////////////////////////////////////////

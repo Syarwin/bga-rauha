@@ -26,6 +26,13 @@
   background-color: #f5f3ef;
   border: 1px solid #4a4a4a !important; }
 
+.player_score .fa.fa-star {
+  display: none; }
+.player_score svg {
+  width: 16px;
+  height: 16px;
+  vertical-align: text-top; }
+
 .crystal-icon {
   width: 35px;
   height: 45px;
@@ -38,6 +45,19 @@
   justify-content: center;
   align-items: flex-end;
   padding-bottom: 2px;
+  box-sizing: border-box; }
+
+.points-icon {
+  width: 50px;
+  height: 50px;
+  background-image: url("img/points.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  font-family: "Bernard MT Condensed";
+  font-size: 21px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   box-sizing: border-box; }
 
 .rauha-panel {
@@ -61,6 +81,14 @@
   flex-flow: column;
   justify-content: center;
   align-items: center; }
+
+.spore {
+  width: 50px;
+  height: 50px;
+  background: url("img/spore.png");
+  background-size: 200% 100%; }
+  .spore.used {
+    background-position-x: 100%; }
 
 .rauha-board {
   width: 822px;
@@ -87,15 +115,32 @@
         position: absolute;
         top: 0;
         left: 0; }
+    .rauha-board .board-grid .cell-node.selectable::before, .rauha-board .board-grid .cell-node.selected::before {
+      content: "";
+      display: block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 100; }
     .rauha-board .board-grid .cell-node.selectable {
-      cursor: pointer;
-      background: #ff000020; }
-      .rauha-board .board-grid .cell-node.selectable:hover {
+      cursor: pointer; }
+      .rauha-board .board-grid .cell-node.selectable::before {
+        background: #ff000020; }
+      .rauha-board .board-grid .cell-node.selectable:hover::before {
         background: #ff000070; }
-    .rauha-board .board-grid .cell-node.selected {
+    .rauha-board .board-grid .cell-node.selected::before {
       background: #2fff5270; }
-      .rauha-board .board-grid .cell-node.selected:hover {
-        background: #2fff52a0; }
+    .rauha-board .board-grid .cell-node.selected:hover::before {
+      background: #2fff52a0; }
+    .rauha-board .board-grid .cell-node .spore-holder {
+      width: 50px;
+      height: 50px;
+      position: absolute;
+      z-index: 99;
+      top: 166px;
+      left: 33px; }
     .rauha-board .board-grid .rauha-avatar {
       width: 80px;
       height: 50px;

@@ -36,7 +36,7 @@ class Player extends \RAUHA\Helpers\DB_Model
     $data = parent::getUiData();
     $current = $this->id == $currentPlayerId;
     $data['hand'] = $current ? $this->getBiomeInHand() : null;
-    $data['board'] = BiomeCards::getAllBiomesOnPlayerBoard($this);
+    $data['biomes'] = BiomeCards::getAllBiomesOnPlayerBoard($this);
 
     return $data;
   }

@@ -41,7 +41,7 @@ class Notifications
     self::notifyAll('discardBiomeCrystals', $msg, $data);
   }
 
-  public static function discardSpore($currentPlayer, $discardCount, $x, $y)
+  public static function discardBiomeSpore($currentPlayer, $discardCount, $x, $y)
   {
     $data = [
       'player' => $currentPlayer,
@@ -51,7 +51,7 @@ class Notifications
     $msg = clienttranslate(
       '${player_name} discards their Biome and place a new spore on their board at position (${displayX}, ${displayY})'
     );
-    self::notifyAll('discard', $msg, $data);
+    self::notifyAll('discardBiomeSpore', $msg, $data);
   }
 
   public static function placeSpore($player, $x, $y)
@@ -92,12 +92,12 @@ class Notifications
 
     $msg =
       $cost == 0
-      ? clienttranslate(
-        '${player_name} plays a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
-      )
-      : clienttranslate(
-        '${player_name} pays ${cost} crystal(s) to play a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
-      );
+        ? clienttranslate(
+          '${player_name} plays a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
+        )
+        : clienttranslate(
+          '${player_name} pays ${cost} crystal(s) to play a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
+        );
     self::notifyAll('placeBiome', $msg, $data);
   }
 
@@ -164,10 +164,12 @@ class Notifications
     $message = '';
 
     if ($cost > 0) {
-      $message = clienttranslate('By paying ${cost} crystal(s), ${player_name} activate ${godName} and receives ${crystalIncome} point(s)');
-    } else if ($crystalIncome > 0) {
+      $message = clienttranslate(
+        'By paying ${cost} crystal(s), ${player_name} activate ${godName} and receives ${crystalIncome} point(s)'
+      );
+    } elseif ($crystalIncome > 0) {
       $message = clienttranslate('${player_name} activate ${godName} and receives ${crystalIncome} crystal(s)');
-    } else if ($pointIncome > 0) {
+    } elseif ($pointIncome > 0) {
       $message = clienttranslate('${player_name} activate ${godName} and receives ${pointIncome} point(s)');
     }
 
@@ -187,7 +189,7 @@ class Notifications
       'player' => $player,
       'points' => $points,
       'waterSource' => $player->getWaterSource(),
-      'waterSourceDelta' => $waterSourceDelta
+      'waterSourceDelta' => $waterSourceDelta,
     ];
     $message = clienttranslate(
       'With ${waterSource} water source(s) (${waterSourceDelta} more than the minimum), ${player_name} receives ${points} points.'

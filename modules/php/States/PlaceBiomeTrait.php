@@ -98,7 +98,7 @@ trait PlaceBiomeTrait
     $currentPlayer->placeSpore($x, $y);
 
     // Notification
-    Notifications::discardSpore($currentPlayer, BiomeCards::countInLocation('discard'), $x, $y);
+    Notifications::discardBiomeSpore($currentPlayer, BiomeCards::countInLocation('discard'), $x, $y);
 
     // Change state
     $this->gamestate->nextState('');

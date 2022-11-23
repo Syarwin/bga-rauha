@@ -5,6 +5,17 @@
     align-items: center;
 }
 
+.spore {
+    width: 50px;
+    height: 50px;
+    background: url("img/spore.png");
+    background-size: 200% 100%;
+
+    &.used {
+        background-position-x: 100%;
+    }
+}
+
 .rauha-board {
     width: 822px;
     height: 822px;
@@ -40,18 +51,46 @@
             }
         }
         .cell-node {
+            &.selectable,
+            &.selected {
+                &::before {
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    top: 0;
+                    bottom: 0;
+                    z-index: 100;
+                }
+            }
+
             &.selectable {
                 cursor: pointer;
-                background: #ff000020;
-                &:hover {
+
+                &::before {
+                    background: #ff000020;
+                }
+                &:hover::before {
                     background: #ff000070;
                 }
             }
             &.selected {
-                background: #2fff5270;
-                &:hover {
+                &::before {
+                    background: #2fff5270;
+                }
+                &:hover::before {
                     background: #2fff52a0;
                 }
+            }
+
+            .spore-holder {
+                width: 50px;
+                height: 50px;
+                position: absolute;
+                z-index: 99;
+                top: 166px;
+                left: 33px;
             }
         }
 
