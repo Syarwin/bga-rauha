@@ -15,63 +15,63 @@ use RAUHA\Models\Player;
 
 trait CountTurnTrait
 {
-    /**
-     * Determine who's next player (the first player if turn is not on going, the next player else)
-     */
-    public function stCountNextPlayer()
-    {
-        if (Globals::getTurnOnGoing() == 0) {
-            Globals::setTurnOnGoing(1);
-            Players::changeActive(Globals::getFirstPlayer());
-            $this->gamestate->nextState('next_player_count');
-        } else {
-            $nextPlayerId = Players::getNextId();
+  /**
+   * Determine who's next player (the first player if turn is not on going, the next player else)
+   */
+  public function stCountNextPlayer()
+  {
+    if (Globals::getTurnOnGoing() == 0) {
+      Globals::setTurnOnGoing(1);
+      Players::changeActive(Globals::getFirstPlayer());
+      $this->gamestate->nextState('next_player_count');
+    } else {
+      $nextPlayerId = Players::getNextId(Players::getActiveId());
 
-            //if next player is first player, round is done
-            if ($nextPlayerId == Globals::getFirstPlayer()) {
-                Globals::setTurnOnGoing(0);
-                $this->gamestate->nextState('end_turn');
-            } else {
-                Players::changeActive($nextPlayerId);
-                $this->gamestate->nextState('next_player_count');
-            }
-        }
+      //if next player is first player, round is done
+      if ($nextPlayerId == Globals::getFirstPlayer()) {
+        Globals::setTurnOnGoing(0);
+        $this->gamestate->nextState('end_turn');
+      } else {
+        Players::changeActive($nextPlayerId);
+        $this->gamestate->nextState('next_player_count');
+      }
     }
+  }
 
-    public function argCountAction()
-    {
-        $player = Players::getActive();
-        return [
-            'activableBiomes' => BiomeCards::getActivableBiomes($player),
-            'activableGods' => GodCards::getActivableGods($player),
-            'possibleSporePlaces' => $player->getSporesPlaces(false),
-        ];
+  public function argCountAction()
+  {
+    $player = Players::getActive();
+    return [
+      'activableBiomes' => BiomeCards::getActivableBiomes($player),
+      'activableGods' => GodCards::getActivableGods($player),
+      'possibleSporePlaces' => $player->getSporesPlaces(false),
+    ];
+  }
+
+  public function stCountAction()
+  {
+    $player = Players::getActive();
+    $arg = $this->getArgs();
+
+    if (empty($arg['activableGods']) && empty($arg['activableBiomes'])) {
+      self::actSkip($player->getId());
+    } else {
+      self::activateAutomaticElements($arg);
     }
+  }
 
-    public function stCountAction()
-    {
-        $player = Players::getActive();
-        $arg = $this->getArgs();
+  public function stCountWaterSource()
+  {
+    $minWaterSource = Players::getMinWaterSource();
 
-        if (empty($arg['activableGods']) && empty($arg['activableBiomes'])) {
-            self::actSkip($player->getId());
-        } else {
-            self::activateAutomaticElements($arg);
-        }
+    foreach (Players::getAll() as $id => $player) {
+      $waterSource = $player->getWaterSource();
+      $waterSourceDelta = $waterSource - $minWaterSource;
+      $points = POINTS_FOR_WATER_SOURCE[max(5, $waterSourceDelta)];
+      $player->movePointsToken($points);
+      if ($points > 0) {
+        Notifications::waterSourceCount($player, $waterSourceDelta, $points);
+      }
     }
-
-    public function stCountWaterSource()
-    {
-        $minWaterSource = Players::getMinWaterSource();
-
-        foreach (Players::getAll() as $id => $player) {
-            $waterSource = $player->getWaterSource();
-            $waterSourceDelta = $waterSource - $minWaterSource;
-            $points = POINTS_FOR_WATER_SOURCE[max(5, $waterSourceDelta)];
-            $player->movePointsToken($points);
-            if ($points > 0) {
-                Notifications::waterSourceCount($player, $waterSourceDelta, $points);
-            }
-        }
-    }
+  }
 }
