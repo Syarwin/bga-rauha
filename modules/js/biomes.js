@@ -1,7 +1,15 @@
-let f = (data) => {
+let f = (t) => {
   return {
-    types: data[0],
-    animals: data[1],
+    types: t[0],
+    animals: t[1],
+    layingConstraints: t[2],
+    layingCost: t[3],
+    crystalIncome: t[4],
+    pointIncome: t[5],
+    multiplier: t[6],
+    usageCost: t[7],
+    sporeIncome: t[8],
+    waterSource: t[9],
   };
 };
 

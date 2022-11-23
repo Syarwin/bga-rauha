@@ -37,6 +37,7 @@ define([
         ['discardBiomeCrystals', 1000],
         ['discardBiomeSpore', null],
         ['activateBiome', null],
+        ['placeSpore', 1300],
         ['newTurn', 1000],
       ];
 
@@ -511,6 +512,14 @@ define([
       this.notifqueue.setSynchronousDuration(200);
     },
 
+    notif_placeSpore(n) {
+      debug('Notif: placing a spore', n);
+      let elem = dojo.place(`<div class='spore'></div>`, 'page-title');
+      this.slide(elem, this.getCell(n.args.player_id, n.args.x, n.args.y).querySelector('.spore-holder'), {
+        phantom: false,
+      });
+    },
+
     ////////////////////////////////////////////////
     //     _        _   _            _
     //    / \   ___| |_(_)_   ____ _| |_ ___
@@ -520,10 +529,15 @@ define([
     ////////////////////////////////////////////////
     onEnteringStateActivate(args) {
       args.activableBiomes.forEach((biome) => {
+        this.loadBiomeData(biome);
         this.onClick(`biome-${biome.id}`, () => {
-          // TODO : check whether the power is a "place spore" thing or not
-          if (true) {
+          if (biome.sporeIncome == 0) {
             this.takeAction('actActivateBiome', { biomeId: biome.id });
+          } else {
+            this.clientState('activateSpore', _('Select the place where you want to place the spore'), {
+              biomeId: biome.id,
+              possibleSporePlaces: args.possibleSporePlaces,
+            });
           }
         });
       });
@@ -535,11 +549,35 @@ define([
       });
     },
 
+    onEnteringStateActivateSpore(args) {
+      this.addCancelStateBtn();
+      $(`biome-${args.biomeId}`).classList.add('selected');
+
+      let selectedPlace = null;
+      let selectedCell = null;
+      args.possibleSporePlaces.forEach((place) => {
+        let cell = this.getCell(this.player_id, place[0], place[1]);
+        this.onClick(cell, () => {
+          if (selectedCell !== null) {
+            selectedCell.classList.remove('selected');
+          }
+
+          selectedCell = cell;
+          selectedCell.classList.add('selected');
+          selectedPlace = place;
+          this.addPrimaryActionButton('btnConfirmPlace', _('Confirm and activate biome'), () =>
+            this.takeAction('actActivateBiome', { biomeId: args.biomeId, x: selectedPlace[0], y: selectedPlace[1] }),
+          );
+        });
+      });
+    },
+
     notif_activateBiome: async function (n) {
       debug('Notif: activating biome', n);
 
       // Flag the biome as used
       let oBiome = $(`biome-${n.args.biomeId}`);
+      oBiome.classList.remove('selected');
       oBiome.dataset.used = '1';
 
       // Pay crystal cost if any

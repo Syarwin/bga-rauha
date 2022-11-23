@@ -54,13 +54,15 @@ class Notifications
     self::notifyAll('discardBiomeSpore', $msg, $data);
   }
 
-  public static function placeSpore($player, $x, $y)
+  public static function placeSpore($player, $x, $y, $silent = false)
   {
     $data = [
       'player' => $player,
     ];
     self::addDataCoord($data, $x, $y);
-    $msg = clienttranslate('${player_name} puts a new spore on their board at position (${displayX}, ${displayY})');
+    $msg = $silent
+      ? ''
+      : clienttranslate('${player_name} puts a new spore on their board at position (${displayX}, ${displayY})');
     self::notifyAll('placeSpore', $msg, $data);
   }
 

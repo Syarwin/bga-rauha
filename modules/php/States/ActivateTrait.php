@@ -31,7 +31,6 @@ trait ActivateTrait
     $arg = $this->getArgs();
 
     if (empty($arg['activableGods']) && empty($arg['activableBiomes'])) {
-
       $this->actSkip($player->getId());
     } else {
       $this->activateAutomaticElements($arg);
@@ -76,7 +75,8 @@ trait ActivateTrait
     //if something found activate it
     if ($elementIdToActivate !== null) {
       self::actActivateElement($elementIdToActivate, $isGod, Players::getActive());
-    } else { //it means that there is element to activate but it can't be automatic, then give time to player
+    } else {
+      //it means that there is element to activate but it can't be automatic, then give time to player
       self::giveExtraTime(Players::getActive()->getId());
     }
   }
@@ -121,8 +121,9 @@ trait ActivateTrait
 
     $boolSpore = $isGod ? GodCards::activate($elementId) : BiomeCards::activate($elementId);
 
-    if ($boolSpore && $x != null && $y != null) {
+    if ($boolSpore && !is_null($x) && !is_null($y)) {
       $player->placeSpore($x, $y);
+      Notifications::placeSpore($player, $x, $y, true);
     }
 
     // Change state

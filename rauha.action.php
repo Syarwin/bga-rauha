@@ -82,7 +82,7 @@ class action_rauha extends APP_GameAction
     $biomeId = self::getArg('biomeId', AT_posint, true);
     $x = (int) self::getArg('x', AT_posint, false); //$x and $y for spore placing
     $y = (int) self::getArg('y', AT_posint, false);
-    $this->game->actActivateElement($biomeId, false, $x, $y);
+    $this->game->actActivateElement($biomeId, false, null, $x, $y);
     self::ajaxResponse();
   }
 
@@ -92,7 +92,7 @@ class action_rauha extends APP_GameAction
     $godId = self::getArg('godId', AT_posint, true);
     $x = (int) self::getArg('x', AT_posint, false); //$x and $y for spore placing
     $y = (int) self::getArg('y', AT_posint, false);
-    $this->game->actActivateElement($godId, true, $x, $y);
+    $this->game->actActivateElement($godId, true, null, $x, $y);
     self::ajaxResponse();
   }
 
