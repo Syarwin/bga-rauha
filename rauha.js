@@ -585,36 +585,7 @@ define([
     },
 
     onEnteringStateCountAction(args) {
-      args.activableBiomes.forEach((biome) => {
-        this.loadBiomeData(biome);
-        this.onClick(`biome-${biome.id}`, () => {
-          if (biome.sporeIncome == 0) {
-            this.takeAction('actActivateBiome', { biomeId: biome.id });
-          } else {
-            this.clientState('activateSpore', _('Select the place where you want to place the spore'), {
-              biomeId: biome.id,
-              possibleSporePlaces: args.possibleSporePlaces,
-            });
-          }
-        });
-      });
-
-      args.activableGods.forEach((god) => {
-        let infos = this.getGodInformation(god);
-        this.addPrimaryActionButton(
-          `btnActivateGod${god.id}`,
-          this.fsr(_('Activate ${godName}'), { godName: infos.name }),
-          () => {
-            this.takeAction('actActivateGod', { godId: god.id });
-          },
-        );
-      });
-
-      this.addDangerActionButton('btnPass', _('Pass'), () => {
-        this.confirmationDialog(_("Are you sure you don't want to activate remaining god/biome card(s)?"), () => {
-          this.takeAction('actSkip', {});
-        });
-      });
+      this.onEnteringStateActivate(args);
     },
 
     onEnteringStateActivateSpore(args) {

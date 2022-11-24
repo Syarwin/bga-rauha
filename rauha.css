@@ -259,7 +259,6 @@
   position: relative;
   width: 230px;
   height: 230px;
-  background-image: url("img/age1.jpg");
   background-size: 500% 800%;
   border-radius: 40px;
   box-shadow: 2px 2px 5px -1px black; }
@@ -533,7 +532,12 @@
   .biome-card[data-id="179"] {
     background-position-x: 100%;
     background-position-y: 100%; }
-
+  .biome-card.age1 {
+  background-image: url("img/age1.jpg");
+  }
+  .biome-card.age2 {
+    background-image: url("img/age2.jpg");
+    }
 :root {
   --rauhaGodScale: 0.06; }
 
