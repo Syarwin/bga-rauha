@@ -124,13 +124,7 @@ trait ActivateTrait
       throw new \BgaVisibleSystemException('You can\'t activate this Biome/God now. Should not happen');
     }
 
-    $boolSpore = $isGod ? GodCards::activate($elementId) : BiomeCards::activate($elementId, $x, $y);
-
-    //TODO REMOVE
-    if ($boolSpore && !is_null($x) && !is_null($y)) {
-      $player->placeSpore($x, $y);
-      Notifications::placeSpore($player, $x, $y, true);
-    }
+    $isGod ? GodCards::activate($elementId) : BiomeCards::activate($elementId, $x, $y);
 
     // Change state
     $this->gamestate->nextState('actActivate');
