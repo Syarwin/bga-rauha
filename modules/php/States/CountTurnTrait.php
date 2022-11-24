@@ -25,7 +25,7 @@ trait CountTurnTrait
       Players::changeActive(Globals::getFirstPlayer());
       $this->gamestate->nextState('next_player_count');
     } else {
-      $nextPlayerId = Players::getNextId(Players::getActiveId());
+      $nextPlayerId = Players::getNextId((int)Players::getActiveId());
 
       //if next player is first player, round is done
       if ($nextPlayerId == Globals::getFirstPlayer()) {
