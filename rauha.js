@@ -508,16 +508,9 @@ define([
       await this.slide(elem, this.getCell(n.args.player_id, n.args.x, n.args.y).querySelector('.spore-holder'), {
         phantom: false,
       });
+      
 
       this.notifqueue.setSynchronousDuration(200);
-    },
-
-    notif_placeSpore(n) {
-      debug('Notif: placing a spore', n);
-      let elem = dojo.place(`<div class='spore'></div>`, 'page-title');
-      this.slide(elem, this.getCell(n.args.player_id, n.args.x, n.args.y).querySelector('.spore-holder'), {
-        phantom: false,
-      });
     },
 
     ////////////////////////////////////////////////
@@ -593,6 +586,14 @@ define([
       // Gain points
       if (n.args.pointIncome > 0) {
         await this.gainPoints(n.args.player_id, +n.args.pointIncome);
+      }
+
+      // Place spore
+      if (n.args.sporeIncome > 0) {
+        let elem = dojo.place(`<div class='spore'></div>`, 'page-title');
+      this.slide(elem, this.getCell(n.args.player_id, n.args.sporeX, n.args.sporeY).querySelector('.spore-holder'), {
+        phantom: false, 
+      });
       }
 
       this.notifqueue.setSynchronousDuration(200);

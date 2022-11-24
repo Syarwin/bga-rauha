@@ -156,6 +156,7 @@ class Notifications
       'cost' => $cost,
       'crystalIncome' => $crystalIncome,
       'pointIncome' => $pointIncome,
+      'sporeIncome' => $sporeIncome,
       'sporeX' => $x,
       'sporeY' => $y,
       'displaySporeX' => is_null($x) ? $x : $x + 1,
