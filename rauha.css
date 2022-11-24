@@ -90,6 +90,9 @@
       background-image: url("img/water.png");
       background-size: 100%;
       background-repeat: no-repeat; }
+.rauha-panel .rauha-gods-container {
+  display: flex;
+  flex-wrap: wrap; }
 
 #rauha-boards-container {
   display: flex;
@@ -410,6 +413,126 @@
   .biome-card[data-id="139"] {
     background-position-x: 100%;
     background-position-y: 100%; }
+  .biome-card[data-id="140"] {
+    background-position-x: 0%;
+    background-position-y: 0%; }
+  .biome-card[data-id="141"] {
+    background-position-x: 25%;
+    background-position-y: 0%; }
+  .biome-card[data-id="142"] {
+    background-position-x: 50%;
+    background-position-y: 0%; }
+  .biome-card[data-id="143"] {
+    background-position-x: 75%;
+    background-position-y: 0%; }
+  .biome-card[data-id="144"] {
+    background-position-x: 100%;
+    background-position-y: 0%; }
+  .biome-card[data-id="145"] {
+    background-position-x: 0%;
+    background-position-y: 14.2857142857%; }
+  .biome-card[data-id="146"] {
+    background-position-x: 25%;
+    background-position-y: 14.2857142857%; }
+  .biome-card[data-id="147"] {
+    background-position-x: 50%;
+    background-position-y: 14.2857142857%; }
+  .biome-card[data-id="148"] {
+    background-position-x: 75%;
+    background-position-y: 14.2857142857%; }
+  .biome-card[data-id="149"] {
+    background-position-x: 100%;
+    background-position-y: 14.2857142857%; }
+  .biome-card[data-id="150"] {
+    background-position-x: 0%;
+    background-position-y: 28.5714285714%; }
+  .biome-card[data-id="151"] {
+    background-position-x: 25%;
+    background-position-y: 28.5714285714%; }
+  .biome-card[data-id="152"] {
+    background-position-x: 50%;
+    background-position-y: 28.5714285714%; }
+  .biome-card[data-id="153"] {
+    background-position-x: 75%;
+    background-position-y: 28.5714285714%; }
+  .biome-card[data-id="154"] {
+    background-position-x: 100%;
+    background-position-y: 28.5714285714%; }
+  .biome-card[data-id="155"] {
+    background-position-x: 0%;
+    background-position-y: 42.8571428571%; }
+  .biome-card[data-id="156"] {
+    background-position-x: 25%;
+    background-position-y: 42.8571428571%; }
+  .biome-card[data-id="157"] {
+    background-position-x: 50%;
+    background-position-y: 42.8571428571%; }
+  .biome-card[data-id="158"] {
+    background-position-x: 75%;
+    background-position-y: 42.8571428571%; }
+  .biome-card[data-id="159"] {
+    background-position-x: 100%;
+    background-position-y: 42.8571428571%; }
+  .biome-card[data-id="160"] {
+    background-position-x: 0%;
+    background-position-y: 57.1428571429%; }
+  .biome-card[data-id="161"] {
+    background-position-x: 25%;
+    background-position-y: 57.1428571429%; }
+  .biome-card[data-id="162"] {
+    background-position-x: 50%;
+    background-position-y: 57.1428571429%; }
+  .biome-card[data-id="163"] {
+    background-position-x: 75%;
+    background-position-y: 57.1428571429%; }
+  .biome-card[data-id="164"] {
+    background-position-x: 100%;
+    background-position-y: 57.1428571429%; }
+  .biome-card[data-id="165"] {
+    background-position-x: 0%;
+    background-position-y: 71.4285714286%; }
+  .biome-card[data-id="166"] {
+    background-position-x: 25%;
+    background-position-y: 71.4285714286%; }
+  .biome-card[data-id="167"] {
+    background-position-x: 50%;
+    background-position-y: 71.4285714286%; }
+  .biome-card[data-id="168"] {
+    background-position-x: 75%;
+    background-position-y: 71.4285714286%; }
+  .biome-card[data-id="169"] {
+    background-position-x: 100%;
+    background-position-y: 71.4285714286%; }
+  .biome-card[data-id="170"] {
+    background-position-x: 0%;
+    background-position-y: 85.7142857143%; }
+  .biome-card[data-id="171"] {
+    background-position-x: 25%;
+    background-position-y: 85.7142857143%; }
+  .biome-card[data-id="172"] {
+    background-position-x: 50%;
+    background-position-y: 85.7142857143%; }
+  .biome-card[data-id="173"] {
+    background-position-x: 75%;
+    background-position-y: 85.7142857143%; }
+  .biome-card[data-id="174"] {
+    background-position-x: 100%;
+    background-position-y: 85.7142857143%; }
+  .biome-card[data-id="175"] {
+    background-position-x: 0%;
+    background-position-y: 100%; }
+  .biome-card[data-id="176"] {
+    background-position-x: 25%;
+    background-position-y: 100%; }
+  .biome-card[data-id="177"] {
+    background-position-x: 50%;
+    background-position-y: 100%; }
+  .biome-card[data-id="178"] {
+    background-position-x: 75%;
+    background-position-y: 100%; }
+  .biome-card[data-id="179"] {
+    background-position-x: 100%;
+    background-position-y: 100%; }
 
 :root {
   --rauhaGodScale: 0.06; }
@@ -681,6 +804,24 @@ html {
 
 .phantom {
   visibility: hidden; }
+
+.log.notif_newTurn,
+.log.notif_newTurnScoring {
+  text-align: center;
+  background: #e3bc9280;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: "Bernard MT Condensed";
+  color: black;
+  border: 1px solid #4a4a4a; }
+  .log.notif_newTurn .roundedbox,
+  .log.notif_newTurnScoring .roundedbox {
+    background: transparent; }
+
+.log.notif_newTurnScoring {
+  background: #755738a3;
+  border: 1px solid #76b7bb;
+  color: white !important; }
 
 #ebd-body.help-mode .tooltipable {
   cursor: help; }

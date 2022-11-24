@@ -39,6 +39,27 @@ html {
     visibility: hidden;
 }
 
+.log.notif_newTurn,
+.log.notif_newTurnScoring {
+    text-align: center;
+    background: #e3bc9280;
+    font-weight: bold;
+    font-size: 18px;
+    font-family: "Bernard MT Condensed";
+    color: black;
+    border: 1px solid #4a4a4a;
+
+    .roundedbox {
+        background: transparent;
+    }
+}
+
+.log.notif_newTurnScoring {
+    background: #755738a3;
+    border: 1px solid #76b7bb;
+    color: white !important;
+}
+
 // SAFE MODE
 #ebd-body.help-mode {
     .tooltipable {

@@ -31,6 +31,8 @@ define([
     constructor() {
       this._activeStates = ['placeBiome', 'chooseBiome', 'activate'];
       this._notifications = [
+        ['newTurn', 1000],
+        ['newTurnScoring', 1000],
         ['chooseBiome', 100],
         ['confirmChoices', 1000],
         ['placeBiome', null],
@@ -39,9 +41,11 @@ define([
         ['activateBiome', null],
         ['activateGod', null],
         ['placeSpore', 1300],
-        ['newTurn', 1000],
         ['newAlignment', 1000],
         ['endActivation', 500],
+        ['refreshGods', 500],
+        ['refreshBiomes', 500],
+        ['waterSourceCount', 1300],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -191,6 +195,11 @@ define([
         phantom: false,
         duration: 1200,
       }).then(() => this.scoreCtrl[pId].incValue(n));
+    },
+
+    notif_waterSourceCount(n) {
+      debug('Notif: scoring phase, count water sources', n);
+      this.gainPoints(n.args.player_id, n.args.points);
     },
 
     ////////////////////////////////////////////
@@ -371,6 +380,11 @@ define([
       let god = $(`god-${n.args.godId}`);
       god.dataset.used = 0;
       this.slide(god, `gods-${n.args.player_id}`);
+
+      this._waterCounters[n.args.player_id].toValue(n.args.waterSourceCount);
+      if (n.args.playerIdLoosingGod !== null) {
+        this._waterCounters[n.args.playerIdLoosingGod].toValue(n.args.waterSourceCountPlayerLoosingGod);
+      }
     },
 
     //////////////////////////////////////////////////////////////////////
@@ -495,6 +509,7 @@ define([
       $(`biome-${biome.id}`).classList.remove('choice');
       await this.slide(`biome-${biome.id}`, this.getCell(n.args.player_id, n.args.x, n.args.y));
 
+      this._waterCounters[n.args.player_id].toValue(n.args.waterSourceCount);
       this.notifqueue.setSynchronousDuration(100);
     },
 
@@ -643,6 +658,15 @@ define([
       );
     },
 
+    notif_refreshGods(n) {
+      [...document.querySelectorAll('.rauha-god')].forEach((oGod) => (oGod.dataset.used = 0));
+    },
+
+    notif_refreshBiomes(n) {
+      debug('Notif: refreshing all the biomes', n);
+      [...document.querySelectorAll('.biome-card[data-used="1"]')].forEach((oBiome) => (oBiome.dataset.used = 0));
+    },
+
     ////////////////////////////////////////////////////////
     //  ___        __         ____                  _
     // |_ _|_ __  / _| ___   |  _ \ __ _ _ __   ___| |
@@ -730,8 +754,13 @@ define([
 
     notif_newTurn(n) {
       debug('Notif: starting a new turn', n);
-      this.gamedatas.turn = n.args.turn;
+      this.gamedatas.turn = n.args.step;
       this.updateTurn();
+    },
+
+    notif_newTurnScoring(n) {
+      debug('Notif: starting a new turn', n);
+      this.notif_newTurn(n);
     },
   });
 });

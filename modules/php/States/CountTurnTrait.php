@@ -54,7 +54,7 @@ trait CountTurnTrait
     $arg = $this->getArgs();
 
     if (empty($arg['activableGods']) && empty($arg['activableBiomes'])) {
-      self::actSkip($player->getId());
+      self::actSkip($player->getId(), true);
     } else {
       self::activateAutomaticElements($arg);
     }

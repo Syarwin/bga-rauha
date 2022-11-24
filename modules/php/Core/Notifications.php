@@ -8,13 +8,27 @@ use RAUHA\Core\Globals;
 
 class Notifications
 {
-  public static function newTurn($turn)
+  public static function newTurn($step)
   {
+    $round = (int) (($step - 1) / 4 + 1);
+    $turn = $step % 4;
     $data = [
+      'step' => $step,
       'turn' => $turn,
+      'round' => $round,
     ];
-    $msg = clienttranslate('New turn : Avatars move to next area');
-    self::notifyAll('newTurn', $msg, $data);
+
+    if ($turn == 0) {
+      $msg = clienttranslate('Round ${round}: scoring phase');
+      self::notifyAll('newTurnScoring', $msg, $data);
+    } else {
+      $msgs = [
+        1 => clienttranslate('Round ${round}: first turn'),
+        2 => clienttranslate('Round ${round}: second turn'),
+        3 => clienttranslate('Round ${round}: third turn'),
+      ];
+      self::notifyAll('newTurn', $msgs[$turn], $data);
+    }
   }
 
   public static function chooseBiome($currentPlayer, $biomeId)
@@ -120,7 +134,7 @@ class Notifications
       'godName' => $god->getName(),
       'type' => $types[$type],
       'waterSourceCount' => $player->getWaterSource(),
-      'playerLoosingGod' => $playerLoosingGod,
+      'playerIdLoosingGod' => is_null($playerLoosingGod) ? null : $playerLoosingGod->getId(),
       'waterSourceCountPlayerLoosingGod' => is_null($playerLoosingGod) ? 0 : $playerLoosingGod->getWaterSource(),
     ];
     $msg = clienttranslate('By aligning 3 Biomes with ${type}, ${player_name} receives ${godName}');
@@ -216,12 +230,12 @@ class Notifications
 
   public static function refreshBiomes()
   {
-    self::notifyAll('refreshBiomes', '', null);
+    self::notifyAll('refreshBiomes', '', []);
   }
 
   public static function refreshGods()
   {
-    self::notifyAll('refreshGods', '', null);
+    self::notifyAll('refreshGods', '', []);
   }
 
   /*************************
