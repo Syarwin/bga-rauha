@@ -53,7 +53,7 @@ class GodCard extends \RAUHA\Helpers\DB_Model
 
   public function isActivable()
   {
-    if ($this->name == 'MERI') {
+    if ($this->name == 'VUORI') {
       return false;
     } else {
       return $this->used == NOT_USED;
