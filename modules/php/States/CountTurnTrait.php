@@ -59,19 +59,4 @@ trait CountTurnTrait
       self::activateAutomaticElements($arg);
     }
   }
-
-  public function stCountWaterSource()
-  {
-    $minWaterSource = Players::getMinWaterSource();
-
-    foreach (Players::getAll() as $id => $player) {
-      $waterSource = $player->getWaterSource();
-      $waterSourceDelta = $waterSource - $minWaterSource;
-      $points = POINTS_FOR_WATER_SOURCE[max(5, $waterSourceDelta)];
-      $player->movePointsToken($points);
-      if ($points > 0) {
-        Notifications::waterSourceCount($player, $waterSourceDelta, $points);
-      }
-    }
-  }
 }

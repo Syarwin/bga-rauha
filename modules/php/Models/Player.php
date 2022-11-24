@@ -82,7 +82,7 @@ class Player extends \RAUHA\Helpers\DB_Model
     $places = [];
     for ($y = 0; $y < 3; $y++) {
       for ($x = 0; $x < 3; $x++) {
-        if ($this->board[$x][$y] == $seek) {
+        if ($this->board[$y][$x] == $seek) { //CHECK IF IT'S OK
           $places[] = [$x, $y];
         }
       }
@@ -93,7 +93,7 @@ class Player extends \RAUHA\Helpers\DB_Model
   public function placeSpore($x, $y)
   {
     $board = $this->board;
-    $board[$x][$y] = 1;
+    $board[$y][$x] = 1; //CHECK IF IT'S OK
     $this->setBoard($board);
   }
 

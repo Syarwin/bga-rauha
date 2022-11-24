@@ -94,6 +94,11 @@ trait ActivateTrait
 
     $player->setGodsUsed();
 
+    //if we are in a count turn -> count for water source
+    if (Globals::getTurn() % 4 == 0) {
+      Players::getPointsForWaterSource($player);
+    }
+
     // Notification
     Notifications::skip($player);
 
@@ -119,8 +124,9 @@ trait ActivateTrait
       throw new \BgaVisibleSystemException('You can\'t activate this Biome/God now. Should not happen');
     }
 
-    $boolSpore = $isGod ? GodCards::activate($elementId) : BiomeCards::activate($elementId);
+    $boolSpore = $isGod ? GodCards::activate($elementId) : BiomeCards::activate($elementId, $x, $y);
 
+    //TODO REMOVE
     if ($boolSpore && !is_null($x) && !is_null($y)) {
       $player->placeSpore($x, $y);
       Notifications::placeSpore($player, $x, $y, true);

@@ -54,6 +54,7 @@ class Notifications
     self::notifyAll('discardBiomeSpore', $msg, $data);
   }
 
+  //TODO REMOVE
   public static function placeSpore($player, $x, $y, $silent = false)
   {
     $data = [
@@ -94,12 +95,12 @@ class Notifications
 
     $msg =
       $cost == 0
-        ? clienttranslate(
-          '${player_name} plays a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
-        )
-        : clienttranslate(
-          '${player_name} pays ${cost} crystal(s) to play a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
-        );
+      ? clienttranslate(
+        '${player_name} plays a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
+      )
+      : clienttranslate(
+        '${player_name} pays ${cost} crystal(s) to play a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
+      );
     self::notifyAll('placeBiome', $msg, $data);
   }
 
@@ -126,7 +127,7 @@ class Notifications
     self::message(clienttranslate('${player_name} passes.'), $data);
   }
 
-  public static function activateBiome($player, $biome, $cost, $crystalIncome, $pointIncome, $sporeIncome)
+  public static function activateBiome($player, $biome, $cost, $crystalIncome, $pointIncome, $sporeIncome, $x, $y)
   {
     $message = '';
     if ($cost > 0) {
@@ -134,9 +135,9 @@ class Notifications
         $message = clienttranslate(
           'By paying ${cost} crystal(s), ${player_name} activate their Biome at position (${displayX}, ${displayY}) and receives ${pointIncome} point(s)'
         );
-      } elseif ($sporeIncome == 1) {
+      } elseif ($sporeIncome > 0) {
         $message = clienttranslate(
-          'By paying ${cost} crystal(s), ${player_name} activate their Biome at position (${displayX}, ${displayY}) and receives a new spore'
+          'By paying ${cost} crystal(s), ${player_name} activate their Biome at position (${displayX}, ${displayY}) and places a new spore at (${displaySporeX}, ${displaySporeY})'
         );
       }
     } elseif ($crystalIncome > 0) {
@@ -155,13 +156,17 @@ class Notifications
       'cost' => $cost,
       'crystalIncome' => $crystalIncome,
       'pointIncome' => $pointIncome,
+      'sporeX' => $x,
+      'sporeY' => $y,
+      'displaySporeX' => is_null($x) ? $x : $x + 1,
+      'displaySporeY' => is_null($y) ? $y : $y + 1,
     ];
 
     self::addDataCoord($data, $biome->getX(), $biome->getY());
     self::notifyAll('activateBiome', $message, $data);
   }
 
-  public static function actCountGod($player, $message, $god, $cost, $crystalIncome, $pointIncome)
+  public static function activateGod($player, $message, $god, $cost, $crystalIncome, $pointIncome)
   {
     $message = '';
 
@@ -196,7 +201,18 @@ class Notifications
     $message = clienttranslate(
       'With ${waterSource} water source(s) (${waterSourceDelta} more than the minimum), ${player_name} receives ${points} points.'
     );
+
     self::notifyAll('waterSourceCount', $message, $data);
+  }
+
+  public static function refreshBiomes()
+  {
+    self::notifyAll('refreshBiomes', '', null);
+  }
+
+  public static function refreshGods()
+  {
+    self::notifyAll('refreshGods', '', null);
   }
 
   /*************************

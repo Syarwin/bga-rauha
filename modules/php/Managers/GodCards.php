@@ -30,6 +30,7 @@ class GodCards extends \RAUHA\Helpers\Pieces
   public static function refreshAll()
   {
     self::DB()->update(['used' => NOT_USED])->run();
+    Notifications::refreshGods();
   }
 
   /* Creation of the gods */
@@ -109,7 +110,7 @@ class GodCards extends \RAUHA\Helpers\Pieces
     $god->setUsed(USED);
 
     // Notifications
-    Notifications::actCountGod($player, $message, $god, $cost, $crystalIncome, $pointIncome);
+    Notifications::activateGod($player, $message, $god, $cost, $crystalIncome, $pointIncome);
     return false;
   }
 

@@ -159,16 +159,16 @@ $machinestates = [
     ],
   ],
 
-  ST_COUNT_WATER_SOURCE => [
-    'name' => 'countWaterSource',
-    'description' => '',
-    'type' => 'game',
-    'action' => 'stCountWaterSource',
-    'updateGameProgression' => false,
-    'transitions' => [
-      '' => ST_COUNT_NEXT_PLAYER,
-    ],
-  ],
+  // ST_COUNT_WATER_SOURCE => [
+  //   'name' => 'countWaterSource',
+  //   'description' => '',
+  //   'type' => 'game',
+  //   'action' => 'stCountWaterSource',
+  //   'updateGameProgression' => false,
+  //   'transitions' => [
+  //     '' => ST_COUNT_NEXT_PLAYER,
+  //   ],
+  // ],
 
   ST_PRE_END_OF_GAME => [
     'name' => 'preEndOfGame',

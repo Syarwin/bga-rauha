@@ -4,6 +4,7 @@ namespace RAUHA\Managers;
 
 use RAUHA\Core\Game;
 use RAUHA\Core\Globals;
+use RAUHA\Core\Notifications;
 use RAUHA\Core\Stats;
 use RAUHA\Helpers\Utils;
 
@@ -189,6 +190,19 @@ class Players extends \RAUHA\Helpers\DB_Manager
   //     }
   //   }
   // }
+
+  public static function GetPointsForWaterSource($player)
+  {
+    $minWaterSource = Players::getMinWaterSource();
+
+    $waterSource = $player->getWaterSource();
+    $waterSourceDelta = $waterSource - $minWaterSource;
+    $points = POINTS_FOR_WATER_SOURCE[min(5, $waterSourceDelta)];
+    if ($points > 0) {
+      $player->movePointsToken($points);
+      Notifications::waterSourceCount($player, $waterSourceDelta, $points);
+    }
+  }
 
   public static function getMinWaterSource()
   {

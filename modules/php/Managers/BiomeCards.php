@@ -90,9 +90,8 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
     return $activableBiomes;
   }
 
-  public static function activate($biomeId)
+  public static function activate($biomeId, $x, $y)
   {
-    $message = '';
     $biome = self::get($biomeId);
     $playerId = $biome->getPId();
     $player = Players::get($playerId);
@@ -108,10 +107,13 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
     $player->movePointsToken($pointIncome);
     $biome->setUsed(USED);
 
-    // Notifications
-    Notifications::activateBiome($player, $biome, $cost, $crystalIncome, $pointIncome, $sporeIncome);
+    if ($sporeIncome && !is_null($x) && !is_null($y)) {
+      $player->placeSpore($x, $y);
+    }
 
-    return ($sporeIncome > 0);
+    // Notifications
+    Notifications::activateBiome($player, $biome, $cost, $crystalIncome, $pointIncome, $sporeIncome, $x, $y);
+    return $sporeIncome > 0;
   }
 
   /**
@@ -124,7 +126,8 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
       case WALKING:
       case FLYING:
         $board = self::getAllAnimalsOnPlayerBoard($player);
-        return array_count_values($board)[$criteria];
+        $count = in_array($criteria, $board) ? array_count_values($board)[$criteria] : 0;
+        return $count;
         break;
 
       case ANIMALS:
@@ -138,7 +141,8 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
       case DESERT:
       case MOUNTAIN:
         $board = self::getAllTypesOnPlayerBoard($player);
-        return array_count_values($board)[$criteria];
+        $count = in_array($criteria, $board) ? array_count_values($board)[$criteria] : 0;
+        return $count;
         break;
 
       case 'spore':
@@ -206,6 +210,7 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
   public static function refreshAll()
   {
     self::DB()->update(['used' => NOT_USED])->run();
+    Notifications::refreshBiomes();
   }
 
   /* Creation of the biomes */
