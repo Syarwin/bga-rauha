@@ -22,11 +22,11 @@ class GodCard extends \RAUHA\Helpers\DB_Model
   protected $staticAttributes = [
     'name',
     'type',
-    ['crystal_income', 'int'],
-    ['point_income', 'int'],
+    ['crystalIncome', 'int'],
+    ['pointIncome', 'int'],
     'multiplier', //string like "marine", "spore", "waterSource", or "1"
-    ['usage_cost', 'int'], //in crystal
-    ['spore_income', 'int'],
+    ['usageCost', 'int'], //in crystal
+    ['sporeIncome', 'int'],
     ['waterSource', 'int'],
   ];
 
@@ -43,7 +43,7 @@ class GodCard extends \RAUHA\Helpers\DB_Model
     $this->setLocation('board');
     $this->setPId($player->getId());
     //when a god is taken, it can be used by its new owner
-    $this->used(NOT_USED);
+    $this->setUsed(NOT_USED);
   }
 
   public function isSupported($players, $options)
@@ -53,8 +53,11 @@ class GodCard extends \RAUHA\Helpers\DB_Model
 
   public function isActivable()
   {
-    if ($this->name == 'MERI') return False;
-    else return ($this->used == NOT_USED);
+    if ($this->name == 'MERI') {
+      return false;
+    } else {
+      return $this->used == NOT_USED;
+    }
   }
 
   // a god can be automatic if it has no usage cost and has no SPORE multiplier

@@ -35,6 +35,10 @@ html {
     background-attachment: fixed;
 }
 
+.phantom {
+    visibility: hidden;
+}
+
 // SAFE MODE
 #ebd-body.help-mode {
     .tooltipable {

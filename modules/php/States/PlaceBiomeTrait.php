@@ -137,6 +137,7 @@ trait PlaceBiomeTrait
       // get God
       $god = GodCards::getGodByType($type);
       $playerLoosingGodId = $god->getPId();
+      $playerLoosingGod = null;
       if ($playerLoosingGodId != null) {
         $playerLoosingGod = Players::get($playerLoosingGodId);
       }

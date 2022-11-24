@@ -31,7 +31,7 @@ trait ActivateTrait
     $arg = $this->getArgs();
 
     if (empty($arg['activableGods']) && empty($arg['activableBiomes'])) {
-      $this->actSkip($player->getId());
+      $this->actSkip($player->getId(), true);
     } else {
       $this->activateAutomaticElements($arg);
     }
@@ -81,7 +81,7 @@ trait ActivateTrait
     }
   }
 
-  public function actSkip($pId = null)
+  public function actSkip($pId = null, $auto = false)
   {
     // Sanity checks and bypass for automatisation
     if ($pId) {
@@ -100,7 +100,7 @@ trait ActivateTrait
     }
 
     // Notification
-    Notifications::skip($player);
+    Notifications::skip($player, $auto);
 
     // Change state
     $this->gamestate->nextState('actSkip');

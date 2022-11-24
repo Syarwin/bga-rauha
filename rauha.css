@@ -60,19 +60,34 @@
   align-items: center;
   box-sizing: border-box; }
 
-.rauha-panel {
+.rauha-panel .rauha-player-infos {
   padding: 2px 8px;
   display: flex; }
-  .rauha-panel .crystal-counter {
+  .rauha-panel .rauha-player-infos .crystal-counter,
+  .rauha-panel .rauha-player-infos .water-counter {
+    margin-right: 6px; }
+  .rauha-panel .rauha-player-infos .crystal-counter {
     font-family: "Bernard MT Condensed";
     font-size: 20px; }
-    .rauha-panel .crystal-counter::after {
+    .rauha-panel .rauha-player-infos .crystal-counter::after {
       content: "";
       display: inline-block;
       vertical-align: bottom;
       width: 23px;
       height: 30px;
       background-image: url("img/crystal.png");
+      background-size: 100%;
+      background-repeat: no-repeat; }
+  .rauha-panel .rauha-player-infos .water-counter {
+    font-family: "Bernard MT Condensed";
+    font-size: 20px; }
+    .rauha-panel .rauha-player-infos .water-counter::after {
+      content: "";
+      display: inline-block;
+      vertical-align: bottom;
+      width: 21px;
+      height: 30px;
+      background-image: url("img/water.png");
       background-size: 100%;
       background-repeat: no-repeat; }
 
@@ -123,7 +138,8 @@
       right: 0;
       top: 0;
       bottom: 0;
-      z-index: 100; }
+      z-index: 100;
+      border-radius: 4px; }
     .rauha-board .board-grid .cell-node.selectable {
       cursor: pointer; }
       .rauha-board .board-grid .cell-node.selectable::before {
@@ -254,12 +270,16 @@
     bottom: 0;
     pointer-events: none;
     border: 3px solid transparent;
-    border-radius: 40px; }
+    border-radius: 40px;
+    transition: background 0.8s;
+    background: transparent; }
   .biome-card.phantom {
     visibility: hidden; }
   .biome-card.starting {
     background: none;
     box-shadow: none; }
+  .biome-card[data-used="1"]::before {
+    background: rgba(0, 0, 0, 0.4); }
   .biome-card.selectable {
     cursor: pointer; }
     .biome-card.selectable:not(.starting):hover {
@@ -658,6 +678,9 @@ html {
   background: url("img/background.jpg");
   background-size: cover;
   background-attachment: fixed; }
+
+.phantom {
+  visibility: hidden; }
 
 #ebd-body.help-mode .tooltipable {
   cursor: help; }

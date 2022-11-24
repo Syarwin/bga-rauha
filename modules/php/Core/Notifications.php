@@ -95,36 +95,44 @@ class Notifications
 
     $msg =
       $cost == 0
-      ? clienttranslate(
-        '${player_name} plays a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
-      )
-      : clienttranslate(
-        '${player_name} pays ${cost} crystal(s) to play a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
-      );
+        ? clienttranslate(
+          '${player_name} plays a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
+        )
+        : clienttranslate(
+          '${player_name} pays ${cost} crystal(s) to play a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
+        );
     self::notifyAll('placeBiome', $msg, $data);
   }
 
   public static function newAlignment($player, $god, $type, $playerLoosingGod)
   {
+    $types = [
+      MOUNTAIN => clienttranslate('mountain'),
+      CRYSTAL => clienttranslate('crystal'),
+      FOREST => clienttranslate('forest'),
+      MUSHROOM => clienttranslate('mushroom'),
+    ];
+
     $data = [
+      'i18n' => ['godName', 'type'],
       'player' => $player,
       'godId' => $god->getId(),
       'godName' => $god->getName(),
-      'type' => $type,
+      'type' => $types[$type],
       'waterSourceCount' => $player->getWaterSource(),
       'playerLoosingGod' => $playerLoosingGod,
-      'waterSourceCountPlayerLoosingGod' => $playerLoosingGod->getWaterSource(),
+      'waterSourceCountPlayerLoosingGod' => is_null($playerLoosingGod) ? 0 : $playerLoosingGod->getWaterSource(),
     ];
     $msg = clienttranslate('By aligning 3 Biomes with ${type}, ${player_name} receives ${godName}');
-    self::notifyAll('nexAlignment', $msg, $data);
+    self::notifyAll('newAlignment', $msg, $data);
   }
 
-  public static function skip($player)
+  public static function skip($player, $silent = false)
   {
     $data = [
       'player' => $player,
     ];
-    self::message(clienttranslate('${player_name} passes.'), $data);
+    self::notifyAll('endActivation', $silent ? '' : clienttranslate('${player_name} passes.'), $data);
   }
 
   public static function activateBiome($player, $biome, $cost, $crystalIncome, $pointIncome, $sporeIncome, $x, $y)
@@ -167,10 +175,9 @@ class Notifications
     self::notifyAll('activateBiome', $message, $data);
   }
 
-  public static function activateGod($player, $message, $god, $cost, $crystalIncome, $pointIncome)
+  public static function activateGod($player, $god, $cost, $crystalIncome, $pointIncome)
   {
     $message = '';
-
     if ($cost > 0) {
       $message = clienttranslate(
         'By paying ${cost} crystal(s), ${player_name} activate ${godName} and receives ${crystalIncome} point(s)'
@@ -183,10 +190,11 @@ class Notifications
 
     $data = [
       'player' => $player,
+      'godId' => $god->getId(),
+      'godName' => $god->getName(),
       'cost' => $cost,
       'crystalIncome' => $crystalIncome,
       'pointIncome' => $pointIncome,
-      'godName' => $god->getName(),
     ];
     self::notifyAll('activateGod', $message, $data);
   }

@@ -37,8 +37,11 @@ define([
         ['discardBiomeCrystals', 1000],
         ['discardBiomeSpore', null],
         ['activateBiome', null],
+        ['activateGod', null],
         ['placeSpore', 1300],
         ['newTurn', 1000],
+        ['newAlignment', 1000],
+        ['endActivation', 500],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -74,10 +77,12 @@ define([
       let currentPlayerNo = 1;
       let nPlayers = 0;
       this._crystalCounters = {};
+      this._waterCounters = {};
       this.forEachPlayer((player) => {
         let isCurrent = player.id == this.player_id;
         this.place('tplPlayerPanel', player, `player_panel_content_${player.color}`);
         this._crystalCounters[player.id] = this.createCounter(`crystal-counter-${player.id}`, player.crystal);
+        this._waterCounters[player.id] = this.createCounter(`water-counter-${player.id}`, player.water);
 
         this.place('tplPlayerBoard', player, 'rauha-boards-container');
         player.biomes.forEach((biome) => {
@@ -138,7 +143,10 @@ define([
 
     tplPlayerPanel(player) {
       return `<div class='rauha-panel'>
-        <div class='crystal-counter' id='crystal-counter-${player.id}'></div>
+        <div class='rauha-player-infos'>
+          <div class='crystal-counter' id='crystal-counter-${player.id}'></div>
+          <div class='water-counter' id='water-counter-${player.id}'></div>
+        </div>
         <div class='rauha-gods-container' id='gods-${player.id}'></div>
       </div>`;
     },
@@ -254,6 +262,8 @@ define([
     getGodContainer(god) {
       if (god.location == 'table') {
         return $('pending-gods');
+      } else if (god.location == 'board') {
+        return $(`gods-${god.pId}`);
       }
     },
 
@@ -354,6 +364,13 @@ define([
       };
 
       return infos[god.id];
+    },
+
+    notif_newAlignment(n) {
+      debug('Notif: new alignement, moving god', n);
+      let god = $(`god-${n.args.godId}`);
+      god.dataset.used = 0;
+      this.slide(god, `gods-${n.args.player_id}`);
     },
 
     //////////////////////////////////////////////////////////////////////
@@ -508,7 +525,6 @@ define([
       await this.slide(elem, this.getCell(n.args.player_id, n.args.x, n.args.y).querySelector('.spore-holder'), {
         phantom: false,
       });
-      
 
       this.notifqueue.setSynchronousDuration(200);
     },
@@ -533,6 +549,17 @@ define([
             });
           }
         });
+      });
+
+      args.activableGods.forEach((god) => {
+        let infos = this.getGodInformation(god);
+        this.addPrimaryActionButton(
+          `btnActivateGod${god.id}`,
+          this.fsr(_('Activate ${godName}'), { godName: infos.name }),
+          () => {
+            this.takeAction('actActivateGod', { godId: god.id });
+          },
+        );
       });
 
       this.addDangerActionButton('btnPass', _('Pass'), () => {
@@ -565,38 +592,55 @@ define([
       });
     },
 
-    notif_activateBiome: async function (n) {
-      debug('Notif: activating biome', n);
-
-      // Flag the biome as used
-      let oBiome = $(`biome-${n.args.biomeId}`);
-      oBiome.classList.remove('selected');
-      oBiome.dataset.used = '1';
+    activateElement: async function (args, elem) {
+      // Flag the element as used
+      elem.classList.remove('selected');
+      elem.dataset.used = '1';
 
       // Pay crystal cost if any
-      if (n.args.cost > 0) {
-        await this.gainPayCrystal(n.args.player_id, -n.args.cost, oBiome);
+      if (args.cost > 0) {
+        await this.gainPayCrystal(args.player_id, -args.cost, elem);
       }
 
       // Gain crystal
-      if (n.args.crystalIncome > 0) {
-        await this.gainPayCrystal(n.args.player_id, n.args.crystalIncome, oBiome);
+      if (args.crystalIncome > 0) {
+        await this.gainPayCrystal(args.player_id, args.crystalIncome, elem);
       }
 
       // Gain points
-      if (n.args.pointIncome > 0) {
-        await this.gainPoints(n.args.player_id, +n.args.pointIncome);
+      if (args.pointIncome > 0) {
+        await this.gainPoints(args.player_id, +args.pointIncome);
       }
 
       // Place spore
-      if (n.args.sporeIncome > 0) {
-        let elem = dojo.place(`<div class='spore'></div>`, 'page-title');
-      this.slide(elem, this.getCell(n.args.player_id, n.args.sporeX, n.args.sporeY).querySelector('.spore-holder'), {
-        phantom: false, 
-      });
+      if (args.sporeIncome > 0) {
+        let spore = dojo.place(`<div class='spore'></div>`, 'page-title');
+        this.slide(spore, this.getCell(args.player_id, args.sporeX, args.sporeY).querySelector('.spore-holder'), {
+          phantom: false,
+        });
       }
 
       this.notifqueue.setSynchronousDuration(200);
+    },
+
+    notif_activateBiome: async function (n) {
+      debug('Notif: activating biome', n);
+      let oBiome = $(`biome-${n.args.biomeId}`);
+      await this.activateElement(n.args, oBiome);
+    },
+
+    notif_activateGod: async function (n) {
+      debug('Notif: activating god', n);
+      let oGod = $(`god-${n.args.godId}`);
+      await this.activateElement(n.args, oGod);
+    },
+
+    notif_endActivation(n) {
+      debug('Notif: someone finished activation thing', n);
+      [...$(`gods-${n.args.player_id}`).querySelectorAll('.rauha-god')].forEach((oGod) => (oGod.dataset.used = 1));
+      [...$(`board-${n.args.player_id}`).querySelectorAll('.biome-card[data-used="1"]')].forEach(
+        (oBiome) => (oBiome.dataset.used = 0),
+      );
     },
 
     ////////////////////////////////////////////////////////

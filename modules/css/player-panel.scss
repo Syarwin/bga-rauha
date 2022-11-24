@@ -49,22 +49,45 @@
 }
 
 .rauha-panel {
-    padding: 2px 8px;
-    display: flex;
+    .rauha-player-infos {
+        padding: 2px 8px;
+        display: flex;
 
-    .crystal-counter {
-        font-family: "Bernard MT Condensed";
-        font-size: 20px;
+        .crystal-counter,
+        .water-counter {
+            margin-right: 6px;
+        }
 
-        &::after {
-            content: "";
-            display: inline-block;
-            vertical-align: bottom;
-            width: 23px;
-            height: 30px;
-            background-image: url("img/crystal.png");
-            background-size: 100%;
-            background-repeat: no-repeat;
+        .crystal-counter {
+            font-family: "Bernard MT Condensed";
+            font-size: 20px;
+
+            &::after {
+                content: "";
+                display: inline-block;
+                vertical-align: bottom;
+                width: 23px;
+                height: 30px;
+                background-image: url("img/crystal.png");
+                background-size: 100%;
+                background-repeat: no-repeat;
+            }
+        }
+
+        .water-counter {
+            font-family: "Bernard MT Condensed";
+            font-size: 20px;
+
+            &::after {
+                content: "";
+                display: inline-block;
+                vertical-align: bottom;
+                width: 21px;
+                height: 30px;
+                background-image: url("img/water.png");
+                background-size: 100%;
+                background-repeat: no-repeat;
+            }
         }
     }
 }

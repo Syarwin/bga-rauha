@@ -29,7 +29,9 @@ class GodCards extends \RAUHA\Helpers\Pieces
 
   public static function refreshAll()
   {
-    self::DB()->update(['used' => NOT_USED])->run();
+    self::DB()
+      ->update(['used' => NOT_USED])
+      ->run();
     Notifications::refreshGods();
   }
 
@@ -94,12 +96,12 @@ class GodCards extends \RAUHA\Helpers\Pieces
 
   public static function activate($godId)
   {
-    $message = "";
+    $message = '';
     $god = self::get($godId);
     $playerId = $god->getPId();
     $player = Players::get($playerId);
 
-    $multiplier = ($god->getMultiplier() == 1) ? 1 : BiomeCards::countOnAPlayerBoard($player, $god->getMultiplier());
+    $multiplier = $god->getMultiplier() == 1 ? 1 : BiomeCards::countOnAPlayerBoard($player, $god->getMultiplier());
 
     $cost = $god->getUsageCost();
     $crystalIncome = $god->getCrystalIncome() * $multiplier;
@@ -110,7 +112,7 @@ class GodCards extends \RAUHA\Helpers\Pieces
     $god->setUsed(USED);
 
     // Notifications
-    Notifications::activateGod($player, $message, $god, $cost, $crystalIncome, $pointIncome);
+    Notifications::activateGod($player, $god, $cost, $crystalIncome, $pointIncome);
     return false;
   }
 
@@ -121,22 +123,22 @@ class GodCards extends \RAUHA\Helpers\Pieces
         'name' => $t[0],
         'type' => $t[1],
         'crystalIncome' => $t[2],
-        'pointIcome' => $t[3],
+        'pointIncome' => $t[3],
         'multiplier' => $t[4],
         'usageCost' => $t[5],
-        'sporeIcome' => $t[6],
+        'sporeIncome' => $t[6],
         'waterSource' => $t[7],
       ];
     };
 
     return [
-      1 => $f(['TAIVAS', FLYING, 0, 7, 1, 4, 0, 0]),
-      2 => $f(['SIENET', MUSHROOM, 3, 0, 1, 0, 0, 0]),
-      3 => $f(['MERI', MARINE, 0, 1, WATER_SOURCE, 0, 0, 0]),
-      4 => $f(['METSAT', FOREST, 0, 1, ANIMALS, 0, 0, 0]),
-      5 => $f(['KITEET', CRYSTAL, 0, 3, 1, 0, 0, 0]),
-      6 => $f(['VUORI', MOUNTAIN, 0, 0, 1, 0, 0, 2]),
-      7 => $f(['MAA', WALKING, 0, 1, SPORE, 0, 0, 0]),
+      1 => $f([clienttranslate('Taivas'), FLYING, 0, 7, 1, 4, 0, 0]),
+      2 => $f([clienttranslate('Sienet'), MUSHROOM, 3, 0, 1, 0, 0, 0]),
+      3 => $f([clienttranslate('Meri'), MARINE, 0, 1, WATER_SOURCE, 0, 0, 0]),
+      4 => $f([clienttranslate('Metsat'), FOREST, 0, 1, ANIMALS, 0, 0, 0]),
+      5 => $f([clienttranslate('Kiteet'), CRYSTAL, 0, 3, 1, 0, 0, 0]),
+      6 => $f([clienttranslate('Vuori'), MOUNTAIN, 0, 0, 1, 0, 0, 2]),
+      7 => $f([clienttranslate('Maa'), WALKING, 0, 1, SPORE, 0, 0, 0]),
     ];
   }
 }

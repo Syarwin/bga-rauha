@@ -37,6 +37,7 @@ class Player extends \RAUHA\Helpers\DB_Model
     $current = $this->id == $currentPlayerId;
     $data['hand'] = $current ? $this->getBiomeInHand() : null;
     $data['biomes'] = BiomeCards::getAllBiomesOnPlayerBoard($this);
+    $data['water'] = $this->getWaterSource();
 
     return $data;
   }
@@ -82,7 +83,8 @@ class Player extends \RAUHA\Helpers\DB_Model
     $places = [];
     for ($y = 0; $y < 3; $y++) {
       for ($x = 0; $x < 3; $x++) {
-        if ($this->board[$y][$x] == $seek) { //CHECK IF IT'S OK
+        if ($this->board[$y][$x] == $seek) {
+          //CHECK IF IT'S OK
           $places[] = [$x, $y];
         }
       }

@@ -35,6 +35,8 @@
         pointer-events: none;
         border: 3px solid transparent;
         border-radius: 40px;
+        transition: background 0.8s;
+        background: transparent;
     }
 
     &.phantom {
@@ -44,6 +46,10 @@
     &.starting {
         background: none;
         box-shadow: none;
+    }
+
+    &[data-used="1"]::before {
+        background: rgba(0, 0, 0, 0.4);
     }
 
     &.selectable {
