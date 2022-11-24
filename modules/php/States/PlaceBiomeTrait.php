@@ -137,6 +137,10 @@ trait PlaceBiomeTrait
       // get God
       $god = GodCards::getGodByType($type);
       $playerLoosingGodId = $god->getPId();
+
+      //if currentPlayer has already the god, nothing happen
+      if ($currentPlayer->getId() == $playerLoosingGodId) continue;
+
       $playerLoosingGod = null;
       if ($playerLoosingGodId != null) {
         $playerLoosingGod = Players::get($playerLoosingGodId);
