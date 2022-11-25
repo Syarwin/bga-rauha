@@ -72,6 +72,8 @@ trait PlaceBiomeTrait
     $currentPlayer = $pId ? Players::get($pId) : Players::getCurrent();
     BiomeCards::moveAllInLocation('hand', 'discard', $currentPlayer->getId());
     $currentPlayer->incCrystal(4);
+    Stats::inc(STAT_NAME_COLLECTED_CRISTAL, $currentPlayer, 4);
+
 
     // Notification
     Notifications::discardBiomeCrystals($currentPlayer, BiomeCards::countInLocation('discard'));
@@ -150,6 +152,7 @@ trait PlaceBiomeTrait
 
       // notification
       Notifications::newAlignment($currentPlayer, $god, $type, $playerLoosingGod);
+      Stats::inc(STAT_NAME_ALIGNMENTS, $currentPlayer);
     }
 
     $this->gamestate->nextState('');

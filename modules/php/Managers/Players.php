@@ -199,7 +199,7 @@ class Players extends \RAUHA\Helpers\DB_Manager
     $waterSourceDelta = $waterSource - $minWaterSource;
     $points = POINTS_FOR_WATER_SOURCE[min(5, $waterSourceDelta)];
     if ($points > 0) {
-      $player->movePointsToken($points);
+      $player->movePointsToken($points, STAT_NAME_WATER_SOURCES_POINTS);
       Notifications::waterSourceCount($player, $waterSourceDelta, $points);
     }
   }

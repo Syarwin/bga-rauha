@@ -126,6 +126,13 @@ trait ActivateTrait
 
     $isGod ? GodCards::activate($elementId) : BiomeCards::activate($elementId, $x, $y);
 
+    //record a new activation in Stats
+    if (Globals::getTurn() % 4 == 0) {
+      Stats::inc(STAT_NAME_END_ROUND_ACTIVATIONS, $player);
+    } else {
+      Stats::inc(STAT_NAME_END_STEP_ACTIVATIONS, $player);
+    }
+
     // Change state
     $this->gamestate->nextState('actActivate');
   }

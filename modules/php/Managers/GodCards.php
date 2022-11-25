@@ -5,6 +5,7 @@ namespace RAUHA\Managers;
 use RAUHA\Helpers\Utils;
 use RAUHA\Helpers\Collection;
 use RAUHA\Core\Notifications;
+use RAUHA\Core\Stats;
 
 /* Class to manage all the god cards for Rauha */
 
@@ -108,7 +109,11 @@ class GodCards extends \RAUHA\Helpers\Pieces
     $pointIncome = $god->getPointIncome() * $multiplier;
 
     $player->incCrystal($crystalIncome - $cost);
-    $player->movePointsToken($pointIncome);
+    Stats::inc(STAT_NAME_COLLECTED_CRISTAL, $player, $crystalIncome);
+
+    if ($pointIncome) {
+      $player->movePointsToken($pointIncome, Stats::getStatName($god->getMultiplier()));
+    }
     $god->setUsed(USED);
 
     // Notifications

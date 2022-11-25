@@ -5,6 +5,7 @@ namespace RAUHA\Managers;
 use RAUHA\Helpers\Utils;
 use RAUHA\Helpers\Collection;
 use RAUHA\Core\Notifications;
+use RAUHA\Core\Stats;
 
 /* Class to manage all the biome cards for Rauha */
 
@@ -104,7 +105,11 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
     $sporeIncome = $biome->getSporeIncome();
 
     $player->incCrystal($crystalIncome - $cost);
-    $player->movePointsToken($pointIncome);
+    Stats::inc(STAT_NAME_COLLECTED_CRISTAL, $player, $crystalIncome);
+
+    if ($pointIncome) {
+      $player->movePointsToken($pointIncome, Stats::getStatName($biome->getMultiplier()));
+    }
     $biome->setUsed(USED);
 
     if ($sporeIncome && !is_null($x) && !is_null($y)) {
@@ -145,12 +150,12 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
         return $count;
         break;
 
-      case 'spore':
+      case SPORE:
         return $player->countSpores();
         break;
 
       case WATER_SOURCE:
-        return self::countAllWaterSourceOnPlayerBoard($player);
+        return GodCards::countAllWaterSourceOnPlayerGods($player) + self::countAllWaterSourceOnPlayerBoard($player);
         break;
 
       default:
@@ -334,7 +339,7 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
       117 => $f([[MUSHROOM], [], [], 0, 0, 0, '1', 2, 1, 0]),
       118 => $f([[MUSHROOM], [FLYING], [], 2, 0, 0, '1', 2, 1, 0]),
       119 => $f([[MUSHROOM], [FLYING], [], 0, 0, 0, '1', 3, 1, 0]),
-      120 => $f([[MUSHROOM], [MARINE], [[0, 0], [2, 0], [1, 2]], 0, 0, 1, 'spore', 0, 0, 0]),
+      120 => $f([[MUSHROOM], [MARINE], [[0, 0], [2, 0], [1, 2]], 0, 0, 1, SPORE, 0, 0, 0]),
       121 => $f([[MUSHROOM], [MARINE], [], 0, 0, 0, '1', 3, 1, 0]),
       122 => $f([[MUSHROOM], [WALKING], [], 3, 0, 1, WALKING, 0, 0, 0]),
       123 => $f([[MUSHROOM], [WALKING], [[1, 0], [0, 2], [2, 2]], 0, 3, 0, '1', 0, 0, 0]),
@@ -379,7 +384,7 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
       153 => $f([[FOREST], [WALKING, FLYING], [], 4, 0, 2, MARINE, 0, 0, 0]),
       154 => $f([[FOREST], [FLYING, MARINE], [], 4, 0, 2, WALKING, 0, 0, 0]),
       155 => $f([[FOREST], [WALKING, MARINE, FLYING], [], 4, 0, 3, '1', 0, 0, 0]),
-      156 => $f([[MUSHROOM], [], [], 5, 0, 2, 'spore', 0, 0, 0]),
+      156 => $f([[MUSHROOM], [], [], 5, 0, 2, SPORE, 0, 0, 0]),
       157 => $f([[MUSHROOM], [], [], 3, 0, 5, '1', 0, 0, 0]),
       158 => $f([[MUSHROOM], [MARINE], [], 0, 0, 2, '1', 2, 1, 0]),
       159 => $f([[MUSHROOM], [MARINE], [[0, 1], [0, 2], [1, 1]], 0, 0, 0, '1', 1, 1, 0]),

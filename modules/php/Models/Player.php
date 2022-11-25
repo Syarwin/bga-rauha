@@ -110,9 +110,10 @@ class Player extends \RAUHA\Helpers\DB_Model
     return $result;
   }
 
-  public function movePointsToken($pointIncome)
+  public function movePointsToken($pointIncome, $statName)
   {
     $this->incScore($pointIncome);
+    Stats::inc($statName, $this, $pointIncome);
 
     $score_aux = Players::countHowManyPlayersWithThatScore($this->score);
     $this->setScoreAux($score_aux);
