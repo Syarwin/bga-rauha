@@ -32,7 +32,7 @@ trait ActivateTrait
 
     if (empty($arg['activableGods']) && empty($arg['activableBiomes'])) {
       $this->actSkip($player->getId(), true);
-    } else {
+    } elseif ($player->getPref(OPTION_ACTIVATION) == OPTION_AUTOMATIC_ACTIVATION) {
       $this->activateAutomaticElements($arg);
     }
   }

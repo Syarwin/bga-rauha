@@ -1,4 +1,5 @@
 <?php
+
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
@@ -49,4 +50,16 @@ $game_preferences = [
       OPTION_CONFIRM_DISABLED => ['name' => totranslate('Disabled')],
     ],
   ],
+  OPTION_ACTIVATION => [
+    'name' => 'Automatic Biomes activation',
+    'needReload' => false,
+    'values' => [
+      OPTION_MANUAL_ACTIVATION => [
+        'name' => 'Manual Activation',
+      ],
+      OPTION_AUTOMATIC_ACTIVATION => [
+        'name' => 'Automatic Activation'
+      ],
+    ],
+  ]
 ];

@@ -2,6 +2,8 @@
 
 namespace RAUHA\Models;
 
+use RAUHA\Managers\Players;
+
 /*
  * GodCard
  */
@@ -56,7 +58,13 @@ class GodCard extends \RAUHA\Helpers\DB_Model
     if ($this->name == 'VUORI') {
       return false;
     } else {
-      return $this->used == NOT_USED;
+      if ($this->used == USED) return false;
+
+      $owner = Players::get($this->pId);
+
+      if ($this->usageCost > $owner->getCrystal()) return false;
+
+      return true;
     }
   }
 
