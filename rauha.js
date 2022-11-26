@@ -238,14 +238,50 @@ define([
 
     tplBiomeTooltip(biome) {
       let biomeClass = 'starting';
+      let costMessage = ''
+      let income = ''
+      let typeIncome = ''
+      let conditionMessage = ''
       if (biome.dataId >= 100) biomeClass = `age${biome.dataId < 140 ? 1 : 2}`;
+
+      if (biome.usageCost){
+        costMessage = _("if you pay ${usageCost} crystal(s), ", { usageCost: biome.usageCost});
+      }
+
+      if (biome.crystalIncome){
+        typeIncome = _('crystal(s) ');
+        income = biome.crystalIncome;
+      }
+
+      if (biome.pointIncome){
+        typeIncome = _('point(s) ');
+        income = biome.pointIncome;
+      }
+
+      if (biome.sporeIncome){
+        typeIncome = _('spore ')
+        income = biome.sporeIncome
+      }
+
+      if (biome.multiplier != '1'){
+        conditionMessage = _('per ${multiplier} on your board', {multipier:biome.multiplier});
+      }
+
+      let message = format_string_recursive('When activated, ${costMessage}this biome provides you ${income} ${typeIncome} ${conditionMessage}',
+      {
+        costMessage : costMessage,
+        income : income,
+        typeIncome : typeIncome,
+        conditionMessage : conditionMessage
+      });
 
       return `<div class='biome-tooltip'>
         <div class='biome-card ${biomeClass}' data-id='${biome.dataId}'>
           <div class='biome-spore-container'></div>
         </div>
-
+        <div class='biome-help'>${message}</div>
         <div class='biome-types'>${_('Symbol(s):')} ${biome.types.join(',')}</div>
+        <div class='biome-animals'>${_('Symbol(s):')} ${biome.animals.join(',')}</div>
       </div>`;
     },
 
