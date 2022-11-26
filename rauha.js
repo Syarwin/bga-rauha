@@ -419,6 +419,7 @@ define([
         this.addDangerActionButton('btnDiscardSpore', _('Discard and get 1 Spore'), () =>
         this.clientState('discardBiomeSpore', _('Select the place where you want to place the spore'), args),
         );
+      }
         let selectedPlace = null;
         let selectedCell = null;
         args.possiblePlaces.forEach((place) => {
@@ -442,7 +443,7 @@ define([
             }
           });
         });
-      }
+      
     },
 
     onEnteringStateDiscardBiomeSpore(args) {
