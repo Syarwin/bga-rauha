@@ -153,7 +153,7 @@ class Notifications
   {
     $message = '';
     if ($cost > 0) {
-      if ($crystalIncome > 0) {
+      if ($pointIncome > 0) {
         $message = clienttranslate(
           'By paying ${cost} crystal(s), ${player_name} activate their Biome at position (${displayX}, ${displayY}) and receives ${pointIncome} point(s)'
         );
