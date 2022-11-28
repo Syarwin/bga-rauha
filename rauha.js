@@ -587,6 +587,10 @@ define([
       });
     },
 
+    onEnteringStateCountAction(args) {
+      this.onEnteringStateActivate(args);
+    },
+
     onEnteringStateActivateSpore(args) {
       this.addCancelStateBtn();
       $(`biome-${args.biomeId}`).classList.add('selected');
@@ -603,7 +607,7 @@ define([
           selectedCell = cell;
           selectedCell.classList.add('selected');
           selectedPlace = place;
-          this.addPrimaryActionButton('btnConfirmPlace', _('Confirm and activate biome'), () =>
+          this.addPrimaryActionButton('btnConfirmPlace', _('Confirm and place spore'), () =>
             this.takeAction('actActivateBiome', { biomeId: args.biomeId, x: selectedPlace[0], y: selectedPlace[1] }),
           );
         });
