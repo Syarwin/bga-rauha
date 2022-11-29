@@ -238,6 +238,7 @@ define([
 
     tplBiomeTooltip(biome) {
       let biomeClass = 'starting';
+      let message = "This biome can't be activated";
       let costMessage = ''
       let income = ''
       let typeIncome = ''
@@ -267,13 +268,15 @@ define([
         conditionMessage = _('per ${multiplier} on your board', {multipier:biome.multiplier});
       }
 
-      let message = format_string_recursive('When activated, ${costMessage}this biome provides you ${income} ${typeIncome} ${conditionMessage}',
+      if (typeIncome != ''){
+      message = this.format_string_recursive('When activated, ${costMessage}this biome provides you ${income} ${typeIncome} ${conditionMessage}',
       {
         costMessage : costMessage,
         income : income,
         typeIncome : typeIncome,
         conditionMessage : conditionMessage
       });
+    }
 
       return `<div class='biome-tooltip'>
         <div class='biome-card ${biomeClass}' data-id='${biome.dataId}'>
@@ -281,7 +284,7 @@ define([
         </div>
         <div class='biome-help'>${message}</div>
         <div class='biome-types'>${_('Symbol(s):')} ${biome.types.join(',')}</div>
-        <div class='biome-animals'>${_('Symbol(s):')} ${biome.animals.join(',')}</div>
+        <div class='biome-animals'>${_('Animal(s):')} ${biome.animals.join(',')}</div>
       </div>`;
     },
 
