@@ -185,20 +185,4 @@ class Rauha extends Table
   {
     return $this->gamestate->state()['args'];
   }
-
-  public static function test($arg)
-  {
-    echo '<pre>';
-    var_dump(Players::countHowManyPlayerswithThatScore($arg));
-    echo '</pre>';
-    die('ok');
-  }
-
-  public static function displayVariable($var)
-  {
-    echo '<pre>';
-    var_dump($var);
-    echo '</pre>';
-    die('ok');
-  }
 }

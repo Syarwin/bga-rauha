@@ -1,6 +1,6 @@
 <?php
 /*
- * Rauha implementation : © Timothée Pecatte <tim.pecatte@gmail.com>, Emmanuel ??
+ * Rauha implementation : © Timothée Pecatte <tim.pecatte@gmail.com>, Emmanuel Albisser <emmanuel.albisser@gmail.com>
  */
 
 $gameinfos = [
@@ -26,7 +26,7 @@ $gameinfos = [
   'publisher_bgg_id' => 40652,
 
   // Board game geek ID of the game
-  'bgg_id' => 342942,
+  'bgg_id' => 371922,
 
   // Players configuration that can be played (ex: 2 to 4 players)
   'players' => [2, 3, 4, 5],
