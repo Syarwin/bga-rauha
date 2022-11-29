@@ -481,33 +481,36 @@ define([
           this.takeAction('actDiscardCrystals', {});
         });
       });
-      this.addDangerActionButton('btnDiscardSpore', _('Discard and get 1 Spore'), () =>
+
+      if (args.possibleSporePlaces.length > 0) {
+        this.addDangerActionButton('btnDiscardSpore', _('Discard and get 1 Spore'), () =>
         this.clientState('discardBiomeSpore', _('Select the place where you want to place the spore'), args),
-      );
-
-      let selectedPlace = null;
-      let selectedCell = null;
-      args.possiblePlaces.forEach((place) => {
-        let cell = this.getCell(this.player_id, place[0], place[1]);
-        this.onClick(cell, () => {
-          if (selectedCell !== null) {
-            selectedCell.classList.remove('selected');
-          }
-
-          if (selectedPlace == place) {
-            selectedCell = null;
-            selectedPlace = null;
-            $('btnConfirmPlace').remove();
-          } else {
-            selectedCell = cell;
-            selectedCell.classList.add('selected');
-            selectedPlace = place;
-            this.addPrimaryActionButton('btnConfirmPlace', _('Confirm'), () =>
-              this.takeAction('actPlaceBiome', { x: selectedPlace[0], y: selectedPlace[1] }),
-            );
-          }
+        );
+      }
+        let selectedPlace = null;
+        let selectedCell = null;
+        args.possiblePlaces.forEach((place) => {
+          let cell = this.getCell(this.player_id, place[0], place[1]);
+          this.onClick(cell, () => {
+            if (selectedCell !== null) {
+              selectedCell.classList.remove('selected');
+            }
+  
+            if (selectedPlace == place) {
+              selectedCell = null;
+              selectedPlace = null;
+              $('btnConfirmPlace').remove();
+            } else {
+              selectedCell = cell;
+              selectedCell.classList.add('selected');
+              selectedPlace = place;
+              this.addPrimaryActionButton('btnConfirmPlace', _('Confirm'), () =>
+                this.takeAction('actPlaceBiome', { x: selectedPlace[0], y: selectedPlace[1] }),
+              );
+            }
+          });
         });
-      });
+      
     },
 
     onEnteringStateDiscardBiomeSpore(args) {
@@ -620,6 +623,10 @@ define([
       });
     },
 
+    onEnteringStateCountAction(args) {
+      this.onEnteringStateActivate(args);
+    },
+
     onEnteringStateActivateSpore(args) {
       this.addCancelStateBtn();
       $(`biome-${args.biomeId}`).classList.add('selected');
@@ -636,7 +643,7 @@ define([
           selectedCell = cell;
           selectedCell.classList.add('selected');
           selectedPlace = place;
-          this.addPrimaryActionButton('btnConfirmPlace', _('Confirm and activate biome'), () =>
+          this.addPrimaryActionButton('btnConfirmPlace', _('Confirm and place spore'), () =>
             this.takeAction('actActivateBiome', { biomeId: args.biomeId, x: selectedPlace[0], y: selectedPlace[1] }),
           );
         });
