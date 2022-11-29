@@ -17,7 +17,7 @@ $gameinfos = [
   'year' => 2023,
 
   // Game publisher (use empty string if there is no publisher)
-  'publisher' => ' GRRRE Games',
+  'publisher' => 'GRRRE Games',
 
   // Url of game publisher website
   'publisher_website' => 'https://www.grrre-games.com/',
