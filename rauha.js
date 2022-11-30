@@ -29,7 +29,7 @@ define([
 ], function (dojo, declare) {
   return declare('bgagame.rauha', [customgame.game], {
     constructor() {
-      this._activeStates = ['placeBiome', 'chooseBiome', 'activate'];
+      this._activeStates = ['placeBiome', 'chooseBiome', 'activate', 'countAction'];
       this._notifications = [
         ['newTurn', 1000],
         ['newTurnScoring', 1000],
