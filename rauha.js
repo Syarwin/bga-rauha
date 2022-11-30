@@ -265,7 +265,7 @@ define([
       }
 
       if (biome.multiplier != '1'){
-        conditionMessage = _('per ${multiplier} on your board', {multipier:biome.multiplier});
+        conditionMessage = _('per ${multiplier} on your board', {multiplier: biome.multiplier});
       }
 
       if (typeIncome != ''){
@@ -284,7 +284,7 @@ define([
         </div>
         <div class='biome-help'>${message}</div>
         <div class='biome-types'>${_('Symbol(s):')} ${biome.types.join(',')}</div>
-        <div class='biome-animals'>${biome.animals.length != 0 ? _('Animal(s):') + biome.animals.join(',') : ''}</div>
+        <div class='biome-animals'>${biome.animals.length != 0 ? _('Animal(s): ') + biome.animals.join(',') : ''}</div>
       </div>`;
     },
 
