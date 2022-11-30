@@ -246,7 +246,7 @@ define([
       if (biome.dataId >= 100) biomeClass = `age${biome.dataId < 140 ? 1 : 2}`;
 
       if (biome.usageCost){
-        costMessage = _("if you pay ${usageCost} crystal(s), ", { usageCost: biome.usageCost});
+        costMessage = this.format_string_recursive("if you pay ${usageCost} crystal(s), ", { usageCost: biome.usageCost});
       }
 
       if (biome.crystalIncome){
@@ -265,7 +265,7 @@ define([
       }
 
       if (biome.multiplier != '1'){
-        conditionMessage = _('per ${multiplier} on your board', {multiplier: biome.multiplier});
+        conditionMessage = this.format_string_recursive('per ${multiplier} on your board', {multiplier: biome.multiplier});
       }
 
       if (typeIncome != ''){
