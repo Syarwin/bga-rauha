@@ -125,9 +125,9 @@ class Notifications
       CRYSTAL => clienttranslate('crystal'),
       FOREST => clienttranslate('forest'),
       MUSHROOM => clienttranslate('mushroom'),
-      FLYING => clienttranslate(FLYING),
-      MARINE => clienttranslate(MARINE),
-      WALKING => clienttranslate(WALKING)
+      FLYING => clienttranslate('flying animals'),
+      MARINE => clienttranslate('marine animal'),
+      WALKING => clienttranslate('terrestrial animal')
     ];
 
     $data = [
