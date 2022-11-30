@@ -109,12 +109,12 @@ class Notifications
 
     $msg =
       $cost == 0
-        ? clienttranslate(
-          '${player_name} plays a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
-        )
-        : clienttranslate(
-          '${player_name} pays ${cost} crystal(s) to play a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
-        );
+      ? clienttranslate(
+        '${player_name} plays a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
+      )
+      : clienttranslate(
+        '${player_name} pays ${cost} crystal(s) to play a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
+      );
     self::notifyAll('placeBiome', $msg, $data);
   }
 
@@ -125,6 +125,9 @@ class Notifications
       CRYSTAL => clienttranslate('crystal'),
       FOREST => clienttranslate('forest'),
       MUSHROOM => clienttranslate('mushroom'),
+      FLYING => clienttranslate(FLYING),
+      MARINE => clienttranslate(MARINE),
+      WALKING => clienttranslate(WALKING)
     ];
 
     $data = [

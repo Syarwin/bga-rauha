@@ -133,7 +133,7 @@ trait PlaceBiomeTrait
     Notifications::placeBiome($currentPlayer, $x, $y, $biome, $cost);
 
     // check if there is alignment
-    $alignedTypes = BiomeCards::checkAlignment($currentPlayer, $x, $y, $biome);
+    $alignedTypes = BiomeCards::checkAlignment($currentPlayer, $x, $y);
 
     foreach ($alignedTypes as $type) {
       // get God

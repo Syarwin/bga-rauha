@@ -32,7 +32,7 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
    * Check if with the new Biome played, one or several alignements have been created,
    * returns $alignedType (array)
    */
-  public static function checkAlignment($player, $x, $y, $biome)
+  public static function checkAlignment($player, $x, $y)
   {
     $alignedTypes = [];
     //check column
@@ -40,11 +40,10 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
     $biome2 = self::getBiomeOnPlayerBoard($player, $x, 1);
     $biome3 = self::getBiomeOnPlayerBoard($player, $x, 2);
 
-    foreach ($biome->getElements() as $type) {
+    foreach ($biome1->getElements() as $type) {
       if (
-        in_array($type, $biome1->getTypes()) &&
-        in_array($type, $biome2->getTypes()) &&
-        in_array($type, $biome3->getTypes())
+        in_array($type, $biome2->getElements()) &&
+        in_array($type, $biome3->getElements())
       ) {
         $alignedTypes[] = $type;
       }
@@ -55,11 +54,10 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
     $biome2 = self::getBiomeOnPlayerBoard($player, 1, $y);
     $biome3 = self::getBiomeOnPlayerBoard($player, 2, $y);
 
-    foreach ($biome->getElements() as $type) {
+    foreach ($biome1->getElements() as $type) {
       if (
-        in_array($type, $biome1->getTypes()) &&
-        in_array($type, $biome2->getTypes()) &&
-        in_array($type, $biome3->getTypes())
+        in_array($type, $biome2->getElements()) &&
+        in_array($type, $biome3->getElements())
       ) {
         $alignedTypes[] = $type;
       }
