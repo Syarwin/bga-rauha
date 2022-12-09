@@ -50,9 +50,32 @@ define([
 
       // Fix mobile viewport (remove CSS zoom)
       this.default_viewport = 'width=800';
+    },
 
-      // this._settingsSections = [];
-      this._settingsConfig = {};
+    getSettingsConfig() {
+      return {
+        boardScale: {
+          default: 75,
+          name: _('Biomes/boards scale'),
+          type: 'slider',
+          sliderConfig: {
+            step: 5,
+            padding: 0,
+            range: {
+              min: [40],
+              max: [100],
+            },
+          },
+        },
+        confirmMode: { type: 'pref', prefId: 103 },
+        automaticMode: { type: 'pref', prefId: 104 },
+      };
+    },
+
+    onChangeBoardScaleSetting(scale) {
+      let elt = document.documentElement;
+      elt.style.setProperty('--rauhaBoardScale', scale / 100);
+      elt.style.setProperty('--rauhaBiomeScale', scale / 100);
     },
 
     /**
@@ -129,10 +152,12 @@ define([
         }
       }
       return `<div class='rauha-board' id='board-${player.id}' data-color='${player.color}'>
-        <div class='player-name' style='color:#${player.color}'>${player.name}</div>
-        <div class='board-grid'>
-          <div class="rauha-avatar"></div>
-          ${content}
+         <div class='player-name' style='color:#${player.color}'>${player.name}</div>
+         <div class='rauha-board-fixed-size'>
+          <div class='board-grid'>
+            <div class="rauha-avatar"></div>
+            ${content}
+          </div>
         </div>
       </div>`;
     },
@@ -232,51 +257,59 @@ define([
       if (biome.dataId >= 100) biomeClass = `age${biome.dataId < 140 ? 1 : 2}`;
 
       return `<div class='biome-card ${biomeClass}' id='biome-${biome.id}' data-id='${biome.dataId}'>
-        <div class='biome-spore-container'></div>
+        <div class='biome-fixed-size'>
+          <div class='biome-spore-container'></div>
+        </div>
       </div>`;
     },
 
     tplBiomeTooltip(biome) {
       let biomeClass = 'starting';
       let message = "This biome can't be activated";
-      let costMessage = ''
-      let income = ''
-      let typeIncome = ''
-      let conditionMessage = ''
+      let costMessage = '';
+      let income = '';
+      let typeIncome = '';
+      let conditionMessage = '';
       if (biome.dataId >= 100) biomeClass = `age${biome.dataId < 140 ? 1 : 2}`;
 
-      if (biome.usageCost){
-        costMessage = this.format_string_recursive("if you pay ${usageCost} crystal(s), ", { usageCost: biome.usageCost});
+      if (biome.usageCost) {
+        costMessage = this.format_string_recursive('if you pay ${usageCost} crystal(s), ', {
+          usageCost: biome.usageCost,
+        });
       }
 
-      if (biome.crystalIncome){
+      if (biome.crystalIncome) {
         typeIncome = _('crystal(s) ');
         income = biome.crystalIncome;
       }
 
-      if (biome.pointIncome){
+      if (biome.pointIncome) {
         typeIncome = _('point(s) ');
         income = biome.pointIncome;
       }
 
-      if (biome.sporeIncome){
-        typeIncome = _('spore ')
-        income = biome.sporeIncome
+      if (biome.sporeIncome) {
+        typeIncome = _('spore ');
+        income = biome.sporeIncome;
       }
 
-      if (biome.multiplier != '1'){
-        conditionMessage = this.format_string_recursive('per ${multiplier} on your board', {multiplier: biome.multiplier});
+      if (biome.multiplier != '1') {
+        conditionMessage = this.format_string_recursive('per ${multiplier} on your board', {
+          multiplier: biome.multiplier,
+        });
       }
 
-      if (typeIncome != ''){
-      message = this.format_string_recursive('When activated, ${costMessage}this biome provides you ${income} ${typeIncome} ${conditionMessage}',
-      {
-        costMessage : costMessage,
-        income : income,
-        typeIncome : typeIncome,
-        conditionMessage : conditionMessage
-      });
-    }
+      if (typeIncome != '') {
+        message = this.format_string_recursive(
+          'When activated, ${costMessage}this biome provides you ${income} ${typeIncome} ${conditionMessage}',
+          {
+            costMessage: costMessage,
+            income: income,
+            typeIncome: typeIncome,
+            conditionMessage: conditionMessage,
+          },
+        );
+      }
 
       return `<div class='biome-tooltip'>
         <div class='biome-card ${biomeClass}' data-id='${biome.dataId}'>
@@ -487,33 +520,32 @@ define([
 
       if (args.possibleSporePlaces.length > 0) {
         this.addDangerActionButton('btnDiscardSpore', _('Discard and get 1 Spore'), () =>
-        this.clientState('discardBiomeSpore', _('Select the place where you want to place the spore'), args),
+          this.clientState('discardBiomeSpore', _('Select the place where you want to place the spore'), args),
         );
       }
-        let selectedPlace = null;
-        let selectedCell = null;
-        args.possiblePlaces.forEach((place) => {
-          let cell = this.getCell(this.player_id, place[0], place[1]);
-          this.onClick(cell, () => {
-            if (selectedCell !== null) {
-              selectedCell.classList.remove('selected');
-            }
-  
-            if (selectedPlace == place) {
-              selectedCell = null;
-              selectedPlace = null;
-              $('btnConfirmPlace').remove();
-            } else {
-              selectedCell = cell;
-              selectedCell.classList.add('selected');
-              selectedPlace = place;
-              this.addPrimaryActionButton('btnConfirmPlace', _('Confirm'), () =>
-                this.takeAction('actPlaceBiome', { x: selectedPlace[0], y: selectedPlace[1] }),
-              );
-            }
-          });
+      let selectedPlace = null;
+      let selectedCell = null;
+      args.possiblePlaces.forEach((place) => {
+        let cell = this.getCell(this.player_id, place[0], place[1]);
+        this.onClick(cell, () => {
+          if (selectedCell !== null) {
+            selectedCell.classList.remove('selected');
+          }
+
+          if (selectedPlace == place) {
+            selectedCell = null;
+            selectedPlace = null;
+            $('btnConfirmPlace').remove();
+          } else {
+            selectedCell = cell;
+            selectedCell.classList.add('selected');
+            selectedPlace = place;
+            this.addPrimaryActionButton('btnConfirmPlace', _('Confirm'), () =>
+              this.takeAction('actPlaceBiome', { x: selectedPlace[0], y: selectedPlace[1] }),
+            );
+          }
         });
-      
+      });
     },
 
     onEnteringStateDiscardBiomeSpore(args) {
@@ -728,17 +760,14 @@ define([
       dojo.connect(chk, 'onchange', () => this.toggleHelpMode(chk.checked));
       this.addTooltip('help-mode-switch', '', _('Toggle help/safe mode.'));
 
-      // this.onClick('show-ruby', () => this._rubyDialog.show(), false);
-      // this.addTooltip('show-ruby', '', _('Show Ruby help sheet'));
-
       this._settingsModal = new customgame.modal('showSettings', {
-        class: 'barrage_popin',
+        class: 'rauha_popin',
         closeIcon: 'fa-times',
         title: _('Settings'),
         closeAction: 'hide',
         verticalAlign: 'flex-start',
-        contentsTpl: `<div id='barrage-settings'>
-           <div id='barrage-settings-header'></div>
+        contentsTpl: `<div id='rauha-settings'>
+           <div id='rauha-settings-header'></div>
            <div id="settings-controls-container"></div>
          </div>`,
       });

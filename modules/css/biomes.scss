@@ -1,9 +1,15 @@
 #pending-biomes {
     display: flex;
     justify-content: center;
+    height: calc(var(--rauhaBoardScale) * 230px);
+    transition: height 0.5s;
 
     .biome-card {
         margin: 8px;
+    }
+
+    &:empty {
+        height: 0;
     }
 }
 
@@ -12,43 +18,52 @@
 }
 
 .rauha-board .board-grid .board-cell {
-    .biome-card.selectable::before {
+    .biome-card.selectable .biome-fixed-size::before {
         border: 3px solid rgba(255, 0, 0, 0.438);
     }
 }
 .biome-card {
     position: relative;
-    width: 230px;
-    height: 230px;
-    background-image: url("img/age1.jpg");
-    background-size: 500% 800%;
-    border-radius: 40px;
-    box-shadow: 2px 2px 5px -1px black;
-    &::before {
-        content: "";
-        display: block;
-        position: absolute;
-        left: 0;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        pointer-events: none;
-        border: 3px solid transparent;
+    width: calc(230px * var(--rauhaBiomeScale));
+    height: calc(230px * var(--rauhaBiomeScale));
+
+    .biome-fixed-size {
+        position: relative;
+        width: 230px;
+        height: 230px;
+        transform: scale(var(--rauhaBiomeScale));
+        transform-origin: top left;
+        background-image: url("img/age1.jpg");
+        background-size: 500% 800%;
         border-radius: 40px;
-        transition: background 0.8s;
-        background: transparent;
+        box-shadow: 2px 2px 5px -1px black;
+
+        &::before {
+            content: "";
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            border: 3px solid transparent;
+            border-radius: 40px;
+            transition: background 0.8s;
+            background: transparent;
+        }
     }
 
     &.phantom {
         visibility: hidden;
     }
 
-    &.starting {
+    &.starting .biome-fixed-size {
         background: none;
         box-shadow: none;
     }
 
-    &[data-used="1"]::before {
+    &[data-used="1"] .biome-fixed-size::before {
         background: rgba(0, 0, 0, 0.4);
     }
 
@@ -58,27 +73,27 @@
             transform: scale(1.1);
         }
 
-        &.starting:hover::before {
+        &.starting:hover .biome-fixed-size::before {
             border: 3px solid rgba(255, 0, 0, 0.738);
         }
     }
 
-    &.selected::before {
+    &.selected .biome-fixed-size::before {
         border: 3px solid red;
     }
-    &.choice::before {
+    &.choice .biome-fixed-size::before {
         border: 3px solid green;
     }
 
     @for $i from 0 to 40 {
-        &[data-id="#{$i + 100}"] {
+        &[data-id="#{$i + 100}"] .biome-fixed-size {
             background-position-x: ($i % 5) * 100% / 4;
             background-position-y: (($i - ($i % 5)) / 5) * 100% / 7;
         }
     }
 
     @for $i from 0 to 40 {
-        &[data-id="#{$i + 140}"] {
+        &[data-id="#{$i + 140}"] .biome-fixed-size {
             background-position-x: ($i % 5) * 100% / 4;
             background-position-y: (($i - ($i % 5)) / 5) * 100% / 7;
         }

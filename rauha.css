@@ -96,9 +96,10 @@
 
 #rauha-boards-container {
   display: flex;
-  flex-flow: column;
+  flex-flow: row;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+  flex-wrap: wrap; }
 
 .spore {
   width: 50px;
@@ -109,435 +110,460 @@
     background-position-x: 100%; }
 
 .rauha-board {
-  width: 822px;
-  height: 822px;
-  padding: 30px; }
+  width: calc(var(--rauhaBoardScale) * 822px);
+  height: calc(var(--rauhaBoardScale) * 822px + 30px);
+  padding: calc(var(--rauhaBoardScale) * 30px);
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: baseline;
+  --rauhaBiomeScale: 1; }
   .rauha-board .player-name {
-    position: absolute; }
-  .rauha-board .faceB .board-grid {
-    background-image: url("img/faceB.png"); }
-  .rauha-board .board-grid {
-    position: relative;
+    height: 22px;
+    background: #e7e0d7b0;
+    flex-shrink: 0;
+    padding: 4px 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #80502e96;
+    border-radius: 4px;
+    font-family: "Bernard MT Condensed"; }
+  .rauha-board .rauha-board-fixed-size {
+    transform: scale(var(--rauhaBoardScale));
+    transform-origin: top left;
     width: 822px;
-    height: 822px;
-    background: url("img/faceA.png");
-    background-size: 100%;
-    display: grid;
-    grid-template-columns: 56px 230px 230px 230px 56px;
-    grid-template-rows: 59px 230px 230px 230px 53px;
-    grid-gap: 5px; }
-    .rauha-board .board-grid .board-cell {
-      position: relative; }
-      .rauha-board .board-grid .board-cell .biome-card {
-        box-shadow: none;
+    height: 822px; }
+    .rauha-board .rauha-board-fixed-size .faceB .board-grid {
+      background-image: url("img/faceB.png"); }
+    .rauha-board .rauha-board-fixed-size .board-grid {
+      position: relative;
+      width: 822px;
+      height: 822px;
+      background: url("img/faceA.png");
+      background-size: 100%;
+      display: grid;
+      grid-template-columns: 56px 230px 230px 230px 56px;
+      grid-template-rows: 59px 230px 230px 230px 53px;
+      grid-gap: 5px; }
+      .rauha-board .rauha-board-fixed-size .board-grid .board-cell {
+        position: relative; }
+        .rauha-board .rauha-board-fixed-size .board-grid .board-cell .biome-card {
+          box-shadow: none;
+          position: absolute;
+          top: 0;
+          left: 0; }
+      .rauha-board .rauha-board-fixed-size .board-grid .cell-node.selectable::before, .rauha-board .rauha-board-fixed-size .board-grid .cell-node.selected::before {
+        content: "";
+        display: block;
         position: absolute;
+        left: 0;
+        right: 0;
         top: 0;
-        left: 0; }
-    .rauha-board .board-grid .cell-node.selectable::before, .rauha-board .board-grid .cell-node.selected::before {
-      content: "";
-      display: block;
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      z-index: 100;
-      border-radius: 4px; }
-    .rauha-board .board-grid .cell-node.selectable {
-      cursor: pointer; }
-      .rauha-board .board-grid .cell-node.selectable::before {
-        background: #ff000020; }
-      .rauha-board .board-grid .cell-node.selectable:hover::before {
-        background: #ff000070; }
-    .rauha-board .board-grid .cell-node.selected::before {
-      background: #2fff5270; }
-    .rauha-board .board-grid .cell-node.selected:hover::before {
-      background: #2fff52a0; }
-    .rauha-board .board-grid .cell-node .spore-holder {
-      width: 50px;
-      height: 50px;
-      position: absolute;
-      z-index: 99;
-      top: 166px;
-      left: 33px; }
-    .rauha-board .board-grid .rauha-avatar {
-      width: 80px;
-      height: 50px;
-      position: absolute;
-      background: url("img/avatars.png");
-      background-size: 500% 100%;
-      transform-origin: 50% 100%;
-      transition: top 1s, left 1s, transform 1s; }
-      [data-step="1"] .rauha-board .board-grid .rauha-avatar {
-        top: -27px;
-        left: 137px;
-        transform: rotate(0deg); }
-      [data-step="2"] .rauha-board .board-grid .rauha-avatar {
-        top: -27px;
-        left: 372px;
-        transform: rotate(0deg); }
-      [data-step="3"] .rauha-board .board-grid .rauha-avatar {
-        top: -27px;
-        left: 607px;
-        transform: rotate(0deg); }
-      [data-step="4"] .rauha-board .board-grid .rauha-avatar {
-        top: -19px;
-        left: 753px;
-        transform: rotate(45deg); }
-      [data-step="5"] .rauha-board .board-grid .rauha-avatar {
-        top: 125px;
-        left: 761px;
-        transform: rotate(90deg); }
-      [data-step="6"] .rauha-board .board-grid .rauha-avatar {
-        top: 360px;
-        left: 761px;
-        transform: rotate(90deg); }
-      [data-step="7"] .rauha-board .board-grid .rauha-avatar {
-        top: 595px;
-        left: 761px;
-        transform: rotate(90deg); }
-      [data-step="8"] .rauha-board .board-grid .rauha-avatar {
-        top: 742px;
-        left: 755px;
-        transform: rotate(135deg); }
-      [data-step="9"] .rauha-board .board-grid .rauha-avatar {
-        top: 750px;
-        left: 607px;
-        transform: rotate(180deg); }
-      [data-step="10"] .rauha-board .board-grid .rauha-avatar {
-        top: 750px;
-        left: 372px;
-        transform: rotate(180deg); }
-      [data-step="11"] .rauha-board .board-grid .rauha-avatar {
-        top: 750px;
-        left: 137px;
-        transform: rotate(180deg); }
-      [data-step="12"] .rauha-board .board-grid .rauha-avatar {
-        top: 745px;
-        left: -11px;
-        transform: rotate(225deg); }
-      [data-step="13"] .rauha-board .board-grid .rauha-avatar {
-        top: 594px;
-        left: -18px;
-        transform: rotate(270deg); }
-      [data-step="14"] .rauha-board .board-grid .rauha-avatar {
-        top: 361px;
-        left: -18px;
-        transform: rotate(270deg); }
-      [data-step="15"] .rauha-board .board-grid .rauha-avatar {
-        top: 125px;
-        left: -18px;
-        transform: rotate(270deg); }
-      [data-step="16"] .rauha-board .board-grid .rauha-avatar {
-        top: -19px;
-        left: -13px;
-        transform: rotate(315deg); }
-  .rauha-board[data-color="28c8b2"] .rauha-avatar {
+        bottom: 0;
+        z-index: 100;
+        border-radius: 4px; }
+      .rauha-board .rauha-board-fixed-size .board-grid .cell-node.selectable {
+        cursor: pointer; }
+        .rauha-board .rauha-board-fixed-size .board-grid .cell-node.selectable::before {
+          background: #ff000020; }
+        .rauha-board .rauha-board-fixed-size .board-grid .cell-node.selectable:hover::before {
+          background: #ff000070; }
+      .rauha-board .rauha-board-fixed-size .board-grid .cell-node.selected::before {
+        background: #2fff5270; }
+      .rauha-board .rauha-board-fixed-size .board-grid .cell-node.selected:hover::before {
+        background: #2fff52a0; }
+      .rauha-board .rauha-board-fixed-size .board-grid .cell-node .spore-holder {
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        z-index: 99;
+        top: 166px;
+        left: 33px; }
+      .rauha-board .rauha-board-fixed-size .board-grid .rauha-avatar {
+        width: 80px;
+        height: 50px;
+        position: absolute;
+        background: url("img/avatars.png");
+        background-size: 500% 100%;
+        transform-origin: 50% 100%;
+        transition: top 1s, left 1s, transform 1s; }
+        [data-step="1"] .rauha-board .rauha-board-fixed-size .board-grid .rauha-avatar {
+          top: -27px;
+          left: 137px;
+          transform: rotate(0deg); }
+        [data-step="2"] .rauha-board .rauha-board-fixed-size .board-grid .rauha-avatar {
+          top: -27px;
+          left: 372px;
+          transform: rotate(0deg); }
+        [data-step="3"] .rauha-board .rauha-board-fixed-size .board-grid .rauha-avatar {
+          top: -27px;
+          left: 607px;
+          transform: rotate(0deg); }
+        [data-step="4"] .rauha-board .rauha-board-fixed-size .board-grid .rauha-avatar {
+          top: -19px;
+          left: 753px;
+          transform: rotate(45deg); }
+        [data-step="5"] .rauha-board .rauha-board-fixed-size .board-grid .rauha-avatar {
+          top: 125px;
+          left: 761px;
+          transform: rotate(90deg); }
+        [data-step="6"] .rauha-board .rauha-board-fixed-size .board-grid .rauha-avatar {
+          top: 360px;
+          left: 761px;
+          transform: rotate(90deg); }
+        [data-step="7"] .rauha-board .rauha-board-fixed-size .board-grid .rauha-avatar {
+          top: 595px;
+          left: 761px;
+          transform: rotate(90deg); }
+        [data-step="8"] .rauha-board .rauha-board-fixed-size .board-grid .rauha-avatar {
+          top: 742px;
+          left: 755px;
+          transform: rotate(135deg); }
+        [data-step="9"] .rauha-board .rauha-board-fixed-size .board-grid .rauha-avatar {
+          top: 750px;
+          left: 607px;
+          transform: rotate(180deg); }
+        [data-step="10"] .rauha-board .rauha-board-fixed-size .board-grid .rauha-avatar {
+          top: 750px;
+          left: 372px;
+          transform: rotate(180deg); }
+        [data-step="11"] .rauha-board .rauha-board-fixed-size .board-grid .rauha-avatar {
+          top: 750px;
+          left: 137px;
+          transform: rotate(180deg); }
+        [data-step="12"] .rauha-board .rauha-board-fixed-size .board-grid .rauha-avatar {
+          top: 745px;
+          left: -11px;
+          transform: rotate(225deg); }
+        [data-step="13"] .rauha-board .rauha-board-fixed-size .board-grid .rauha-avatar {
+          top: 594px;
+          left: -18px;
+          transform: rotate(270deg); }
+        [data-step="14"] .rauha-board .rauha-board-fixed-size .board-grid .rauha-avatar {
+          top: 361px;
+          left: -18px;
+          transform: rotate(270deg); }
+        [data-step="15"] .rauha-board .rauha-board-fixed-size .board-grid .rauha-avatar {
+          top: 125px;
+          left: -18px;
+          transform: rotate(270deg); }
+        [data-step="16"] .rauha-board .rauha-board-fixed-size .board-grid .rauha-avatar {
+          top: -19px;
+          left: -13px;
+          transform: rotate(315deg); }
+  .rauha-board[data-color="28c8b2"] .rauha-board-fixed-size .rauha-avatar {
     background-position-x: 0%; }
-  .rauha-board[data-color="9fa2a2"] .rauha-avatar {
+  .rauha-board[data-color="9fa2a2"] .rauha-board-fixed-size .rauha-avatar {
     background-position-x: 25%; }
-  .rauha-board[data-color="00953e"] .rauha-avatar {
+  .rauha-board[data-color="00953e"] .rauha-board-fixed-size .rauha-avatar {
     background-position-x: 50%; }
-  .rauha-board[data-color="f4ea4b"] .rauha-avatar {
+  .rauha-board[data-color="f4ea4b"] .rauha-board-fixed-size .rauha-avatar {
     background-position-x: 75%; }
-  .rauha-board[data-color="f52452"] .rauha-avatar {
+  .rauha-board[data-color="f52452"] .rauha-board-fixed-size .rauha-avatar {
     background-position-x: 100%; }
 
 #pending-biomes {
   display: flex;
-  justify-content: center; }
+  justify-content: center;
+  height: calc(var(--rauhaBoardScale) * 230px);
+  transition: height 0.5s; }
   #pending-biomes .biome-card {
     margin: 8px; }
+  #pending-biomes:empty {
+    height: 0; }
 
 #page-title .biome-card {
   position: absolute; }
 
-.rauha-board .board-grid .board-cell .biome-card.selectable::before {
+.rauha-board .board-grid .board-cell .biome-card.selectable .biome-fixed-size::before {
   border: 3px solid rgba(255, 0, 0, 0.438); }
 
 .biome-card {
   position: relative;
-  width: 230px;
-  height: 230px;
-  background-size: 500% 800%;
-  border-radius: 40px;
-  box-shadow: 2px 2px 5px -1px black; }
-  .biome-card::before {
-    content: "";
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
-    border: 3px solid transparent;
+  width: calc(230px * var(--rauhaBiomeScale));
+  height: calc(230px * var(--rauhaBiomeScale)); }
+  .biome-card .biome-fixed-size {
+    position: relative;
+    width: 230px;
+    height: 230px;
+    transform: scale(var(--rauhaBiomeScale));
+    transform-origin: top left;
+    background-image: url("img/age1.jpg");
+    background-size: 500% 800%;
     border-radius: 40px;
-    transition: background 0.8s;
-    background: transparent; }
+    box-shadow: 2px 2px 5px -1px black; }
+    .biome-card .biome-fixed-size::before {
+      content: "";
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      border: 3px solid transparent;
+      border-radius: 40px;
+      transition: background 0.8s;
+      background: transparent; }
   .biome-card.phantom {
     visibility: hidden; }
-  .biome-card.starting {
+  .biome-card.starting .biome-fixed-size {
     background: none;
     box-shadow: none; }
-  .biome-card[data-used="1"]::before {
+  .biome-card[data-used="1"] .biome-fixed-size::before {
     background: rgba(0, 0, 0, 0.4); }
   .biome-card.selectable {
     cursor: pointer; }
     .biome-card.selectable:not(.starting):hover {
       transform: scale(1.1); }
-    .biome-card.selectable.starting:hover::before {
+    .biome-card.selectable.starting:hover .biome-fixed-size::before {
       border: 3px solid rgba(255, 0, 0, 0.738); }
-  .biome-card.selected::before {
+  .biome-card.selected .biome-fixed-size::before {
     border: 3px solid red; }
-  .biome-card.choice::before {
+  .biome-card.choice .biome-fixed-size::before {
     border: 3px solid green; }
-  .biome-card[data-id="100"] {
+  .biome-card[data-id="100"] .biome-fixed-size {
     background-position-x: 0%;
     background-position-y: 0%; }
-  .biome-card[data-id="101"] {
+  .biome-card[data-id="101"] .biome-fixed-size {
     background-position-x: 25%;
     background-position-y: 0%; }
-  .biome-card[data-id="102"] {
+  .biome-card[data-id="102"] .biome-fixed-size {
     background-position-x: 50%;
     background-position-y: 0%; }
-  .biome-card[data-id="103"] {
+  .biome-card[data-id="103"] .biome-fixed-size {
     background-position-x: 75%;
     background-position-y: 0%; }
-  .biome-card[data-id="104"] {
+  .biome-card[data-id="104"] .biome-fixed-size {
     background-position-x: 100%;
     background-position-y: 0%; }
-  .biome-card[data-id="105"] {
+  .biome-card[data-id="105"] .biome-fixed-size {
     background-position-x: 0%;
     background-position-y: 14.2857142857%; }
-  .biome-card[data-id="106"] {
+  .biome-card[data-id="106"] .biome-fixed-size {
     background-position-x: 25%;
     background-position-y: 14.2857142857%; }
-  .biome-card[data-id="107"] {
+  .biome-card[data-id="107"] .biome-fixed-size {
     background-position-x: 50%;
     background-position-y: 14.2857142857%; }
-  .biome-card[data-id="108"] {
+  .biome-card[data-id="108"] .biome-fixed-size {
     background-position-x: 75%;
     background-position-y: 14.2857142857%; }
-  .biome-card[data-id="109"] {
+  .biome-card[data-id="109"] .biome-fixed-size {
     background-position-x: 100%;
     background-position-y: 14.2857142857%; }
-  .biome-card[data-id="110"] {
+  .biome-card[data-id="110"] .biome-fixed-size {
     background-position-x: 0%;
     background-position-y: 28.5714285714%; }
-  .biome-card[data-id="111"] {
+  .biome-card[data-id="111"] .biome-fixed-size {
     background-position-x: 25%;
     background-position-y: 28.5714285714%; }
-  .biome-card[data-id="112"] {
+  .biome-card[data-id="112"] .biome-fixed-size {
     background-position-x: 50%;
     background-position-y: 28.5714285714%; }
-  .biome-card[data-id="113"] {
+  .biome-card[data-id="113"] .biome-fixed-size {
     background-position-x: 75%;
     background-position-y: 28.5714285714%; }
-  .biome-card[data-id="114"] {
+  .biome-card[data-id="114"] .biome-fixed-size {
     background-position-x: 100%;
     background-position-y: 28.5714285714%; }
-  .biome-card[data-id="115"] {
+  .biome-card[data-id="115"] .biome-fixed-size {
     background-position-x: 0%;
     background-position-y: 42.8571428571%; }
-  .biome-card[data-id="116"] {
+  .biome-card[data-id="116"] .biome-fixed-size {
     background-position-x: 25%;
     background-position-y: 42.8571428571%; }
-  .biome-card[data-id="117"] {
+  .biome-card[data-id="117"] .biome-fixed-size {
     background-position-x: 50%;
     background-position-y: 42.8571428571%; }
-  .biome-card[data-id="118"] {
+  .biome-card[data-id="118"] .biome-fixed-size {
     background-position-x: 75%;
     background-position-y: 42.8571428571%; }
-  .biome-card[data-id="119"] {
+  .biome-card[data-id="119"] .biome-fixed-size {
     background-position-x: 100%;
     background-position-y: 42.8571428571%; }
-  .biome-card[data-id="120"] {
+  .biome-card[data-id="120"] .biome-fixed-size {
     background-position-x: 0%;
     background-position-y: 57.1428571429%; }
-  .biome-card[data-id="121"] {
+  .biome-card[data-id="121"] .biome-fixed-size {
     background-position-x: 25%;
     background-position-y: 57.1428571429%; }
-  .biome-card[data-id="122"] {
+  .biome-card[data-id="122"] .biome-fixed-size {
     background-position-x: 50%;
     background-position-y: 57.1428571429%; }
-  .biome-card[data-id="123"] {
+  .biome-card[data-id="123"] .biome-fixed-size {
     background-position-x: 75%;
     background-position-y: 57.1428571429%; }
-  .biome-card[data-id="124"] {
+  .biome-card[data-id="124"] .biome-fixed-size {
     background-position-x: 100%;
     background-position-y: 57.1428571429%; }
-  .biome-card[data-id="125"] {
+  .biome-card[data-id="125"] .biome-fixed-size {
     background-position-x: 0%;
     background-position-y: 71.4285714286%; }
-  .biome-card[data-id="126"] {
+  .biome-card[data-id="126"] .biome-fixed-size {
     background-position-x: 25%;
     background-position-y: 71.4285714286%; }
-  .biome-card[data-id="127"] {
+  .biome-card[data-id="127"] .biome-fixed-size {
     background-position-x: 50%;
     background-position-y: 71.4285714286%; }
-  .biome-card[data-id="128"] {
+  .biome-card[data-id="128"] .biome-fixed-size {
     background-position-x: 75%;
     background-position-y: 71.4285714286%; }
-  .biome-card[data-id="129"] {
+  .biome-card[data-id="129"] .biome-fixed-size {
     background-position-x: 100%;
     background-position-y: 71.4285714286%; }
-  .biome-card[data-id="130"] {
+  .biome-card[data-id="130"] .biome-fixed-size {
     background-position-x: 0%;
     background-position-y: 85.7142857143%; }
-  .biome-card[data-id="131"] {
+  .biome-card[data-id="131"] .biome-fixed-size {
     background-position-x: 25%;
     background-position-y: 85.7142857143%; }
-  .biome-card[data-id="132"] {
+  .biome-card[data-id="132"] .biome-fixed-size {
     background-position-x: 50%;
     background-position-y: 85.7142857143%; }
-  .biome-card[data-id="133"] {
+  .biome-card[data-id="133"] .biome-fixed-size {
     background-position-x: 75%;
     background-position-y: 85.7142857143%; }
-  .biome-card[data-id="134"] {
+  .biome-card[data-id="134"] .biome-fixed-size {
     background-position-x: 100%;
     background-position-y: 85.7142857143%; }
-  .biome-card[data-id="135"] {
+  .biome-card[data-id="135"] .biome-fixed-size {
     background-position-x: 0%;
     background-position-y: 100%; }
-  .biome-card[data-id="136"] {
+  .biome-card[data-id="136"] .biome-fixed-size {
     background-position-x: 25%;
     background-position-y: 100%; }
-  .biome-card[data-id="137"] {
+  .biome-card[data-id="137"] .biome-fixed-size {
     background-position-x: 50%;
     background-position-y: 100%; }
-  .biome-card[data-id="138"] {
+  .biome-card[data-id="138"] .biome-fixed-size {
     background-position-x: 75%;
     background-position-y: 100%; }
-  .biome-card[data-id="139"] {
+  .biome-card[data-id="139"] .biome-fixed-size {
     background-position-x: 100%;
     background-position-y: 100%; }
-  .biome-card[data-id="140"] {
+  .biome-card[data-id="140"] .biome-fixed-size {
     background-position-x: 0%;
     background-position-y: 0%; }
-  .biome-card[data-id="141"] {
+  .biome-card[data-id="141"] .biome-fixed-size {
     background-position-x: 25%;
     background-position-y: 0%; }
-  .biome-card[data-id="142"] {
+  .biome-card[data-id="142"] .biome-fixed-size {
     background-position-x: 50%;
     background-position-y: 0%; }
-  .biome-card[data-id="143"] {
+  .biome-card[data-id="143"] .biome-fixed-size {
     background-position-x: 75%;
     background-position-y: 0%; }
-  .biome-card[data-id="144"] {
+  .biome-card[data-id="144"] .biome-fixed-size {
     background-position-x: 100%;
     background-position-y: 0%; }
-  .biome-card[data-id="145"] {
+  .biome-card[data-id="145"] .biome-fixed-size {
     background-position-x: 0%;
     background-position-y: 14.2857142857%; }
-  .biome-card[data-id="146"] {
+  .biome-card[data-id="146"] .biome-fixed-size {
     background-position-x: 25%;
     background-position-y: 14.2857142857%; }
-  .biome-card[data-id="147"] {
+  .biome-card[data-id="147"] .biome-fixed-size {
     background-position-x: 50%;
     background-position-y: 14.2857142857%; }
-  .biome-card[data-id="148"] {
+  .biome-card[data-id="148"] .biome-fixed-size {
     background-position-x: 75%;
     background-position-y: 14.2857142857%; }
-  .biome-card[data-id="149"] {
+  .biome-card[data-id="149"] .biome-fixed-size {
     background-position-x: 100%;
     background-position-y: 14.2857142857%; }
-  .biome-card[data-id="150"] {
+  .biome-card[data-id="150"] .biome-fixed-size {
     background-position-x: 0%;
     background-position-y: 28.5714285714%; }
-  .biome-card[data-id="151"] {
+  .biome-card[data-id="151"] .biome-fixed-size {
     background-position-x: 25%;
     background-position-y: 28.5714285714%; }
-  .biome-card[data-id="152"] {
+  .biome-card[data-id="152"] .biome-fixed-size {
     background-position-x: 50%;
     background-position-y: 28.5714285714%; }
-  .biome-card[data-id="153"] {
+  .biome-card[data-id="153"] .biome-fixed-size {
     background-position-x: 75%;
     background-position-y: 28.5714285714%; }
-  .biome-card[data-id="154"] {
+  .biome-card[data-id="154"] .biome-fixed-size {
     background-position-x: 100%;
     background-position-y: 28.5714285714%; }
-  .biome-card[data-id="155"] {
+  .biome-card[data-id="155"] .biome-fixed-size {
     background-position-x: 0%;
     background-position-y: 42.8571428571%; }
-  .biome-card[data-id="156"] {
+  .biome-card[data-id="156"] .biome-fixed-size {
     background-position-x: 25%;
     background-position-y: 42.8571428571%; }
-  .biome-card[data-id="157"] {
+  .biome-card[data-id="157"] .biome-fixed-size {
     background-position-x: 50%;
     background-position-y: 42.8571428571%; }
-  .biome-card[data-id="158"] {
+  .biome-card[data-id="158"] .biome-fixed-size {
     background-position-x: 75%;
     background-position-y: 42.8571428571%; }
-  .biome-card[data-id="159"] {
+  .biome-card[data-id="159"] .biome-fixed-size {
     background-position-x: 100%;
     background-position-y: 42.8571428571%; }
-  .biome-card[data-id="160"] {
+  .biome-card[data-id="160"] .biome-fixed-size {
     background-position-x: 0%;
     background-position-y: 57.1428571429%; }
-  .biome-card[data-id="161"] {
+  .biome-card[data-id="161"] .biome-fixed-size {
     background-position-x: 25%;
     background-position-y: 57.1428571429%; }
-  .biome-card[data-id="162"] {
+  .biome-card[data-id="162"] .biome-fixed-size {
     background-position-x: 50%;
     background-position-y: 57.1428571429%; }
-  .biome-card[data-id="163"] {
+  .biome-card[data-id="163"] .biome-fixed-size {
     background-position-x: 75%;
     background-position-y: 57.1428571429%; }
-  .biome-card[data-id="164"] {
+  .biome-card[data-id="164"] .biome-fixed-size {
     background-position-x: 100%;
     background-position-y: 57.1428571429%; }
-  .biome-card[data-id="165"] {
+  .biome-card[data-id="165"] .biome-fixed-size {
     background-position-x: 0%;
     background-position-y: 71.4285714286%; }
-  .biome-card[data-id="166"] {
+  .biome-card[data-id="166"] .biome-fixed-size {
     background-position-x: 25%;
     background-position-y: 71.4285714286%; }
-  .biome-card[data-id="167"] {
+  .biome-card[data-id="167"] .biome-fixed-size {
     background-position-x: 50%;
     background-position-y: 71.4285714286%; }
-  .biome-card[data-id="168"] {
+  .biome-card[data-id="168"] .biome-fixed-size {
     background-position-x: 75%;
     background-position-y: 71.4285714286%; }
-  .biome-card[data-id="169"] {
+  .biome-card[data-id="169"] .biome-fixed-size {
     background-position-x: 100%;
     background-position-y: 71.4285714286%; }
-  .biome-card[data-id="170"] {
+  .biome-card[data-id="170"] .biome-fixed-size {
     background-position-x: 0%;
     background-position-y: 85.7142857143%; }
-  .biome-card[data-id="171"] {
+  .biome-card[data-id="171"] .biome-fixed-size {
     background-position-x: 25%;
     background-position-y: 85.7142857143%; }
-  .biome-card[data-id="172"] {
+  .biome-card[data-id="172"] .biome-fixed-size {
     background-position-x: 50%;
     background-position-y: 85.7142857143%; }
-  .biome-card[data-id="173"] {
+  .biome-card[data-id="173"] .biome-fixed-size {
     background-position-x: 75%;
     background-position-y: 85.7142857143%; }
-  .biome-card[data-id="174"] {
+  .biome-card[data-id="174"] .biome-fixed-size {
     background-position-x: 100%;
     background-position-y: 85.7142857143%; }
-  .biome-card[data-id="175"] {
+  .biome-card[data-id="175"] .biome-fixed-size {
     background-position-x: 0%;
     background-position-y: 100%; }
-  .biome-card[data-id="176"] {
+  .biome-card[data-id="176"] .biome-fixed-size {
     background-position-x: 25%;
     background-position-y: 100%; }
-  .biome-card[data-id="177"] {
+  .biome-card[data-id="177"] .biome-fixed-size {
     background-position-x: 50%;
     background-position-y: 100%; }
-  .biome-card[data-id="178"] {
+  .biome-card[data-id="178"] .biome-fixed-size {
     background-position-x: 75%;
     background-position-y: 100%; }
-  .biome-card[data-id="179"] {
+  .biome-card[data-id="179"] .biome-fixed-size {
     background-position-x: 100%;
     background-position-y: 100%; }
-  .biome-card.age1 {
-  background-image: url("img/age1.jpg");
-  }
-  .biome-card.age2 {
-    background-image: url("img/age2.jpg");
-    }
+
 :root {
   --rauhaGodScale: 0.06; }
 
@@ -691,7 +717,7 @@
   border-radius: 8px;
   box-shadow: 0 3px 8px black;
   position: relative; }
-  #popin_showSettings .arknova_popin_closeicon {
+  #popin_showSettings .rauha_popin_closeicon {
     background-color: #a47a77;
     border-radius: 50%;
     width: 40px;
@@ -705,11 +731,11 @@
     font-size: 90%;
     color: white !important;
     border: 1px solid #dfbda8; }
-    #popin_showSettings .arknova_popin_closeicon:hover {
+    #popin_showSettings .rauha_popin_closeicon:hover {
       text-decoration: none;
       color: #ccc !important;
       transform: scale(1.1); }
-    #popin_showSettings .arknova_popin_closeicon i {
+    #popin_showSettings .rauha_popin_closeicon i {
       margin-top: -2px; }
   #popin_showSettings h2 {
     font-family: "Oranienbaum";
@@ -800,6 +826,279 @@
         background-color: #2196f3; }
         #settings-controls-container .row-data label.switch input:checked + .slider::before {
           left: 30px; }
+
+/*! nouislider - 14.6.0 - 6/27/2020 */
+.noUi-target,
+.noUi-target * {
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  -ms-touch-action: none;
+  touch-action: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+.noUi-target {
+  position: relative; }
+
+.noUi-base,
+.noUi-connects {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1; }
+
+.noUi-connects {
+  overflow: hidden;
+  z-index: 0; }
+
+.noUi-connect,
+.noUi-origin {
+  will-change: transform;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  -ms-transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
+  -webkit-transform-style: preserve-3d;
+  transform-origin: 0 0;
+  transform-style: flat; }
+
+.noUi-connect {
+  height: 100%;
+  width: 100%; }
+
+.noUi-origin {
+  height: 10%;
+  width: 10%; }
+
+.noUi-txt-dir-rtl.noUi-horizontal .noUi-origin {
+  left: 0;
+  right: auto; }
+
+.noUi-vertical .noUi-origin {
+  width: 0; }
+
+.noUi-horizontal .noUi-origin {
+  height: 0; }
+
+.noUi-handle {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  position: absolute; }
+
+.noUi-touch-area {
+  height: 100%;
+  width: 100%; }
+
+.noUi-state-tap .noUi-connect,
+.noUi-state-tap .noUi-origin {
+  -webkit-transition: transform 0.3s;
+  transition: transform 0.3s; }
+
+.noUi-state-drag * {
+  cursor: inherit !important; }
+
+.noUi-horizontal {
+  height: 18px; }
+
+.noUi-horizontal .noUi-handle {
+  width: 34px;
+  height: 28px;
+  right: -17px;
+  top: -6px; }
+
+.noUi-vertical {
+  width: 18px; }
+
+.noUi-vertical .noUi-handle {
+  width: 28px;
+  height: 34px;
+  right: -6px;
+  top: -17px; }
+
+.noUi-txt-dir-rtl.noUi-horizontal .noUi-handle {
+  left: -17px;
+  right: auto; }
+
+.noUi-target {
+  background: #fafafa;
+  border-radius: 4px;
+  border: 1px solid #d3d3d3;
+  box-shadow: inset 0 1px 1px #f0f0f0, 0 3px 6px -5px #bbb; }
+
+.noUi-connects {
+  border-radius: 3px; }
+
+.noUi-connect {
+  background: #3fb8af; }
+
+.noUi-draggable {
+  cursor: ew-resize; }
+
+.noUi-vertical .noUi-draggable {
+  cursor: ns-resize; }
+
+.noUi-handle {
+  border: 1px solid #d9d9d9;
+  border-radius: 3px;
+  background: #fff;
+  cursor: default;
+  box-shadow: inset 0 0 1px #fff, inset 0 1px 7px #ebebeb, 0 3px 6px -3px #bbb; }
+
+.noUi-active {
+  box-shadow: inset 0 0 1px #fff, inset 0 1px 7px #ddd, 0 3px 6px -3px #bbb; }
+
+.noUi-handle:after,
+.noUi-handle:before {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 14px;
+  width: 1px;
+  background: #e8e7e6;
+  left: 14px;
+  top: 6px; }
+
+.noUi-handle:after {
+  left: 17px; }
+
+.noUi-vertical .noUi-handle:after,
+.noUi-vertical .noUi-handle:before {
+  width: 14px;
+  height: 1px;
+  left: 6px;
+  top: 14px; }
+
+.noUi-vertical .noUi-handle:after {
+  top: 17px; }
+
+[disabled] .noUi-connect {
+  background: #b8b8b8; }
+
+[disabled] .noUi-handle,
+[disabled].noUi-handle,
+[disabled].noUi-target {
+  cursor: not-allowed; }
+
+.noUi-pips,
+.noUi-pips * {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+.noUi-pips {
+  position: absolute;
+  color: #999; }
+
+.noUi-value {
+  position: absolute;
+  white-space: nowrap;
+  text-align: center; }
+
+.noUi-value-sub {
+  color: #ccc;
+  font-size: 10px; }
+
+.noUi-marker {
+  position: absolute;
+  background: #ccc; }
+
+.noUi-marker-sub {
+  background: #aaa; }
+
+.noUi-marker-large {
+  background: #aaa; }
+
+.noUi-pips-horizontal {
+  padding: 10px 0;
+  height: 80px;
+  top: 100%;
+  left: 0;
+  width: 100%; }
+
+.noUi-value-horizontal {
+  -webkit-transform: translate(-50%, 50%);
+  transform: translate(-50%, 50%); }
+
+.noUi-rtl .noUi-value-horizontal {
+  -webkit-transform: translate(50%, 50%);
+  transform: translate(50%, 50%); }
+
+.noUi-marker-horizontal.noUi-marker {
+  margin-left: -1px;
+  width: 2px;
+  height: 5px; }
+
+.noUi-marker-horizontal.noUi-marker-sub {
+  height: 10px; }
+
+.noUi-marker-horizontal.noUi-marker-large {
+  height: 15px; }
+
+.noUi-pips-vertical {
+  padding: 0 10px;
+  height: 100%;
+  top: 0;
+  left: 100%; }
+
+.noUi-value-vertical {
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  padding-left: 25px; }
+
+.noUi-rtl .noUi-value-vertical {
+  -webkit-transform: translate(0, 50%);
+  transform: translate(0, 50%); }
+
+.noUi-marker-vertical.noUi-marker {
+  width: 5px;
+  height: 2px;
+  margin-top: -1px; }
+
+.noUi-marker-vertical.noUi-marker-sub {
+  width: 10px; }
+
+.noUi-marker-vertical.noUi-marker-large {
+  width: 15px; }
+
+.noUi-tooltip {
+  display: block;
+  position: absolute;
+  border: 1px solid #d9d9d9;
+  border-radius: 3px;
+  background: #fff;
+  color: #000;
+  padding: 5px;
+  text-align: center;
+  white-space: nowrap; }
+
+.noUi-horizontal .noUi-tooltip {
+  -webkit-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+  left: 50%;
+  bottom: 120%; }
+
+.noUi-vertical .noUi-tooltip {
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  top: 50%;
+  right: 120%; }
+
+.noUi-horizontal .noUi-origin > .noUi-tooltip {
+  -webkit-transform: translate(50%, 0);
+  transform: translate(50%, 0);
+  left: auto;
+  bottom: 10px; }
+
+.noUi-vertical .noUi-origin > .noUi-tooltip {
+  -webkit-transform: translate(0, -18px);
+  transform: translate(0, -18px);
+  top: auto;
+  right: 28px; }
 
 html {
   background: url("img/background.jpg");
