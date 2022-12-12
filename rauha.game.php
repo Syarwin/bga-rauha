@@ -56,6 +56,7 @@ class Rauha extends Table
     self::$instance = $this;
     self::initGameStateLabels([
       'logging' => 10,
+      OPTION_BOARD_SIDE => 102,
     ]);
     Stats::checkExistence();
   }
@@ -93,6 +94,7 @@ class Rauha extends Table
   {
     $pId = self::getCurrentPId();
     return [
+      'side' => $this->getGameStateValue(\OPTION_BOARD_SIDE) == OPTION_A_SIDE ? 'faceA' : 'faceB',
       'prefs' => Preferences::getUiData($pId),
       'players' => Players::getUiData($pId),
       'turn' => Globals::getTurn(),
