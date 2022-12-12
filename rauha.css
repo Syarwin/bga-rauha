@@ -134,7 +134,7 @@
     transform-origin: top left;
     width: 822px;
     height: 822px; }
-    .rauha-board .rauha-board-fixed-size .faceB .board-grid {
+    .rauha-board .rauha-board-fixed-size .faceB.board-grid {
       background-image: url("img/faceB.png"); }
     .rauha-board .rauha-board-fixed-size .board-grid {
       position: relative;

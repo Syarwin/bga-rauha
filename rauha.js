@@ -151,10 +151,14 @@ define([
           }
         }
       }
+
+        //determine faceA or faceB used
+        let face = player.biomes.some((biome) => {return biome.dataId < 10}) ? 'faceA' : 'faceB';
+
       return `<div class='rauha-board' id='board-${player.id}' data-color='${player.color}'>
          <div class='player-name' style='color:#${player.color}'>${player.name}</div>
          <div class='rauha-board-fixed-size'>
-          <div class='board-grid'>
+          <div class='board-grid ${face}'>
             <div class="rauha-avatar"></div>
             ${content}
           </div>
