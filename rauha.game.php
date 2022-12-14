@@ -131,21 +131,25 @@ class Rauha extends Table
       case 'chooseBiome':
         $args = $this->argChooseBiome();
         $biomes = $args['_private'][$activePlayerId]['biomes'];
+        $ids = [];
+        foreach ($biomes as $id => $biome) {
+          $ids[] = $id;
+        }
 
         $choice = bga_rand(0, count($biomes) - 1);
-        $this->actChooseBiome(array_keys($biomes)[$choice], (int) $activePlayerId);
+        $this->actChooseBiome($ids[$choice], (int)$activePlayerId);
         break;
       case 'placeBiome':
         $this->actDiscardCrystals($activePlayerId);
         break;
 
       case 'countAction':
-      case 'actBiomes':
+      case 'activate':
         $this->actSkip($activePlayerId);
         break;
 
       default:
-        throw new feException('Zombie mode not supported at this game state: ' . $statename);
+        echo ('Zombie mode not supported at this game state: ' . $statename);
     }
   }
 
