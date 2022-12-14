@@ -563,6 +563,9 @@
   .biome-card[data-id="179"] .biome-fixed-size {
     background-position-x: 100%;
     background-position-y: 100%; }
+    .biome-card.age2 .biome-fixed-size {
+      background-image: url("img/age2.jpg");
+      }
 
 :root {
   --rauhaGodScale: 0.06; }
