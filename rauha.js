@@ -117,7 +117,7 @@ define([
         });
 
         if (player.hand !== null) {
-          this.place('tplBiome', player.hand, 'pending-biomes');
+          this.addBiome(player.hand, 'pending-biomes');
         }
 
         // Change default point icon
@@ -314,7 +314,9 @@ define([
 
       return `<div class='biome-tooltip'>
         <div class='biome-card ${biomeClass}' data-id='${biome.dataId}'>
-          <div class='biome-spore-container'></div>
+          <div class='biome-fixed-size'>
+            <div class='biome-spore-container'></div>
+          </div>
         </div>
         <div class='biome-help'>${message}</div>
         <div class='biome-types'>${_('Symbol(s):')} ${biome.types.join(',')}</div>
@@ -368,9 +370,11 @@ define([
         </div>
       </div>
       <div class='god-tooltip-desc'>
-        ${infos.name} <br />
-        ${infos.title} <br />
-        ${infos.desc.join('<br />')}
+        <div class='god-name'>${infos.name}</div>
+        <div class='god-title'>${infos.title}</div>
+        <div class='god-power'>
+          ${infos.desc.join('<br />')}
+        </div>
       </div>
     </div>`;
     },
@@ -473,7 +477,7 @@ define([
       if (args._private) {
         let biomes = args._private.biomes;
         Object.keys(biomes).forEach((biomeId) => {
-          elements[biomeId] = this.place('tplBiome', biomes[biomeId], 'pending-biomes');
+          elements[biomeId] = this.addBiome(biome, 'pending-biomes');
         });
 
         if (args._private.choice !== null && $(`biome-${args._private.choice}`)) {
@@ -579,7 +583,7 @@ define([
       }
 
       if (!$(`biome-${biome.id}`)) {
-        this.place('tplBiome', biome, 'page-title');
+        this.addBiome(biome, 'page-title');
       }
       $(`biome-${biome.id}`).classList.remove('choice');
       await this.slide(`biome-${biome.id}`, this.getCell(n.args.player_id, n.args.x, n.args.y));

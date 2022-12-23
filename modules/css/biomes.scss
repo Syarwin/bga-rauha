@@ -17,6 +17,14 @@
     position: absolute;
 }
 
+.biome-tooltip {
+    --rauhaBiomeScale: 1;
+
+    .biome-card {
+        margin-bottom: 10px;
+    }
+}
+
 .rauha-board .board-grid .board-cell {
     .biome-card.selectable .biome-fixed-size::before {
         border: 3px solid rgba(255, 0, 0, 0.438);
@@ -100,8 +108,7 @@
     }
 }
 
-.biome-card.age2{
-
+.biome-card.age2 {
     .biome-fixed-size {
         background-image: url("img/age2.jpg");
     }

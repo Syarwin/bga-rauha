@@ -276,6 +276,11 @@
 #page-title .biome-card {
   position: absolute; }
 
+.biome-tooltip {
+  --rauhaBiomeScale: 1; }
+  .biome-tooltip .biome-card {
+    margin-bottom: 10px; }
+
 .rauha-board .board-grid .board-cell .biome-card.selectable .biome-fixed-size::before {
   border: 3px solid rgba(255, 0, 0, 0.438); }
 
@@ -563,9 +568,9 @@
   .biome-card[data-id="179"] .biome-fixed-size {
     background-position-x: 100%;
     background-position-y: 100%; }
-    .biome-card.age2 .biome-fixed-size {
-      background-image: url("img/age2.jpg");
-      }
+
+.biome-card.age2 .biome-fixed-size {
+  background-image: url("img/age2.jpg"); }
 
 :root {
   --rauhaGodScale: 0.06; }
@@ -625,7 +630,15 @@
   display: flex;
   --rauhaGodScale: 0.3; }
   .god-tooltip .god-tooltip-desc {
-    text-align: center; }
+    display: flex;
+    flex-direction: column; }
+    .god-tooltip .god-tooltip-desc .god-name {
+      font-weight: bold;
+      font-size: 20px; }
+    .god-tooltip .god-tooltip-desc .god-title {
+      font-style: italic; }
+    .god-tooltip .god-tooltip-desc .god-power {
+      text-align: center; }
 
 #player_board_config {
   position: relative;
