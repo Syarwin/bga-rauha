@@ -149,7 +149,7 @@ class Rauha extends Table
         break;
 
       default:
-        echo ('Zombie mode not supported at this game state: ' . $statename);
+        throw new feException('Zombie mode not supported at this game state: ' . $statename);
     }
   }
 
