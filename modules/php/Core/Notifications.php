@@ -197,7 +197,7 @@ class Notifications
     $message = '';
     if ($cost > 0) {
       $message = clienttranslate(
-        'By paying ${cost} crystal(s), ${player_name} activate ${godName} and receives ${crystalIncome} point(s)'
+        'By paying ${cost} crystal(s), ${player_name} activate ${godName} and receives ${pointIncome} point(s)'
       );
     } elseif ($crystalIncome > 0) {
       $message = clienttranslate('${player_name} activate ${godName} and receives ${crystalIncome} crystal(s)');
