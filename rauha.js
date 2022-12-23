@@ -820,6 +820,7 @@ define([
     updateTurn() {
       $('game_play_area').dataset.step = this.gamedatas.turn;
       let round = parseInt(this.gamedatas.turn / 4) + 1;
+      if (round > 4) round = 4;
       this._roundCounter.toValue(round);
 
       let turn = this.gamedatas.turn % 4;
