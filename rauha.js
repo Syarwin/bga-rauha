@@ -477,7 +477,7 @@ define([
       if (args._private) {
         let biomes = args._private.biomes;
         Object.keys(biomes).forEach((biomeId) => {
-          elements[biomeId] = this.addBiome(biome, 'pending-biomes');
+          elements[biomeId] = this.addBiome(biomes[biomeId], 'pending-biomes');
         });
 
         if (args._private.choice !== null && $(`biome-${args._private.choice}`)) {
