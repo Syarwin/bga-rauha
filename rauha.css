@@ -24,7 +24,8 @@
 
 .player-board {
   background-color: #f5f3ef;
-  border: 1px solid #4a4a4a !important; }
+  border: 1px solid #4a4a4a !important;
+  margin-right: 1px !important; }
 
 .player_score .fa.fa-star {
   display: none; }
@@ -280,6 +281,30 @@
   --rauhaBiomeScale: 1; }
   .biome-tooltip .biome-card {
     margin-bottom: 10px; }
+  .biome-tooltip .biome-card.starting .biome-fixed-size {
+    background-image: url("img/faceA.png");
+    background-size: 356%;
+    box-shadow: 2px 2px 5px -1px black; }
+  .biome-tooltip .biome-card.starting[data-id="10"] .biome-fixed-size, .biome-tooltip .biome-card.starting[data-id="11"] .biome-fixed-size, .biome-tooltip .biome-card.starting[data-id="12"] .biome-fixed-size, .biome-tooltip .biome-card.starting[data-id="13"] .biome-fixed-size, .biome-tooltip .biome-card.starting[data-id="14"] .biome-fixed-size, .biome-tooltip .biome-card.starting[data-id="15"] .biome-fixed-size, .biome-tooltip .biome-card.starting[data-id="16"] .biome-fixed-size, .biome-tooltip .biome-card.starting[data-id="17"] .biome-fixed-size, .biome-tooltip .biome-card.starting[data-id="18"] .biome-fixed-size {
+    background-image: url("img/faceB.png"); }
+  .biome-tooltip .biome-card.starting[data-id="0"] .biome-fixed-size, .biome-tooltip .biome-card.starting[data-id="10"] .biome-fixed-size {
+    background-position: 10% 10%; }
+  .biome-tooltip .biome-card.starting[data-id="1"] .biome-fixed-size, .biome-tooltip .biome-card.starting[data-id="11"] .biome-fixed-size {
+    background-position: 50% 10%; }
+  .biome-tooltip .biome-card.starting[data-id="2"] .biome-fixed-size, .biome-tooltip .biome-card.starting[data-id="12"] .biome-fixed-size {
+    background-position: 90% 10%; }
+  .biome-tooltip .biome-card.starting[data-id="3"] .biome-fixed-size, .biome-tooltip .biome-card.starting[data-id="13"] .biome-fixed-size {
+    background-position: 10% 50%; }
+  .biome-tooltip .biome-card.starting[data-id="4"] .biome-fixed-size, .biome-tooltip .biome-card.starting[data-id="14"] .biome-fixed-size {
+    background-position: 50% 50%; }
+  .biome-tooltip .biome-card.starting[data-id="5"] .biome-fixed-size, .biome-tooltip .biome-card.starting[data-id="15"] .biome-fixed-size {
+    background-position: 90% 50%; }
+  .biome-tooltip .biome-card.starting[data-id="6"] .biome-fixed-size, .biome-tooltip .biome-card.starting[data-id="16"] .biome-fixed-size {
+    background-position: 10% 90%; }
+  .biome-tooltip .biome-card.starting[data-id="7"] .biome-fixed-size, .biome-tooltip .biome-card.starting[data-id="17"] .biome-fixed-size {
+    background-position: 50% 90%; }
+  .biome-tooltip .biome-card.starting[data-id="8"] .biome-fixed-size, .biome-tooltip .biome-card.starting[data-id="18"] .biome-fixed-size {
+    background-position: 90% 90%; }
 
 .rauha-board .board-grid .board-cell .biome-card.selectable .biome-fixed-size::before {
   border: 3px solid rgba(255, 0, 0, 0.438); }
@@ -631,12 +656,16 @@
   --rauhaGodScale: 0.3; }
   .god-tooltip .god-tooltip-desc {
     display: flex;
-    flex-direction: column; }
+    flex-direction: column;
+    align-items: center; }
     .god-tooltip .god-tooltip-desc .god-name {
       font-weight: bold;
-      font-size: 20px; }
+      font-size: 25px;
+      font-variant: small-caps; }
     .god-tooltip .god-tooltip-desc .god-title {
-      font-style: italic; }
+      font-style: italic;
+      font-size: 15px;
+      margin: 2px 0px 11px; }
     .god-tooltip .god-tooltip-desc .god-power {
       text-align: center; }
 
