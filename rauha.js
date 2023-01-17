@@ -265,51 +265,64 @@ define([
     },
 
     tplBiomeTooltip(biome) {
+      const translatableStrings = [
+        _('mountain'),
+        _('forest'),
+        _('mushroom'),
+        _('crystal'),
+        _('desert'),
+        _('flying animals'),
+        _('terrestrial animal'),
+        _('marine animal'),
+        _('animals'),
+        _('waterSource'),
+        _('spore'),
+      ];
+
       let biomeClass = 'starting';
-      let message = "This biome can't be activated";
-      let costMessage = '';
+      let message = '';
       let income = '';
       let typeIncome = '';
-      let conditionMessage = '';
       if (biome.dataId >= 100) biomeClass = `age${biome.dataId < 140 ? 1 : 2}`;
 
-      if (biome.usageCost) {
-        costMessage = this.format_string_recursive('if you pay ${usageCost} crystal(s), ', {
-          usageCost: biome.usageCost,
-        });
-      }
-
+      // Determine the income type, if any
       if (biome.crystalIncome) {
         typeIncome = _('crystal(s) ');
         income = biome.crystalIncome;
       }
-
       if (biome.pointIncome) {
         typeIncome = _('point(s) ');
         income = biome.pointIncome;
       }
-
       if (biome.sporeIncome) {
         typeIncome = _('spore ');
         income = biome.sporeIncome;
       }
 
-      if (biome.multiplier != '1') {
-        conditionMessage = this.format_string_recursive('per ${multiplier} on your board', {
-          multiplier: biome.multiplier,
-        });
-      }
-
       if (typeIncome != '') {
-        message = this.format_string_recursive(
-          'When activated, ${costMessage}this biome provides you ${income} ${typeIncome} ${conditionMessage}',
-          {
-            costMessage: costMessage,
-            income: income,
-            typeIncome: typeIncome,
-            conditionMessage: conditionMessage,
-          },
-        );
+        let msg = '';
+        if (biome.usageCost) {
+          if (biome.multiplier != '1')
+            msg = _(
+              'when activated, if you pay ${usageCost} crystal(s), this biome provides you ${income} ${typeIncome} per ${multiplier} on your board.',
+            );
+          else
+            msg = _(
+              'when activated, if you pay ${usageCost} crystal(s), this biome provides you ${income} ${typeIncome}.',
+            );
+        } else {
+          if (biome.multiplier != '1')
+            msg = _('when activated, this biome provides you ${income} ${typeIncome} per ${multiplier} on your board.');
+          else msg = _('when activated, this biome provides you ${income} ${typeIncome}.');
+        }
+
+        message = this.fsr(msg, {
+          i18n: ['typeIncome', 'multiplier'],
+          usageCost: biome.usageCost,
+          multiplier: biome.multiplier,
+          typeIncome: typeIncome,
+          income,
+        });
       }
 
       return `<div class='biome-tooltip'>
@@ -318,10 +331,14 @@ define([
             <div class='biome-spore-container'></div>
           </div>
         </div>
-        <div class='biome-help'>${message}</div>
-        <div class='biome-types'>${_('Symbol(s):')} ${biome.types.join(',')}</div>
-        <div class='biome-animals'>${biome.animals.length != 0 ? _('Animal(s): ') + biome.animals.join(',') : ''}</div>
-      </div>`;
+        <div class='biome-types'>${_('Symbol(s):')} ${biome.types.map((t) => _(t)).join(',')}</div>
+        <div class='biome-animals'>${
+          biome.animals.length != 0 ? _('Animal(s): ') + biome.animals.map((t) => _(t)).join(',') : ''
+        }</div>
+        <div class='biome-help'>${
+          message == '' ? _("This biome can't be activated") : _('Effect:') + ' ' + message
+        }</div>
+        </div>`;
     },
 
     loadBiomeData(biome) {
