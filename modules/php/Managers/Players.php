@@ -154,6 +154,13 @@ class Players extends \RAUHA\Helpers\DB_Manager
   ///// RAUHA Specific ////
   /////////////////////////
 
+  public static function clearAuxScores()
+  {
+    self::DB()
+      ->update(['player_score_aux' => 0])
+      ->run();
+  }
+
   public static function determineFirstPlayer()
   {
     $pId = self::getFirstPlayerId();
