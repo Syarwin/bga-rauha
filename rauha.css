@@ -61,6 +61,24 @@
   align-items: center;
   box-sizing: border-box; }
 
+#rauha-first-player {
+  width: 30px;
+  height: 30px;
+  background: url("img/first_player.jpg");
+  background-size: 100%;
+  border-radius: 50%;
+  box-shadow: 1px 1px 3px -1px black;
+  position: relative; }
+  #rauha-first-player .help-marker {
+    left: -6px;
+    top: -6px; }
+
+.rauha-panel .first-player-holder {
+  position: absolute;
+  height: 34px;
+  right: 45px;
+  top: 0px;
+  width: 30px; }
 .rauha-panel .rauha-player-infos {
   padding: 2px 8px;
   display: flex; }
@@ -346,6 +364,10 @@
   position: relative;
   width: calc(230px * var(--rauhaBiomeScale));
   height: calc(230px * var(--rauhaBiomeScale)); }
+  .biome-card .help-marker {
+    left: auto;
+    right: 8px;
+    top: 8px; }
   .biome-card .biome-fixed-size {
     position: relative;
     width: 230px;

@@ -31,6 +31,13 @@ class Notifications
     }
   }
 
+  public static function updateFirstPlayer($pId)
+  {
+    self::notifyAll('updateFirstPlayer', '', [
+      'pId' => $pId,
+    ]);
+  }
+
   public static function chooseBiome($currentPlayer, $biomeId)
   {
     self::notify($currentPlayer, 'chooseBiome', '', [

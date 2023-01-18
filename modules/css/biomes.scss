@@ -156,6 +156,12 @@
     width: calc(230px * var(--rauhaBiomeScale));
     height: calc(230px * var(--rauhaBiomeScale));
 
+    .help-marker {
+        left: auto;
+        right: 8px;
+        top: 8px;
+    }
+
     .biome-fixed-size {
         position: relative;
         width: 230px;

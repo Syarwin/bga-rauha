@@ -46,6 +46,7 @@ define([
         ['refreshGods', 500],
         ['refreshBiomes', 500],
         ['waterSourceCount', 1300],
+        ['updateFirstPlayer', 500],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -112,7 +113,7 @@ define([
       this._waterCounters = {};
       this.forEachPlayer((player) => {
         let isCurrent = player.id == this.player_id;
-        this.place('tplPlayerPanel', player, `player_panel_content_${player.color}`);
+        this.place('tplPlayerPanel', player, `player_panel_content_${player.color}`, 'after');
         this._crystalCounters[player.id] = this.createCounter(`crystal-counter-${player.id}`, player.crystal);
         this._waterCounters[player.id] = this.createCounter(`water-counter-${player.id}`, player.water);
 
@@ -150,7 +151,28 @@ define([
           container.innerHTML = player.name;
           container.style.color = '#' + player.color;
         }
+
+        if (order == 1) {
+          dojo.place('<div id="rauha-first-player"></div>', `overall_player_board_${player.id}`);
+          this.addCustomTooltip('rauha-first-player', _('First player'));
+        }
       });
+
+      this.updateFirstPlayer();
+    },
+
+    updateFirstPlayer() {
+      let pId = this.gamedatas.firstPlayer;
+      let container = $(`overall_player_board_${pId}`);
+      this.slide('rauha-first-player', container.querySelector('.first-player-holder'), {
+        phantom: false,
+      });
+    },
+
+    notif_updateFirstPlayer(n) {
+      debug('Notif: updating first player', n);
+      this.gamedatas.firstPlayer = n.args.pId;
+      this.updateFirstPlayer();
     },
 
     tplPlayerBoard(player) {
@@ -189,6 +211,7 @@ define([
 
     tplPlayerPanel(player) {
       return `<div class='rauha-panel'>
+        <div class="first-player-holder"></div>
         <div class='rauha-player-infos'>
           <div class='crystal-counter' id='crystal-counter-${player.id}'></div>
           <div class='water-counter' id='water-counter-${player.id}'></div>
