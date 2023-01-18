@@ -54,6 +54,24 @@
     --rauhaGodScale: 0.3;
 
     .god-tooltip-desc {
-        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .god-name {
+            font-weight: bold;
+            font-size: 25px;
+            font-variant: small-caps;
+        }
+
+        .god-title {
+            font-style: italic;
+            font-size: 15px;
+            margin: 2px 0px 11px;
+        }
+
+        .god-power {
+            text-align: center;
+        }
     }
 }

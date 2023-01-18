@@ -17,6 +17,91 @@
     position: absolute;
 }
 
+.biome-tooltip {
+    --rauhaBiomeScale: 1;
+
+    .biome-card {
+        margin-bottom: 10px;
+    }
+
+    .biome-card.starting {
+        .biome-fixed-size {
+            background-image: url("img/faceA.png");
+            background-size: 356%;
+            box-shadow: 2px 2px 5px -1px black;
+        }
+
+        &[data-id="10"],
+        &[data-id="11"],
+        &[data-id="12"],
+        &[data-id="13"],
+        &[data-id="14"],
+        &[data-id="15"],
+        &[data-id="16"],
+        &[data-id="17"],
+        &[data-id="18"] {
+            .biome-fixed-size {
+                background-image: url("img/faceB.png");
+            }
+        }
+
+        &[data-id="0"],
+        &[data-id="10"] {
+            .biome-fixed-size {
+                background-position: 10% 10%;
+            }
+        }
+        &[data-id="1"],
+        &[data-id="11"] {
+            .biome-fixed-size {
+                background-position: 50% 10%;
+            }
+        }
+        &[data-id="2"],
+        &[data-id="12"] {
+            .biome-fixed-size {
+                background-position: 90% 10%;
+            }
+        }
+        &[data-id="3"],
+        &[data-id="13"] {
+            .biome-fixed-size {
+                background-position: 10% 50%;
+            }
+        }
+        &[data-id="4"],
+        &[data-id="14"] {
+            .biome-fixed-size {
+                background-position: 50% 50%;
+            }
+        }
+        &[data-id="5"],
+        &[data-id="15"] {
+            .biome-fixed-size {
+                background-position: 90% 50%;
+            }
+        }
+        &[data-id="6"],
+        &[data-id="16"] {
+            .biome-fixed-size {
+                background-position: 10% 90%;
+            }
+        }
+        &[data-id="7"],
+        &[data-id="17"] {
+            .biome-fixed-size {
+                background-position: 50% 90%;
+            }
+        }
+        &[data-id="8"],
+        &[data-id="18"] {
+            .biome-fixed-size {
+                background-position: 90% 90%;
+            }
+        }
+    }
+}
+
 .rauha-board .board-grid .board-cell {
     .biome-card.selectable .biome-fixed-size::before {
         border: 3px solid rgba(255, 0, 0, 0.438);
@@ -100,8 +185,7 @@
     }
 }
 
-.biome-card.age2{
-
+.biome-card.age2 {
     .biome-fixed-size {
         background-image: url("img/age2.jpg");
     }

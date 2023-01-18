@@ -69,6 +69,7 @@ define([
         },
         confirmMode: { type: 'pref', prefId: 103 },
         automaticMode: { type: 'pref', prefId: 104 },
+        roundMarker: { type: 'pref', prefId: 105 },
       };
     },
 
@@ -76,6 +77,10 @@ define([
       let elt = document.documentElement;
       elt.style.setProperty('--rauhaBoardScale', scale / 100);
       elt.style.setProperty('--rauhaBiomeScale', scale / 100);
+    },
+
+    onPreferenceChange(pref, newValue) {
+      if (pref == 105) this.updateTurn();
     },
 
     /**
@@ -117,7 +122,7 @@ define([
         });
 
         if (player.hand !== null) {
-          this.place('tplBiome', player.hand, 'pending-biomes');
+          this.addBiome(player.hand, 'pending-biomes');
         }
 
         // Change default point icon
@@ -265,61 +270,80 @@ define([
     },
 
     tplBiomeTooltip(biome) {
+      const translatableStrings = [
+        _('mountain'),
+        _('forest'),
+        _('mushroom'),
+        _('crystal'),
+        _('desert'),
+        _('flying animals'),
+        _('terrestrial animal'),
+        _('marine animal'),
+        _('animals'),
+        _('waterSource'),
+        _('spore'),
+      ];
+
       let biomeClass = 'starting';
-      let message = "This biome can't be activated";
-      let costMessage = '';
+      let message = '';
       let income = '';
       let typeIncome = '';
-      let conditionMessage = '';
       if (biome.dataId >= 100) biomeClass = `age${biome.dataId < 140 ? 1 : 2}`;
 
-      if (biome.usageCost) {
-        costMessage = this.format_string_recursive('if you pay ${usageCost} crystal(s), ', {
-          usageCost: biome.usageCost,
-        });
-      }
-
+      // Determine the income type, if any
       if (biome.crystalIncome) {
         typeIncome = _('crystal(s) ');
         income = biome.crystalIncome;
       }
-
       if (biome.pointIncome) {
         typeIncome = _('point(s) ');
         income = biome.pointIncome;
       }
-
       if (biome.sporeIncome) {
         typeIncome = _('spore ');
         income = biome.sporeIncome;
       }
 
-      if (biome.multiplier != '1') {
-        conditionMessage = this.format_string_recursive('per ${multiplier} on your board', {
-          multiplier: biome.multiplier,
-        });
-      }
-
       if (typeIncome != '') {
-        message = this.format_string_recursive(
-          'When activated, ${costMessage}this biome provides you ${income} ${typeIncome} ${conditionMessage}',
-          {
-            costMessage: costMessage,
-            income: income,
-            typeIncome: typeIncome,
-            conditionMessage: conditionMessage,
-          },
-        );
+        let msg = '';
+        if (biome.usageCost) {
+          if (biome.multiplier != '1')
+            msg = _(
+              'when activated, if you pay ${usageCost} crystal(s), this biome provides you ${income} ${typeIncome} per ${multiplier} on your board.',
+            );
+          else
+            msg = _(
+              'when activated, if you pay ${usageCost} crystal(s), this biome provides you ${income} ${typeIncome}.',
+            );
+        } else {
+          if (biome.multiplier != '1')
+            msg = _('when activated, this biome provides you ${income} ${typeIncome} per ${multiplier} on your board.');
+          else msg = _('when activated, this biome provides you ${income} ${typeIncome}.');
+        }
+
+        message = this.fsr(msg, {
+          i18n: ['typeIncome', 'multiplier'],
+          usageCost: biome.usageCost,
+          multiplier: biome.multiplier,
+          typeIncome: typeIncome,
+          income,
+        });
       }
 
       return `<div class='biome-tooltip'>
         <div class='biome-card ${biomeClass}' data-id='${biome.dataId}'>
-          <div class='biome-spore-container'></div>
+          <div class='biome-fixed-size'>
+            <div class='biome-spore-container'></div>
+          </div>
         </div>
-        <div class='biome-help'>${message}</div>
-        <div class='biome-types'>${_('Symbol(s):')} ${biome.types.join(',')}</div>
-        <div class='biome-animals'>${biome.animals.length != 0 ? _('Animal(s): ') + biome.animals.join(',') : ''}</div>
-      </div>`;
+        <div class='biome-types'>${_('Symbol(s):')} ${biome.types.map((t) => _(t)).join(',')}</div>
+        <div class='biome-animals'>${
+          biome.animals.length != 0 ? _('Animal(s): ') + biome.animals.map((t) => _(t)).join(',') : ''
+        }</div>
+        <div class='biome-help'>${
+          message == '' ? _("This biome can't be activated") : _('Effect:') + ' ' + message
+        }</div>
+        </div>`;
     },
 
     loadBiomeData(biome) {
@@ -368,9 +392,11 @@ define([
         </div>
       </div>
       <div class='god-tooltip-desc'>
-        ${infos.name} <br />
-        ${infos.title} <br />
-        ${infos.desc.join('<br />')}
+        <div class='god-name'>${infos.name}</div>
+        <div class='god-title'>${infos.title}</div>
+        <div class='god-power'>
+          ${infos.desc.join('<br />')}
+        </div>
       </div>
     </div>`;
     },
@@ -473,7 +499,7 @@ define([
       if (args._private) {
         let biomes = args._private.biomes;
         Object.keys(biomes).forEach((biomeId) => {
-          elements[biomeId] = this.place('tplBiome', biomes[biomeId], 'pending-biomes');
+          elements[biomeId] = this.addBiome(biomes[biomeId], 'pending-biomes');
         });
 
         if (args._private.choice !== null && $(`biome-${args._private.choice}`)) {
@@ -579,7 +605,7 @@ define([
       }
 
       if (!$(`biome-${biome.id}`)) {
-        this.place('tplBiome', biome, 'page-title');
+        this.addBiome(biome, 'page-title');
       }
       $(`biome-${biome.id}`).classList.remove('choice');
       await this.slide(`biome-${biome.id}`, this.getCell(n.args.player_id, n.args.x, n.args.y));
@@ -780,7 +806,7 @@ define([
    <div id="player_config" class="player_board_content">
 
      <div class="player_config_row" id="round-counter-wrapper">
-       ${_('Round')} <span id='round-counter'></span> / 4
+       ${_('Round')} <span id='round-counter'></span> / <span id='round-counter-total'></span>
      </div>
      <div class="player_config_row" id="round-phase"></div>
      <div class="player_config_row">
@@ -816,16 +842,25 @@ define([
     updateTurn() {
       $('game_play_area').dataset.step = this.gamedatas.turn;
       let round = parseInt(this.gamedatas.turn / 4) + 1;
-      this._roundCounter.toValue(round);
-
+      if (round > 4) round = 4;
       let turn = this.gamedatas.turn % 4;
-      let msgs = {
-        0: _('Scoring phase'),
-        1: _('First turn'),
-        2: _('Second turn'),
-        3: _('Third turn'),
-      };
-      $('round-phase').innerHTML = msgs[turn];
+
+      if (this.prefs && this.prefs[105].value == 1) {
+        this._roundCounter.toValue(this.gamedatas.turn);
+        $('round-counter-total').innerHTML = 16;
+        $('round-phase').innerHTML = turn == 0 ? _('Scoring phase') : '';
+      } else {
+        $('round-counter-total').innerHTML = 4;
+        this._roundCounter.toValue(round);
+
+        let msgs = {
+          0: _('Scoring phase'),
+          1: _('First turn'),
+          2: _('Second turn'),
+          3: _('Third turn'),
+        };
+        $('round-phase').innerHTML = msgs[turn];
+      }
     },
 
     notif_newTurn(n) {
