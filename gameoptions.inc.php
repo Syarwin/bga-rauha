@@ -34,8 +34,8 @@ $game_options = [
         'tmdisplay' => totranslate('B-side'),
       ],
     ],
-    'default' => OPTION_A_SIDE
-  ]
+    'default' => OPTION_A_SIDE,
+  ],
 ];
 
 $game_preferences = [
@@ -58,8 +58,20 @@ $game_preferences = [
         'name' => 'Manual Activation',
       ],
       OPTION_AUTOMATIC_ACTIVATION => [
-        'name' => 'Automatic Activation'
+        'name' => 'Automatic Activation',
       ],
     ],
-  ]
+  ],
+  OPTION_ROUND_MARKER => [
+    'name' => 'Round marker',
+    'needReload' => false,
+    'values' => [
+      OPTION_ROUND_MARKER_OFFICIAL => [
+        'name' => 'Round number + turn number in that round',
+      ],
+      OPTION_ROUND_MARKER_CUSTOM => [
+        'name' => 'Just the turn number ranging from 1 to 16',
+      ],
+    ],
+  ],
 ];

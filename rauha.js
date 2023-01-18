@@ -69,6 +69,7 @@ define([
         },
         confirmMode: { type: 'pref', prefId: 103 },
         automaticMode: { type: 'pref', prefId: 104 },
+        roundMarker: { type: 'pref', prefId: 105 },
       };
     },
 
@@ -76,6 +77,10 @@ define([
       let elt = document.documentElement;
       elt.style.setProperty('--rauhaBoardScale', scale / 100);
       elt.style.setProperty('--rauhaBiomeScale', scale / 100);
+    },
+
+    onPreferenceChange(pref, newValue) {
+      if (pref == 105) this.updateTurn();
     },
 
     /**
@@ -801,7 +806,7 @@ define([
    <div id="player_config" class="player_board_content">
 
      <div class="player_config_row" id="round-counter-wrapper">
-       ${_('Round')} <span id='round-counter'></span> / 4
+       ${_('Round')} <span id='round-counter'></span> / <span id='round-counter-total'></span>
      </div>
      <div class="player_config_row" id="round-phase"></div>
      <div class="player_config_row">
@@ -838,16 +843,24 @@ define([
       $('game_play_area').dataset.step = this.gamedatas.turn;
       let round = parseInt(this.gamedatas.turn / 4) + 1;
       if (round > 4) round = 4;
-      this._roundCounter.toValue(round);
-
       let turn = this.gamedatas.turn % 4;
-      let msgs = {
-        0: _('Scoring phase'),
-        1: _('First turn'),
-        2: _('Second turn'),
-        3: _('Third turn'),
-      };
-      $('round-phase').innerHTML = msgs[turn];
+
+      if (this.prefs && this.prefs[105].value == 1) {
+        this._roundCounter.toValue(this.gamedatas.turn);
+        $('round-counter-total').innerHTML = 16;
+        $('round-phase').innerHTML = turn == 0 ? _('Scoring phase') : '';
+      } else {
+        $('round-counter-total').innerHTML = 4;
+        this._roundCounter.toValue(round);
+
+        let msgs = {
+          0: _('Scoring phase'),
+          1: _('First turn'),
+          2: _('Second turn'),
+          3: _('Third turn'),
+        };
+        $('round-phase').innerHTML = msgs[turn];
+      }
     },
 
     notif_newTurn(n) {
