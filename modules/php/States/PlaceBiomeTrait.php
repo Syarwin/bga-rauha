@@ -57,6 +57,7 @@ trait PlaceBiomeTrait
       'biome' => $biome,
       'possiblePlaces' => $possiblePlaces,
       'possibleSporePlaces' => $player->getSporesPlaces(false),
+      'firstPlayer' => Globals::getFirstPlayer()
     ];
   }
 
