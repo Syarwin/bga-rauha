@@ -264,15 +264,48 @@
   .rauha-board[data-color="f52452"] .rauha-board-fixed-size .rauha-avatar {
     background-position-x: 100%; }
 
-#pending-biomes {
+#pending-biomes-wrapper {
   display: flex;
-  justify-content: center;
   height: calc(var(--rauhaBoardScale) * 230px);
   transition: height 0.5s; }
-  #pending-biomes .biome-card {
-    margin: 8px; }
-  #pending-biomes:empty {
+  #pending-biomes-wrapper.empty {
     height: 0; }
+  #pending-biomes-wrapper #pending-biomes {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center; }
+    #pending-biomes-wrapper #pending-biomes .biome-card {
+      margin: 8px; }
+  #pending-biomes-wrapper #satellite-moon,
+  #pending-biomes-wrapper #satellite-star {
+    flex-grow: 0;
+    writing-mode: vertical-rl;
+    text-align: center;
+    font-family: "Bernard MT Condensed";
+    font-weight: 700;
+    width: 1px;
+    opacity: 0;
+    transition: opacity 0.5s; }
+    #pending-biomes-wrapper #satellite-moon .player-name,
+    #pending-biomes-wrapper #satellite-star .player-name {
+      background: #eee6dcad;
+      padding: 6px 3px;
+      border: 1px solid #7d5e3cb0;
+      border-radius: 3px;
+      margin-right: 4px;
+      display: none; }
+  #pending-biomes-wrapper #satellite-star {
+    background-position-x: 100%;
+    writing-mode: vertical-lr; }
+  #pending-biomes-wrapper.moon #satellite-moon, #pending-biomes-wrapper.star #satellite-star {
+    display: block;
+    opacity: 1;
+    width: calc(var(--rauhaBoardScale) * 100px);
+    height: calc(var(--rauhaBoardScale) * 230px);
+    background-image: url("img/satellite.png");
+    background-size: 200% 100%; }
+    #pending-biomes-wrapper.moon #satellite-moon .player-name, #pending-biomes-wrapper.star #satellite-star .player-name {
+      display: inline-block; }
 
 #page-title .biome-card {
   position: absolute; }

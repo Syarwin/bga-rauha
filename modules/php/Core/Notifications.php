@@ -38,10 +38,11 @@ class Notifications
     ]);
   }
 
-  public static function confirmChoices($turn)
+  public static function confirmChoices($turn, $isMoon)
   {
     self::notifyAll('confirmChoices', clienttranslate('All the players made their choice of biome for round ${turn}'), [
       'turn' => $turn,
+      'isMoon' => $isMoon,
     ]);
   }
 
@@ -109,12 +110,12 @@ class Notifications
 
     $msg =
       $cost == 0
-      ? clienttranslate(
-        '${player_name} plays a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
-      )
-      : clienttranslate(
-        '${player_name} pays ${cost} crystal(s) to play a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
-      );
+        ? clienttranslate(
+          '${player_name} plays a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
+        )
+        : clienttranslate(
+          '${player_name} pays ${cost} crystal(s) to play a ${biomeTypes} biome on their board at position (${displayX}, ${displayY})'
+        );
     self::notifyAll('placeBiome', $msg, $data);
   }
 
@@ -127,7 +128,7 @@ class Notifications
       MUSHROOM => clienttranslate('mushroom'),
       FLYING => clienttranslate('flying animals'),
       MARINE => clienttranslate('marine animal'),
-      WALKING => clienttranslate('terrestrial animal')
+      WALKING => clienttranslate('terrestrial animal'),
     ];
 
     $data = [

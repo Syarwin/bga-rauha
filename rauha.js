@@ -135,11 +135,22 @@ define([
 
       // Order them
       this.forEachPlayer((player) => {
-        $(`board-${player.id}`).style.order = ((player.no - currentPlayerNo + nPlayers) % nPlayers) + 1;
+        let order = ((player.no - currentPlayerNo + nPlayers) % nPlayers) + 1;
+        $(`board-${player.id}`).style.order = order;
+
+        let container = null;
+        if (order == 2) {
+          container = $('satellite-moon').firstChild;
+        }
+        if (order == nPlayers) {
+          container = $('satellite-star').firstChild;
+        }
+
+        if (container != null) {
+          container.innerHTML = player.name;
+          container.style.color = '#' + player.color;
+        }
       });
-      // [...document.querySelectorAll('.avatar-slot')].forEach((elt) => {
-      //   dojo.place('<div class="rauha-avatar"></div>', elt);
-      // });
     },
 
     tplPlayerBoard(player) {
@@ -505,12 +516,17 @@ define([
         if (args._private.choice !== null && $(`biome-${args._private.choice}`)) {
           $(`biome-${args._private.choice}`).classList.add('choice');
         }
-      }
 
-      this.onSelectN(elements, 1, (elementIds) => {
-        this.takeAction('actChooseBiome', { biomeId: elementIds[0] }, false);
-        return true;
-      });
+        this.onSelectN(elements, 1, (elementIds) => {
+          this.takeAction('actChooseBiome', { biomeId: elementIds[0] }, false);
+          return true;
+        });
+
+        $('pending-biomes-wrapper').classList.remove('empty');
+        if (Object.keys(this.gamedatas.players).length > 2) {
+          $('pending-biomes-wrapper').classList.add(args._private.isMoon == 1 ? 'moon' : 'star');
+        }
+      }
     },
 
     notif_chooseBiome(n) {
@@ -523,9 +539,12 @@ define([
     notif_confirmChoices(n) {
       [...$('pending-biomes').querySelectorAll('.biome-card')].forEach((biome, i) => {
         if (!biome.classList.contains('choice')) {
-          this.slide(biome, 'page-title', {
+          this.slide(biome, n.args.isMoon ? 'satellite-moon' : 'satellite-star', {
             delay: i * 50,
             destroy: true,
+          }).then(() => {
+            $('pending-biomes-wrapper').classList.remove('moon');
+            $('pending-biomes-wrapper').classList.remove('star');
           });
         }
       });
@@ -609,6 +628,9 @@ define([
       }
       $(`biome-${biome.id}`).classList.remove('choice');
       await this.slide(`biome-${biome.id}`, this.getCell(n.args.player_id, n.args.x, n.args.y));
+      if (this.player_id == n.args.player_id) {
+        $('pending-biomes-wrapper').classList.add('empty');
+      }
 
       this._waterCounters[n.args.player_id].toValue(n.args.waterSourceCount);
       this.notifqueue.setSynchronousDuration(100);
@@ -622,6 +644,7 @@ define([
           phantom: false,
           destroy: true,
         });
+        $('pending-biomes-wrapper').classList.add('empty');
       }
 
       this.gainPayCrystal(n.args.player_id, 4);
@@ -635,6 +658,7 @@ define([
           phantom: false,
           destroy: true,
         });
+        $('pending-biomes-wrapper').classList.add('empty');
       }
 
       let elem = dojo.place(`<div class='spore'></div>`, 'page-title');

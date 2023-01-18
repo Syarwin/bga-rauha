@@ -68,6 +68,7 @@ trait ChooseBiomeTrait
   public function stConfirmChoices()
   {
     $choices = Globals::getBiomeChoices();
+
     foreach (Players::getAll() as $pId => $player) {
       $choice = $choices[$pId] ?? null;
       if (is_null($choice)) {
@@ -78,7 +79,8 @@ trait ChooseBiomeTrait
     }
 
     $turn = Globals::getTurn();
-    Notifications::confirmChoices($turn);
+    $isMoon = DECK_TO_CHOOSE[$turn];
+    Notifications::confirmChoices($turn, $isMoon);
     $this->gamestate->nextState();
   }
 }

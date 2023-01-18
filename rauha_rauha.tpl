@@ -1,6 +1,10 @@
 {OVERALL_GAME_HEADER}
 
-<div id="pending-biomes"></div>
+<div id="pending-biomes-wrapper">
+  <div id="satellite-star"><span class="player-name"></span></div>
+  <div id="pending-biomes"></div>
+  <div id="satellite-moon"><span class="player-name"></span></div>
+</div>
 <div id="rauha-boards-container"></div>
 
 
