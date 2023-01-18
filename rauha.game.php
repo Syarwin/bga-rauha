@@ -99,6 +99,7 @@ class Rauha extends Table
       'players' => Players::getUiData($pId),
       'turn' => Globals::getTurn(),
       'gods' => GodCards::getUiData(),
+      'firstPlayer' => Globals::getFirstPlayer(),
     ];
   }
 
@@ -137,7 +138,7 @@ class Rauha extends Table
         }
 
         $choice = bga_rand(0, count($biomes) - 1);
-        $this->actChooseBiome($ids[$choice], (int)$activePlayerId);
+        $this->actChooseBiome($ids[$choice], (int) $activePlayerId);
         break;
       case 'placeBiome':
         $this->actDiscardCrystals($activePlayerId);

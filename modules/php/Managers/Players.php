@@ -107,8 +107,6 @@ class Players extends \RAUHA\Helpers\DB_Manager
     return $table[$pId];
   }
 
-
-
   /*
    * Return the number of players
    */
@@ -156,9 +154,18 @@ class Players extends \RAUHA\Helpers\DB_Manager
   ///// RAUHA Specific ////
   /////////////////////////
 
+  public static function clearAuxScores()
+  {
+    self::DB()
+      ->update(['player_score_aux' => 0])
+      ->run();
+  }
+
   public static function determineFirstPlayer()
   {
-    Globals::setFirstPlayer(self::getFirstPlayerId());
+    $pId = self::getFirstPlayerId();
+    Globals::setFirstPlayer($pId);
+    Notifications::updateFirstPlayer($pId);
   }
 
   /*
@@ -177,7 +184,8 @@ class Players extends \RAUHA\Helpers\DB_Manager
 
   public static function countHowManyPlayerswithThatScore($score)
   {
-    return self::DB()->where('player_score', $score)
+    return self::DB()
+      ->where('player_score', $score)
       ->count();
   }
 
