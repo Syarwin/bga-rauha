@@ -23,22 +23,10 @@ const STAR = 0;
 const DECK_TO_CHOOSE = [
   //give the symbol of the deck to choose each turn
   null,
-  MOON,
-  STAR,
-  MOON,
-  null,
-  STAR,
-  MOON,
-  STAR,
-  null,
-  MOON,
-  STAR,
-  MOON,
-  null,
-  STAR,
-  MOON,
-  STAR,
-  null,
+  MOON,  STAR,  MOON,  null,
+  STAR,  MOON,  STAR,  null,
+  MOON,  STAR,  MOON,  null,
+  STAR,  MOON,  STAR,  null,
 ];
 const ALL_BIOME_PLACES = [[0, 0], [1, 0], [2, 0], [0, 1], [1, 1], [2, 1], [0, 2], [1, 2], [2, 2]];
 const BOARD_ACTIVATION = [

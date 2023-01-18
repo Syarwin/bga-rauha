@@ -34,6 +34,7 @@ trait ChooseBiomeTrait
         'choice' => $choices[$id] ?? null,
         'deck' => $deck,
         'biomes' => $biomes,
+        'isMoon' => DECK_TO_CHOOSE[$turn],
       ];
     }
 

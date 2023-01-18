@@ -161,6 +161,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       var methodName = 'onLeavingState' + stateName.charAt(0).toUpperCase() + stateName.slice(1);
       if (this[methodName] !== undefined) this[methodName]();
     },
+    
     clearPossible() {
       this.removeActionButtons();
       dojo.empty('customActions');
