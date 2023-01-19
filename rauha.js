@@ -29,7 +29,7 @@ define([
 ], function (dojo, declare) {
   return declare('bgagame.rauha', [customgame.game], {
     constructor() {
-      this._activeStates = ['placeBiome', 'chooseBiome', 'activate', 'countAction'];
+      this._activeStates = ['placeBiome', 'activate', 'countAction'];
       this._notifications = [
         ['newTurn', 1000],
         ['newTurnScoring', 1000],
@@ -124,6 +124,7 @@ define([
 
         if (player.hand !== null) {
           this.addBiome(player.hand, 'pending-biomes');
+          $('pending-biomes-wrapper').classList.remove('empty');
         }
 
         // Change default point icon
