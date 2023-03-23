@@ -59,6 +59,7 @@ class Rauha extends Table
       OPTION_BOARD_SIDE => 102,
     ]);
     Stats::checkExistence();
+    $this->bIndependantMultiactiveTable=true;
   }
   public static function get()
   {
@@ -153,6 +154,32 @@ class Rauha extends Table
         throw new feException('Zombie mode not supported at this game state: ' . $statename);
     }
   }
+
+  /////////////////////////////////////
+  //////////// Prevent deadlock ///////
+  /////////////////////////////////////
+  
+   // Due to deadlock issues involving the playersmultiactive and player tables,
+   //   standard tables are queried FOR UPDATE when any operation occurs -- AJAX or refreshing a game table.
+   //
+   // Otherwise at least two situations have been observed to cause deadlocks:
+   //   * Multiple players in a live game with tabs open, two players trading multiactive state back and forth.
+   //   * Two players trading multiactive state back and forth, another player refreshes their game page.
+//  function queryStandardTables() {
+//   // Query the standard global table.
+//   self::getCollectionFromDB("SELECT global_id, global_value FROM global WHERE 1 ORDER BY global_id FOR UPDATE");
+//   // Query the standard player table.
+//   self::getCollectionFromDB("SELECT player_id id, player_score score FROM player WHERE 1 ORDER BY player_id FOR UPDATE");
+//   // Query the playermultiactive  table. DO NOT USE THIS is you don't use $this->bIndependantMultiactiveTable=true
+//   self::getCollectionFromDB("SELECT ma_player_id player_id, ma_is_multiactive player_is_multiactive FROM playermultiactive ORDER BY player_id FOR UPDATE");
+
+//   // TODO should the stats table be queried as well?
+// }
+
+  /** This is special function called by framework BEFORE any of your action functions */
+//   protected function initTable() {
+//     $this->queryStandardTables(); 
+// } 
 
   /////////////////////////////////////
   //////////   DB upgrade   ///////////

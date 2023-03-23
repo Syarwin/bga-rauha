@@ -10,12 +10,12 @@ use RAUHA\Core\Engine;
 use RAUHA\Core\Stats;
 use RAUHA\Managers\Players;
 use RAUHA\Managers\BiomeCards;
-use RAUHA\Managers\GodCards;
 
 trait ChooseBiomeTrait
 {
   public function argChooseBiome()
   {
+    // $this->queryStandardTables();
     $choices = Globals::getBiomeChoices();
     $turn = Globals::getTurn();
     $private = [];
@@ -43,8 +43,30 @@ trait ChooseBiomeTrait
     ];
   }
 
+  public function updateActivePlayersAndChangeState()
+  {
+    // Compute players that still need to select their card
+    // => use that instead of BGA framework feature because in some rare case a player
+    //    might become inactive eventhough the selection failed (seen in Agricola at least already)
+    $selections = Globals::getBiomeChoices();
+    $players = Players::getAll();
+    $ids = $players->getIds();
+    $ids = array_diff($ids, array_keys($selections));
+
+    // At least one player need to make a choice
+    if (!empty($ids)) {
+      $this->gamestate->setPlayersMultiactive($ids, '', true);
+    }
+    // Everyone is done => discard cards and proceed
+    else {
+      $this->gamestate->nextState('');
+    }
+  }
+
+
   public function actChooseBiome($biomeId, $pId = null)
   {
+    // $this->queryStandardTables();
     // Sanity checks
     $this->gamestate->checkPossibleAction('actChooseBiome');
     $pId = $pId ?? Players::getCurrentId();
@@ -59,7 +81,7 @@ trait ChooseBiomeTrait
     $choices[$pId] = $biomeId;
     Globals::setBiomeChoices($choices);
     Notifications::chooseBiome(Players::get($pId), $biomeId);
-    $this->gamestate->setPlayerNonMultiactive($pId, '');
+    $this->updateActivePlayersAndChangeState();
   }
 
   /**
