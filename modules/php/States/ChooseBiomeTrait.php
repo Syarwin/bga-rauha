@@ -15,7 +15,7 @@ trait ChooseBiomeTrait
 {
   public function argChooseBiome()
   {
-    // $this->queryStandardTables();
+    $this->queryStandardTables();
     $choices = Globals::getBiomeChoices();
     $turn = Globals::getTurn();
     $private = [];
@@ -66,7 +66,7 @@ trait ChooseBiomeTrait
 
   public function actChooseBiome($biomeId, $pId = null)
   {
-    // $this->queryStandardTables();
+    $this->queryStandardTables();
     // Sanity checks
     $this->gamestate->checkPossibleAction('actChooseBiome');
     $pId = $pId ?? Players::getCurrentId();
