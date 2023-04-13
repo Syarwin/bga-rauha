@@ -384,7 +384,7 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
       155 => $f([[FOREST], [WALKING, MARINE, FLYING], [], 4, 0, 3, '1', 0, 0, 0]),
       156 => $f([[MUSHROOM], [], [], 5, 0, 2, SPORE, 0, 0, 0]),
       157 => $f([[MUSHROOM], [], [], 3, 0, 5, '1', 0, 0, 0]),
-      158 => $f([[MUSHROOM], [MARINE], [], 0, 0, 2, '1', 2, 1, 0]),
+      158 => $f([[MUSHROOM], [MARINE], [], 0, 0, 0, '1', 2, 1, 0]),
       159 => $f([[MUSHROOM], [MARINE], [[1, 0], [2, 0], [1, 1]], 0, 0, 0, '1', 1, 1, 0]),
       160 => $f([[MUSHROOM], [FLYING], [], 0, 0, 0, '1', 2, 1, 0]),
       161 => $f([[MUSHROOM], [FLYING], [[1, 1], [0, 2], [1, 2]], 0, 0, 4, '1', 0, 0, 0]),
