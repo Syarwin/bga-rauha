@@ -45,6 +45,7 @@ class Rauha extends Table
   use RAUHA\DebugTrait;
   use RAUHA\States\NewRoundTrait;
   use RAUHA\States\ChooseBiomeTrait;
+  use RAUHA\States\ChooseShamanTrait;
   use RAUHA\States\PlaceBiomeTrait;
   use RAUHA\States\ActivateTrait;
   use RAUHA\States\CountTurnTrait;

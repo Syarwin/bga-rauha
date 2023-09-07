@@ -143,7 +143,15 @@ class GodCards extends \RAUHA\Helpers\Pieces
       4 => $f([clienttranslate('Metsat'), FOREST, 0, 1, ANIMALS, 0, 0, 0]),
       5 => $f([clienttranslate('Kiteet'), CRYSTAL, 0, 3, 1, 0, 0, 0]),
       6 => $f([clienttranslate('Vuori'), MOUNTAIN, 0, 0, 1, 0, 0, 2]),
-      7 => $f([clienttranslate('Maa'), WALKING, 0, 1, SPORE, 0, 0, 0]),
+      7 => $f([clienttranslate('Maa'), WALKING, 0, 1, SPORE, 0, 0, 0]), 
+
+      8 => $f([clienttranslate('Taivas II'), FLYING, 0, 0.5, CRYSTAL, 0, 0, 0]),
+      9 => $f([clienttranslate('Sienet II'), MUSHROOM, 1, 0, WALKING, 0, 0, 0]),
+      10 => $f([clienttranslate('Meri II'), MARINE, 0, 1, ANY_BIOME, 0, 0, 0]),
+      11 => $f([clienttranslate('Metsat II'), FOREST, 0, 3, ALL_ANIMALS, 0, 0, 0]),
+      12 => $f([clienttranslate('Kiteet II'), CRYSTAL, 0, 2, FLYING, 2, 0, 0]),
+      13 => $f([clienttranslate('Vuori II'), MOUNTAIN, 0, 0, MARINE, 0, 0, 1]),
+      14 => $f([clienttranslate('Maa II'), WALKING, 0, 0, 1, 0, 1, 0]),
     ];
   }
 }

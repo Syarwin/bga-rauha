@@ -86,24 +86,4 @@ class BiomeCard extends \RAUHA\Helpers\DB_Model
   {
     return (!$sporeCanBeAdded || $this->multiplier != SPORE) && $this->usageCost == 0;
   }
-
-  /*NOT IMPLEMENTED
-  public function getTypeStr()
-  {
-    return '';
-  }
-
-  public function isPlayed()
-  {
-    return $this->location == 'inPlay';
-  }
-
-  public function getPlayer($checkPlayed = false)
-  {
-    if (!$this->isPlayed() && $checkPlayed) {
-      throw new \feException("Trying to get the player for a non-played card : {$this->id}");
-    }
-
-    return Players::get($this->pId);
-  }*/
 }

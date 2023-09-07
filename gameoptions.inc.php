@@ -20,6 +20,22 @@ namespace RAUHA;
 require_once 'modules/php/constants.inc.php';
 
 $game_options = [
+  OPTION_SYNTYMA => [
+    'name' => totranslate('Syntyma'),
+    'values' => [
+      OPTION_SYNTYMA_ON => [
+        'name' => totranslate('With'),
+        'description' => totranslate('Play with Syntyma extension'),
+        'tmdisplay' => totranslate('Syntyma On'),
+      ],
+      OPTION_SYNTYMA_OFF => [
+        'name' => totranslate('Without'),
+        'description' => totranslate('Play without Syntyma extension'),
+        'tmdisplay' => totranslate('Syntyma Off'),
+      ],
+    ],
+    'default' => OPTION_SYNTYMA_OFF,
+  ],
   OPTION_BOARD_SIDE => [
     'name' => totranslate('Board Side'),
     'values' => [

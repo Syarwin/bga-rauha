@@ -17,7 +17,42 @@ const ANIMALS = 'animals';
 const WATER_SOURCE = 'waterSource';
 const SPORE = 'spore';
 
+/**
+ * Extension Sintyma
+ */
+const ANY_BIOME = 'anyBiome';
+const ALL_ANIMALS = 'allAnimals';
+
+const PUNAINEN = 'Punainen';
+const KELTAINEN = 'Keltainen';
+const VIRHEA = 'Vihreä';
+const HARMAA = 'Harmaa';
+const SININEN = 'Sininen';
+
+const PUNAINEN_1 = 'Punainen1';
+const KELTAINEN_1 = 'Keltainen1';
+const VIRHEA_1 = 'Vihreä1';
+const HARMAA_1 = 'Harmaa1';
+const SININEN_1 = 'Sininen1';
+
+const PUNAINEN_2 = 'Punainen2';
+const KELTAINEN_2 = 'Keltainen2';
+const VIRHEA_2 = 'Vihreä2';
+const HARMAA_2 = 'Harmaa2';
+const SININEN_2 = 'Sininen2';
+
+const SHAMANS = [
+  '28c8b2' => SININEN, 
+  '9fa2a2' => HARMAA, 
+  '00953e' => VIRHEA,
+  'f4ea4b' => KELTAINEN, 
+  'f52452' => PUNAINEN
+];
+
 const CARDS_PER_DECK = 4;
+
+
+
 const MOON = 1;
 const STAR = 0;
 const DECK_TO_CHOOSE = [
@@ -60,6 +95,10 @@ const OPTION_BOARD_SIDE = 102;
 const OPTION_A_SIDE = 0;
 const OPTION_B_SIDE = 1;
 
+const OPTION_SYNTYMA = 106;
+const OPTION_SYNTYMA_OFF = 0;
+const OPTION_SYNTYMA_ON = 1;
+
 /*
  * User preferences
  */
@@ -80,6 +119,9 @@ const OPTION_ROUND_MARKER_CUSTOM = 1;
  * State constants
  */
 const ST_GAME_SETUP = 1;
+
+const ST_CHOOSE_SHAMAN = 20;
+const ST_CONFIRM_CHOICES_SHAMAN = 21;
 
 const ST_NEXT_ROUND = 2;
 const ST_MOVE_AVATARS = 3;

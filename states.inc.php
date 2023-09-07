@@ -22,7 +22,31 @@ $machinestates = [
     'description' => '',
     'type' => 'manager',
     'action' => 'stGameSetup',
-    'transitions' => ['' => ST_NEXT_ROUND],
+    'transitions' => ['' => ST_CHOOSE_SHAMAN],
+  ],
+
+  ST_CHOOSE_SHAMAN => [
+    'name' => 'chooseShaman',
+    'description' => clienttranslate('All players must choose their shaman side'),
+    'descriptionmyturn' => clienttranslate('${you} must choose their shaman side'),
+    'args' => 'argChooseShaman',
+    'type' => 'multipleactiveplayer',
+    'action' => 'stChooseShaman',
+    'possibleactions' => ['actChooseShaman'],
+    'transitions' => [
+      'done' => ST_CONFIRM_CHOICES_SHAMAN,
+      'skip' => ST_NEXT_ROUND,
+    ],
+  ],
+
+  ST_CONFIRM_CHOICES_SHAMAN => [
+    'name' => 'confirmChoicesShaman',
+    'description' => '',
+    'type' => 'game',
+    'action' => 'stConfirmChoicesShaman',
+    'transitions' => [
+      '' => ST_NEXT_ROUND,
+    ],
   ],
 
   ST_NEXT_ROUND => [

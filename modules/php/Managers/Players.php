@@ -39,6 +39,7 @@ class Players extends \RAUHA\Helpers\DB_Manager
 
     $values = [];
     $index = 1;
+    shuffle($colors);
     foreach ($players as $pId => $player) {
       $color = array_shift($colors);
 
@@ -59,7 +60,10 @@ class Players extends \RAUHA\Helpers\DB_Manager
 
     self::determineFirstPlayer();
 
-    Game::get()->reattributeColorsBasedOnPreferences($players, $gameInfos['player_colors']);
+    if ($options[OPTION_SYNTYMA] != OPTION_SYNTYMA_ON){
+      Game::get()->reattributeColorsBasedOnPreferences($players, $gameInfos['player_colors']);
+    }
+    
     Game::get()->reloadPlayersBasicInfos();
   }
 

@@ -2,6 +2,7 @@
 
 namespace RAUHA\Models;
 
+use RAUHA\Core\Globals;
 use RAUHA\Core\Stats;
 use RAUHA\Core\Notifications;
 use RAUHA\Core\Preferences;
@@ -124,5 +125,29 @@ class Player extends \RAUHA\Helpers\DB_Model
     foreach (GodCards::getGodsByPlayer($this) as $id => $god) {
       $god->setUsed(USED);
     }
+  }
+
+  /*
+        █████████                         █████                                        
+       ███░░░░░███                       ░░███                                         
+      ░███    ░░░  █████ ████ ████████   ███████   █████ ████ █████████████    ██████  
+      ░░█████████ ░░███ ░███ ░░███░░███ ░░░███░   ░░███ ░███ ░░███░░███░░███  ░░░░░███ 
+       ░░░░░░░░███ ░███ ░███  ░███ ░███   ░███     ░███ ░███  ░███ ░███ ░███   ███████ 
+       ███    ░███ ░███ ░███  ░███ ░███   ░███ ███ ░███ ░███  ░███ ░███ ░███  ███░░███ 
+      ░░█████████  ░░███████  ████ █████  ░░█████  ░░███████  █████░███ █████░░████████
+       ░░░░░░░░░    ░░░░░███ ░░░░ ░░░░░    ░░░░░    ░░░░░███ ░░░░░ ░░░ ░░░░░  ░░░░░░░░ 
+                    ███ ░███                        ███ ░███                           
+                   ░░██████                        ░░██████                            
+                    ░░░░░░                          ░░░░░░                             
+  */
+
+  public function getShamanName(){
+    if (!Globals::isSyntyma()) return null;
+    return SHAMANS[$this->color];
+  }
+
+  public function getShaman(){
+    if (!Globals::isSyntyma()) return null;
+    return $this->getShamanName() . Globals::getShamanChoices()[$this->id];
   }
 }
