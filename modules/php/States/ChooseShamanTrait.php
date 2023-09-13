@@ -27,7 +27,7 @@ trait ChooseShamanTrait
     $private = [];
 
     foreach (Players::getAll() as $id => $player) {
-      $shaman = $player->getShaman();
+      $shaman = $player->getShamanName();
 
       $private[$id] = [
         'choice' => $choices[$id] ?? null,
@@ -40,7 +40,7 @@ trait ChooseShamanTrait
     ];
   }
 
-  public function updateActivePlayersAndChangeState()
+  public function updateActivePlayersAndChangeStateShaman()
   {
     // Compute players that still need to select their card
     // => use that instead of BGA framework feature because in some rare case a player
@@ -77,7 +77,7 @@ trait ChooseShamanTrait
     $choices[$pId] = $sideId;
     Globals::setBiomeChoices($choices);
     Notifications::chooseShaman(Players::get($pId), $sideId);
-    $this->updateActivePlayersAndChangeState();
+    $this->updateActivePlayersAndChangeStateShaman();
   }
 
   /**
