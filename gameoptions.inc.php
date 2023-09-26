@@ -20,22 +20,6 @@ namespace RAUHA;
 require_once 'modules/php/constants.inc.php';
 
 $game_options = [
-  OPTION_SYNTYMA => [
-    'name' => totranslate('Syntyma'),
-    'values' => [
-      OPTION_SYNTYMA_ON => [
-        'name' => totranslate('With'),
-        'description' => totranslate('Play with Syntyma extension'),
-        'tmdisplay' => totranslate('Syntyma On'),
-      ],
-      OPTION_SYNTYMA_OFF => [
-        'name' => totranslate('Without'),
-        'description' => totranslate('Play without Syntyma extension'),
-        'tmdisplay' => totranslate('Syntyma Off'),
-      ],
-    ],
-    'default' => OPTION_SYNTYMA_OFF,
-  ],
   OPTION_BOARD_SIDE => [
     'name' => totranslate('Board Side'),
     'values' => [
@@ -51,6 +35,38 @@ $game_options = [
       ],
     ],
     'default' => OPTION_A_SIDE,
+  ],
+  OPTION_SYNTYMA_SHAMANS => [
+    'name' => totranslate('Syntyma Shamans'),
+    'values' => [
+      OPTION_SYNTYMA_SHAMANS_ON => [
+        'name' => totranslate('With'),
+        'description' => totranslate('Play with Syntyma Shamans'),
+        'tmdisplay' => totranslate('Syntyma On'),
+      ],
+      OPTION_SYNTYMA_SHAMANS_OFF => [
+        'name' => totranslate('Without'),
+        'description' => totranslate('Play without Syntyma Shamans'),
+        'tmdisplay' => totranslate('Syntyma Off'),
+      ],
+    ],
+    'default' => OPTION_SYNTYMA_SHAMANS_OFF,
+  ],
+  OPTION_SYNTYMA_NEW_GODS => [
+    'name' => totranslate('Syntyma New Gods'),
+    'values' => [
+      OPTION_SYNTYMA_NEW_GODS_ON => [
+        'name' => totranslate('With'),
+        'description' => totranslate('Play with new gods'),
+        'tmdisplay' => totranslate('New gods'),
+      ],
+      OPTION_SYNTYMA_NEW_GODS_OFF => [
+        'name' => totranslate('Without'),
+        'description' => totranslate('Play without new gods'),
+        'tmdisplay' => totranslate('Basic gods'),
+      ],
+    ],
+    'default' => OPTION_SYNTYMA_NEW_GODS_OFF,
   ],
 ];
 

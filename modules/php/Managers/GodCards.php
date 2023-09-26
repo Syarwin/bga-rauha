@@ -2,6 +2,7 @@
 
 namespace RAUHA\Managers;
 
+use RAUHA\Core\Globals;
 use RAUHA\Helpers\Utils;
 use RAUHA\Helpers\Collection;
 use RAUHA\Core\Notifications;
@@ -48,6 +49,16 @@ class GodCards extends \RAUHA\Helpers\Pieces
     }
 
     self::create($gods);
+
+    $idsToDelete = [];
+    for ($i=1; $i <= 7; $i++) { 
+      if(Globals::isSyntymaNewGods() && bga_rand(0,1) == 1 ){
+        $idsToDelete [] = $i;
+      } else {
+        $idsToDelete[] = $i + 7;
+      }
+    }
+    static::move($idsToDelete, 'trash');
   }
 
   /* Select a god by his type */
@@ -145,13 +156,13 @@ class GodCards extends \RAUHA\Helpers\Pieces
       6 => $f([clienttranslate('Vuori'), MOUNTAIN, 0, 0, 1, 0, 0, 2]),
       7 => $f([clienttranslate('Maa'), WALKING, 0, 1, SPORE, 0, 0, 0]), 
 
-      // 8 => $f([clienttranslate('Taivas II'), FLYING, 0, 0.5, CRYSTAL, 0, 0, 0]),
-      // 9 => $f([clienttranslate('Sienet II'), MUSHROOM, 1, 0, WALKING, 0, 0, 0]),
-      // 10 => $f([clienttranslate('Meri II'), MARINE, 0, 1, ANY_BIOME, 0, 0, 0]),
-      // 11 => $f([clienttranslate('Metsat II'), FOREST, 0, 3, ALL_ANIMALS, 0, 0, 0]),
-      // 12 => $f([clienttranslate('Kiteet II'), CRYSTAL, 0, 2, FLYING, 2, 0, 0]),
-      // 13 => $f([clienttranslate('Vuori II'), MOUNTAIN, 0, 0, MARINE, 0, 0, 1]),
-      // 14 => $f([clienttranslate('Maa II'), WALKING, 0, 0, 1, 0, 1, 0]),
+      8 => $f([clienttranslate('Taivas II'), FLYING, 0, 0.5, CRYSTAL, 0, 0, 0]),
+      9 => $f([clienttranslate('Sienet II'), MUSHROOM, 1, 0, WALKING, 0, 0, 0]),
+      10 => $f([clienttranslate('Meri II'), MARINE, 0, 1, ANY_BIOME, 0, 0, 0]),
+      11 => $f([clienttranslate('Metsat II'), FOREST, 0, 3, ALL_ANIMALS, 0, 0, 0]),
+      12 => $f([clienttranslate('Kiteet II'), CRYSTAL, 0, 2, FLYING, 2, 0, 0]),
+      13 => $f([clienttranslate('Vuori II'), MOUNTAIN, 0, 0, MARINE, 0, 0, 1]),
+      14 => $f([clienttranslate('Maa II'), WALKING, 0, 0, 1, 0, 1, 0]),
     ];
   }
 }

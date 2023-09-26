@@ -142,12 +142,16 @@ class Player extends \RAUHA\Helpers\DB_Model
   */
 
   public function getShamanName(){
-    if (!Globals::isSyntyma()) return null;
+    if (!Globals::isSyntymaShamans()) return null;
     return SHAMANS[$this->color];
   }
 
   public function getShaman(){
-    if (!Globals::isSyntyma()) return null;
+    if (!Globals::isSyntymaShamans()) return null;
     return $this->getShamanName() . Globals::getShamanChoices()[$this->id];
+  }
+
+  public function is($shamanName){
+    return $this->getShaman() == $shamanName;
   }
 }

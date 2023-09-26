@@ -15,14 +15,14 @@ trait ChooseShamanTrait
 {
   public function stChooseShaman()
   {
-    if (!Globals::isSyntyma()){
+    if (!Globals::isSyntymaShamans()){
       $this->gamestate->nextState('skip');
     }
   }
 
   public function argChooseShaman()
   {
-    $this->queryStandardTables();
+    // $this->queryStandardTables();
     $choices = Globals::getShamanChoices();
     $private = [];
 
@@ -63,7 +63,7 @@ trait ChooseShamanTrait
 
   public function actChooseShaman($sideId, $pId = null)
   {
-    $this->queryStandardTables();
+    // $this->queryStandardTables();
     // Sanity checks
     $this->gamestate->checkPossibleAction('actChooseShaman');
     $pId = $pId ?? Players::getCurrentId();
