@@ -504,6 +504,73 @@ define([
             _('score 1 Life Energy Point for each Spore on your board.'),
           ],
         },
+        8: {
+          name: _('Taivas II'),
+          type: 'flying',
+          title: _('Elder of Skies'),
+          desc: [
+            _('When you welcome this Divine Entity and at each scoring if she is still with you:'),
+            _('score 1 Life Energy Point for each pair of cristals you have (you don\'t spend them).'),
+          ],
+        },
+        9: {
+          name: _('Sienet II'),
+          type: 'mushroom',
+          title: _('Disciple of the Mushrooms'),
+          desc: [
+            _('When you welcome this Divine Entity and at each scoring if she is still with you:'),
+            _('take 1 Crystal for each land animal symbol on your board.'),
+          ],
+        },
+        10: {
+          name: _('Meri II'),
+          type: 'marine',
+          title: _('Elder of Seas'),
+          desc: [
+            _('When you welcome this Divine Entity and at each scoring if she is still with you:'),
+            _('choose a type of biome and score 1 Life Energy Point for each matching symbol on your board.'),
+          ],
+        },
+        11: {
+          name: _('Metsat II'),
+          type: 'forest',
+          title: _('Disciple of the Forest'),
+          desc: [
+            _('When you welcome this Divine Entity and at each scoring if she is still with you:'),
+            _(
+              'score 3 Life Energy Points for each set of 3 animals (Flying, Land and Marine) on your board.',
+            ),
+          ],
+        },
+        12: {
+          name: _('Kiteet II'),
+          type: 'mushroom',
+          title: _('Disciple of the Crystals'),
+          desc: [
+            _('When you welcome this Divine Entity and at each scoring if she is still with you:'),
+            _('you can pay 2 cristals to score 2 Life Energy Points for each flying animal on your board.'),
+          ],
+        },
+        13: {
+          name: _('Vuori II'),
+          type: 'water',
+          title: _('Disciple of the Hills and Water'),
+          desc: [
+            _(
+              'This Divine Entity has no immediate effect but continuously adds X Water Sources to your number of Water Sources as long as she is with you.',
+            ),
+           _('X is the number of Marine animals on your board.')
+          ],
+        },
+        14: {
+          name: _('Maa II'),
+          type: 'land',
+          title: _('Elder of Earths'),
+          desc: [
+            _('When you welcome this Divine Entity and at each scoring if she is still with you:'),
+            _('create a Spore on your board'),
+          ],
+        },
       };
 
       return infos[god.id];

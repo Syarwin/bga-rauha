@@ -26,7 +26,7 @@ class GodCards extends \RAUHA\Helpers\Pieces
 
   public static function getUiData()
   {
-    return self::getAll();
+    return self::DB()->where('god_location', '!=', 'trash')->get();
   }
 
   public static function refreshAll()
