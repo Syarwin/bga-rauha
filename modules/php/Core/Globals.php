@@ -15,6 +15,9 @@ class Globals extends \RAUHA\Helpers\DB_Manager
     'firstPlayer' => 'int',
     'biomeChoices' => 'obj',
     'turnOnGoing' => 'int',
+    'syntymaShamans' => 'bool',
+    'syntymaNewGods' => 'bool',
+    'shamanChoices' => 'obj'
   ];
 
   protected static $table = 'global_variables';
@@ -136,5 +139,7 @@ class Globals extends \RAUHA\Helpers\DB_Manager
   public static function setupNewGame($players, $options)
   {
     self::setTurn(0);
+    self::setSyntymaShamans($options[OPTION_SYNTYMA_SHAMANS] == OPTION_SYNTYMA_SHAMANS_ON);
+    self::setSyntymaNewGods($options[OPTION_SYNTYMA_NEW_GODS] == OPTION_SYNTYMA_NEW_GODS_ON);
   }
 }

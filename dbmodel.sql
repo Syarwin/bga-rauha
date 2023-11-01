@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS `biomes` (
   `data_id` int(5) NOT NULL COMMENT 'used to retrieve static data',
   PRIMARY KEY (`biome_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
+
 CREATE TABLE IF NOT EXISTS `gods` (
   `god_id` int(1) NOT NULL AUTO_INCREMENT,
   `god_state` int(10) DEFAULT 0 COMMENT 'useless in this game',
@@ -27,6 +28,7 @@ CREATE TABLE IF NOT EXISTS `gods` (
   `extra_datas` JSON NULL COMMENT 'not used for now',
   PRIMARY KEY (`god_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
+
 --ADD a crystal count, and board to each player
 ALTER TABLE `player`
 ADD `player_crystal` INT(3) DEFAULT 4,

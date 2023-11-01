@@ -45,11 +45,25 @@ class Notifications
     ]);
   }
 
+  public static function chooseShaman($currentPlayer, $sideId)
+  {
+    self::notify($currentPlayer, 'chooseShaman', '', [
+      'sideId' => $sideId,
+    ]);
+  }
+
   public static function confirmChoices($turn, $isMoon)
   {
     self::notifyAll('confirmChoices', clienttranslate('All the players made their choice of biome for round ${turn}'), [
       'turn' => $turn,
       'isMoon' => $isMoon,
+    ]);
+  }
+
+  public static function confirmShamanChoices()
+  {
+    self::notifyAll('confirmChoices', clienttranslate('All the players made their choice of shaman'), [
+      'shamans' => Globals::getShamanChoices()
     ]);
   }
 

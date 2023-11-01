@@ -11,30 +11,27 @@ use RAUHA\Core\Stats;
 use RAUHA\Managers\Players;
 use RAUHA\Managers\BiomeCards;
 
-trait ChooseBiomeTrait
+trait ChooseShamanTrait
 {
-  public function argChooseBiome()
+  public function stChooseShaman()
+  {
+    if (!Globals::isSyntymaShamans()){
+      $this->gamestate->nextState('skip');
+    }
+  }
+
+  public function argChooseShaman()
   {
     // $this->queryStandardTables();
-    $choices = Globals::getBiomeChoices();
-    $turn = Globals::getTurn();
+    $choices = Globals::getShamanChoices();
     $private = [];
 
     foreach (Players::getAll() as $id => $player) {
-      //select a deck depending on turn id
-      $deckId = $player->getNo() + DECK_TO_CHOOSE[$turn];
-      if ($deckId > Players::count()) {
-        $deckId = 1;
-      }
-      $deck = 'deck' . $deckId;
-
-      $biomes = BiomeCards::getInLocation($deck);
+      $shaman = $player->getShamanName();
 
       $private[$id] = [
         'choice' => $choices[$id] ?? null,
-        'deck' => $deck,
-        'biomes' => $biomes,
-        'isMoon' => DECK_TO_CHOOSE[$turn],
+        'shaman' => $shaman,
       ];
     }
 
@@ -43,12 +40,12 @@ trait ChooseBiomeTrait
     ];
   }
 
-  public function updateActivePlayersAndChangeState()
+  public function updateActivePlayersAndChangeStateShaman()
   {
     // Compute players that still need to select their card
     // => use that instead of BGA framework feature because in some rare case a player
     //    might become inactive eventhough the selection failed (seen in Agricola at least already)
-    $selections = Globals::getBiomeChoices();
+    $selections = Globals::getShamanChoices();
     $players = Players::getAll();
     $ids = $players->getIds();
     $ids = array_diff($ids, array_keys($selections));
@@ -59,37 +56,36 @@ trait ChooseBiomeTrait
     }
     // Everyone is done => discard cards and proceed
     else {
-      $this->gamestate->nextState('');
+      $this->gamestate->nextState('done');
     }
   }
 
 
-  public function actChooseBiome($biomeId, $pId = null)
+  public function actChooseShaman($sideId, $pId = null)
   {
     // $this->queryStandardTables();
     // Sanity checks
-    $this->gamestate->checkPossibleAction('actChooseBiome');
+    $this->gamestate->checkPossibleAction('actChooseShaman');
     $pId = $pId ?? Players::getCurrentId();
-    //check that this biome was available to be choosen
-    $args = $this->argChooseBiome();
-    if (!array_key_exists($biomeId, $args['_private'][$pId]['biomes'])) {
-      throw new \BgaVisibleSystemException('You can\'t choose this biome. Should not happen');
+    //check that the side is correct
+    if ($sideId != 1 || $sideId != 2) {
+      throw new \BgaVisibleSystemException('You can\'t choose this side. Should not happen');
     }
 
     // Highlight that card and make the player inactive
-    $choices = Globals::getBiomeChoices();
-    $choices[$pId] = $biomeId;
+    $choices = Globals::getShamanChoices();
+    $choices[$pId] = $sideId;
     Globals::setBiomeChoices($choices);
-    Notifications::chooseBiome(Players::get($pId), $biomeId);
-    $this->updateActivePlayersAndChangeState();
+    Notifications::chooseShaman(Players::get($pId), $sideId);
+    $this->updateActivePlayersAndChangeStateShaman();
   }
 
   /**
    * Confirm player choices by moving the selected cards to hand and removing other cards
    */
-  public function stConfirmChoices()
+  public function stConfirmChoicesShaman()
   {
-    $choices = Globals::getBiomeChoices();
+    $choices = Globals::getShamanChoices();
 
     foreach (Players::getAll() as $pId => $player) {
       $choice = $choices[$pId] ?? null;
@@ -97,12 +93,9 @@ trait ChooseBiomeTrait
         throw new \BgaVisibleSystemException('Someone hasnt made any choice yet. Should not happen');
       }
 
-      BiomeCards::move($choice, 'hand', $pId);
     }
 
-    $turn = Globals::getTurn();
-    $isMoon = DECK_TO_CHOOSE[$turn];
-    Notifications::confirmChoices($turn, $isMoon);
+    Notifications::confirmShamanChoices();
     $this->gamestate->nextState();
   }
 }
