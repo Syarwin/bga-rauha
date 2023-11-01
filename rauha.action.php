@@ -36,6 +36,15 @@ class action_rauha extends APP_GameAction
     }
   }
 
+  public function actChooseShaman()
+  {
+    self::setAjaxMode();
+    $sideId = self::getArg('sideId', AT_posint, true);
+    $this->game->actChooseShaman($sideId);
+    self::ajaxResponse();
+  }
+
+
   public function actChooseBiome()
   {
     self::setAjaxMode();

@@ -40,20 +40,20 @@ define([
       waterSource: t[9],
     };
   };
-  
+
   const MOUNTAIN = 'mountain';
   const FOREST = 'forest';
   const MUSHROOM = 'mushroom';
   const CRYSTAL = 'crystal';
   const DESERT = 'desert';
-  
+
   const FLYING = 'flying animals';
   const WALKING = 'terrestrial animal';
   const MARINE = 'marine animal';
   const ANIMALS = 'animals';
   const WATER_SOURCE = 'waterSource';
   const SPORE = 'spore';
-  
+
   // prettier-ignore
   const BIOMES_DATA = {
       ////////////////////////////////////////////
@@ -190,6 +190,7 @@ define([
         ['newTurn', 1000],
         ['newTurnScoring', 1000],
         ['chooseBiome', 100],
+        ['chooseShaman', 100],
         ['confirmChoices', 1000],
         ['placeBiome', null],
         ['discardBiomeCrystals', 1000],
@@ -666,7 +667,7 @@ define([
           title: _('Elder of Skies'),
           desc: [
             _('When you welcome this Divine Entity and at each scoring if she is still with you:'),
-            _('score 1 Life Energy Point for each pair of cristals you have (you don\'t spend them).'),
+            _("score 1 Life Energy Point for each pair of cristals you have (you don't spend them)."),
           ],
         },
         9: {
@@ -693,9 +694,7 @@ define([
           title: _('Disciple of the Forest'),
           desc: [
             _('When you welcome this Divine Entity and at each scoring if she is still with you:'),
-            _(
-              'score 3 Life Energy Points for each set of 3 animals (Flying, Land and Marine) on your board.',
-            ),
+            _('score 3 Life Energy Points for each set of 3 animals (Flying, Land and Marine) on your board.'),
           ],
         },
         12: {
@@ -715,7 +714,7 @@ define([
             _(
               'This Divine Entity has no immediate effect but continuously adds X Water Sources to your number of Water Sources as long as she is with you.',
             ),
-           _('X is the number of Marine animals on your board.')
+            _('X is the number of Marine animals on your board.'),
           ],
         },
         14: {
@@ -742,6 +741,33 @@ define([
       if (n.args.playerIdLoosingGod !== null) {
         this._waterCounters[n.args.playerIdLoosingGod].toValue(n.args.waterSourceCountPlayerLoosingGod);
       }
+    },
+
+    ///////////////////////////////////////////////////
+    //  ____              _
+    // / ___| _   _ _ __ | |_ _   _ _ __ ___   __ _
+    // \___ \| | | | '_ \| __| | | | '_ ` _ \ / _` |
+    //  ___) | |_| | | | | |_| |_| | | | | | | (_| |
+    // |____/ \__, |_| |_|\__|\__, |_| |_| |_|\__,_|
+    //        |___/           |___/
+    ///////////////////////////////////////////////////
+    onEnteringStateChooseShaman(args) {
+      this.addPrimaryActionButton('btnSide1', _('White side'), () =>
+        this.takeAction('actChooseShaman', { sideId: 1 }, false),
+      );
+      this.addPrimaryActionButton('btnSide2', _('Black side'), () =>
+        this.takeAction('actChooseShaman', { sideId: 2 }, false),
+      );
+
+      if (args._private.choice !== null) {
+        $(`btnSide${args._private.choice}`).classList.add('selected');
+      }
+    },
+
+    notif_chooseShaman(n) {
+      debug('Notif: choosing biome', n);
+      dojo.query('#page-title .bgabutton').removeClass('selected');
+      $(`btnSide${n.args.sideId}`).classList.add('selected');
     },
 
     //////////////////////////////////////////////////////////////////////
@@ -1131,6 +1157,11 @@ define([
           3: _('Third turn'),
         };
         $('round-phase').innerHTML = msgs[turn];
+      }
+
+      if (this.gamedatas.turn == 0) {
+        this._roundCounter.toValue(0);
+        $('round-phase').innerHTML = '';
       }
     },
 

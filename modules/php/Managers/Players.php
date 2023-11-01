@@ -60,7 +60,7 @@ class Players extends \RAUHA\Helpers\DB_Manager
 
     self::determineFirstPlayer();
 
-    if ($options[OPTION_SYNTYMA] != OPTION_SYNTYMA_ON){
+    if ($options[OPTION_SYNTYMA_SHAMANS] != OPTION_SYNTYMA_SHAMANS_ON){
       Game::get()->reattributeColorsBasedOnPreferences($players, $gameInfos['player_colors']);
     }
     
