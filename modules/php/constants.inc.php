@@ -41,6 +41,9 @@ const VIRHEA_2 = 'Vihreä2';
 const HARMAA_2 = 'Harmaa2';
 const SININEN_2 = 'Sininen2';
 
+const SHAMAN_ACTING_POWER = "acting";
+const SHAMAN_COUNTING_POWER = "counting";
+
 const SHAMANS = [
   '28c8b2' => SININEN, 
   '9fa2a2' => HARMAA, 
@@ -175,6 +178,8 @@ const STAT_SPORES_POINTS = 15;
 const STAT_ALIGNMENTS = 16;
 const STAT_END_STEP_ACTIVATIONS = 17;
 const STAT_END_ROUND_ACTIVATIONS = 18;
+const STAT_SHAMAN_CRISTAL = 17;
+const STAT_SHAMAN_POINTS = 18;
 
 const STAT_NAME_COLLECTED_CRISTAL = 'collectedCristal';
 const STAT_NAME_WATER_SOURCES_POINTS = 'waterSourcePoints';
@@ -182,5 +187,7 @@ const STAT_NAME_ANIMALS_POINTS = 'animalsPoints';
 const STAT_NAME_BIOMES_POINTS = 'biomesPoints';
 const STAT_NAME_SPORES_POINTS = 'sporePoints';
 const STAT_NAME_ALIGNMENTS = 'alignments';
+const STAT_NAME_SHAMAN_POINTS = 'shamanPoints';
+const STAT_NAME_SHAMAN_CRISTAL = 'shamanCristal';
 const STAT_NAME_END_STEP_ACTIVATIONS = 'endStepActivations';
 const STAT_NAME_END_ROUND_ACTIVATIONS = 'endRoundActivations';

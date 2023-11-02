@@ -41,11 +41,17 @@ trait PlaceBiomeTrait
     $player = Players::getActive();
     $biome = $player->getBiomeInHand();
 
-    // if no layingconstraints all places are possible
-    if (empty($biome->getLayingConstraints())) {
+    // if no layingconstraints (or you are KELTAINEN1) all places are possible
+    if (empty($biome->getLayingConstraints()) || $player->is(KELTAINEN_1)) {
       $possiblePlaces = ALL_BIOME_PLACES;
     } else {
       $possiblePlaces = $biome->getLayingConstraints();
+    }
+
+    $cost = $biome->getLayingCost();
+
+    if ($player->is(HARMAA_2)){
+      $cost = $cost - 1;
     }
 
     // but if BIOME too expensive no possible place
@@ -128,10 +134,31 @@ trait PlaceBiomeTrait
 
     // pay for it
     $cost = $biome->getLayingCost();
+    
+    if ($currentPlayer->is(HARMAA_2)){
+      $cost = max(0, $cost - 1);
+    }
+
     $currentPlayer->incCrystal(-$cost);
 
     // notification
     Notifications::placeBiome($currentPlayer, $x, $y, $biome, $cost);
+
+    if($currentPlayer->is(HARMAA_1)){
+      $animalsCount = count($biome->getAnimals());
+
+      if ($animalsCount){
+        $currentPlayer->movePointsToken($animalsCount, STAT_SHAMAN_POINTS);
+        Notifications::shaman($currentPlayer, SHAMAN_ACTING_POWER, $animalsCount, "points");
+      }
+    } elseif ($currentPlayer->is(SININEN_1)){
+      $waterCount = $biome->getWaterSource();
+      if ($waterCount){
+        $currentPlayer->incCrystal($waterCount);
+        Stats::inc(STAT_SHAMAN_CRISTAL, $currentPlayer, $waterCount);
+        Notifications::shaman($currentPlayer, SHAMAN_ACTING_POWER, $waterCount, "crystal");
+      }
+    }
 
     // check if there is alignment
     $alignedTypes = BiomeCards::checkAlignment($currentPlayer, $x, $y);
@@ -151,9 +178,19 @@ trait PlaceBiomeTrait
 
       $god->moveOnPlayerBoard($currentPlayer);
 
+
       // notification
       Notifications::newAlignment($currentPlayer, $god, $type, $playerLoosingGod);
       Stats::inc(STAT_NAME_ALIGNMENTS, $currentPlayer);
+
+      if ($currentPlayer->is(PUNAINEN_1)){
+        $currentPlayer->incCrystal(2);
+        Stats::inc(STAT_SHAMAN_CRISTAL, $currentPlayer, 2);
+        Notifications::shaman($currentPlayer, SHAMAN_ACTING_POWER, 2, "crystal");
+      } elseif ($currentPlayer->is(SININEN_2)){
+        $currentPlayer->movePointsToken(4, STAT_SHAMAN_POINTS);
+        Notifications::shaman($currentPlayer, SHAMAN_ACTING_POWER, 4, "points");
+      }
     }
 
     $this->gamestate->nextState('');

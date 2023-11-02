@@ -129,6 +129,10 @@ class GodCards extends \RAUHA\Helpers\Pieces
 
     // Notifications
     Notifications::activateGod($player, $god, $cost, $crystalIncome, $pointIncome);
+
+    //check if it triggers a shaman power
+    $player->shamanActivating($god);
+
     return false;
   }
 

@@ -17,7 +17,8 @@ class Globals extends \RAUHA\Helpers\DB_Manager
     'turnOnGoing' => 'int',
     'syntymaShamans' => 'bool',
     'syntymaNewGods' => 'bool',
-    'shamanChoices' => 'obj'
+    'shamanChoices' => 'obj',
+    'activableShamans' => 'obj'
   ];
 
   protected static $table = 'global_variables';

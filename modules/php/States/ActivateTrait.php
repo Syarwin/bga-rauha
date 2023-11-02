@@ -21,6 +21,7 @@ trait ActivateTrait
     return [
       'activableBiomes' => BiomeCards::getActivableBiomes($player, Globals::getTurn()),
       'activableGods' => GodCards::getActivableGods($player),
+      'activableShaman' => in_array($player->getId(), Globals::getActivableShamans()),
       'possibleSporePlaces' => $player->getSporesPlaces(false),
     ];
   }
@@ -72,6 +73,15 @@ trait ActivateTrait
         }
       }
     }
+
+    //if not search if shaman is activable
+    if ($elementIdToActivate === null) {
+      if ($arg['activableShaman']){
+        $elementIdToActivate = Players::getActive()->getId();
+      }
+    }
+
+
     //if something found activate it
     if ($elementIdToActivate !== null) {
       self::actActivateElement($elementIdToActivate, $isGod, Players::getActive());
@@ -118,13 +128,17 @@ trait ActivateTrait
 
     $args = $this->getArgs();
     if (
-      (!$isGod && !in_array(BiomeCards::get($elementId), $args['activableBiomes'])) ||
+      (!$isGod && $elementId != $player->getId() && !in_array(BiomeCards::get($elementId), $args['activableBiomes'])) ||
       ($isGod && !in_array(GodCards::get($elementId), $args['activableGods']))
     ) {
-      throw new \BgaVisibleSystemException('You can\'t activate this Biome/God now. Should not happen');
+      throw new \BgaVisibleSystemException('You can\'t activate this Shaman/Biome/God now. Should not happen');
     }
 
-    $isGod ? GodCards::activate($elementId) : BiomeCards::activate($elementId, $x, $y);
+    $isGod ? 
+      GodCards::activate($elementId) : 
+      ($elementId != $player->getId()) ? 
+        BiomeCards::activate($elementId, $x, $y) :
+        $player->activate();
 
     //record a new activation in Stats
     if (Globals::getTurn() % 4 == 0) {

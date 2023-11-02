@@ -151,7 +151,93 @@ class Player extends \RAUHA\Helpers\DB_Model
     return $this->getShamanName() . Globals::getShamanChoices()[$this->id];
   }
 
+  public function getShamanFace(){
+    if (!Globals::isSyntymaShamans()) return null;
+    return (Globals::getShamanChoices()[$this->id] == 1) ? clienttranslate('on white side') : clienttranslate('on black side');
+  }
+
   public function is($shamanName){
     return $this->getShaman() == $shamanName;
   }
+
+  public function shamanActivating($element){
+
+    if($element->getMultiplier() == 1 && $element->getCrystalIncome() && $this->is(PUNAINEN_2)){
+      $this->movePointsToken(2, STAT_SHAMAN_POINTS);
+      Notifications::shaman($this, SHAMAN_ACTING_POWER, 2, "points");
+    }
+
+    else if($element->getUsageCost() && $element->getPointIncome() && $this->is(KELTAINEN_2)){
+      $this->movePointsToken(5, STAT_SHAMAN_POINTS);
+      Notifications::shaman($this, SHAMAN_ACTING_POWER, 5, "points");
+    }
+
+    else if(!$element->getUsageCost() && $element->getMultiplier() == 1 && $element->getPointIncome() && $this->is(VIRHEA_1)){
+      $this->incCrystal(1);
+      Stats::inc(STAT_SHAMAN_CRISTAL, $this, 1);
+      Notifications::shaman($this, SHAMAN_ACTING_POWER, 1, "crystal");
+    }
+
+    else if(!$element->getUsageCost() && $element->getMultiplier() == 1 && $element->getPointIncome() && $this->is(VIRHEA_2)){
+      $this->movePointsToken(3, STAT_SHAMAN_POINTS);
+      Notifications::shaman($this, SHAMAN_ACTING_POWER, 3, "points");
+    }
+  }
+
+  public function activate(){
+    
+  }
+
+  const rewards = [
+    PUNAINEN_1 => [
+      'nb' => 2, 
+      'type' => 'points', 
+      'multiplier' => MUSHROOM
+    ],
+    PUNAINEN_2 => [
+      'nb' => 1, 
+      'type' => 'crystal', 
+      'multiplier' => MUSHROOM
+    ],
+    KELTAINEN_1 => [
+      'nb' => 2, 
+      'type' => 'points', 
+      'multiplier' => CRYSTAL
+    ],
+    KELTAINEN_2 => [
+      'nb' => 1, 
+      'type' => 'crystal', 
+      'multiplier' => CRYSTAL
+    ],
+    VIRHEA_1 => [
+      'nb' => 2, 
+      'type' => 'points', 
+      'multiplier' => FOREST
+    ],
+    VIRHEA_2 => [
+      'nb' => 1, 
+      'type' => 'crystal', 
+      'multiplier' => FOREST
+    ],
+    HARMAA_1 => [
+      'nb' => 3, 
+      'type' => 'crystal', 
+      'multiplier' => 'ALL_BIOMES'//TODO
+    ],
+    HARMAA_2 => [
+      'nb' => 4, 
+      'type' => 'points', 
+      'multiplier' => ALL_ANIMALS
+    ],
+    SININEN_1 => [
+      'nb' => 2, 
+      'type' => 'points', 
+      'multiplier' => MOUNTAIN
+    ],
+    SININEN_2 => [
+      'nb' => 1, 
+      'type' => 'crystal', 
+      'multiplier' => MOUNTAIN
+    ],
+  ]
 }

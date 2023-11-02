@@ -116,6 +116,10 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
 
     // Notifications
     Notifications::activateBiome($player, $biome, $cost, $crystalIncome, $pointIncome, $sporeIncome, $x, $y);
+
+    //check if it triggers a shaman power
+    $player->shamanActivating($biome);
+
     return $sporeIncome > 0;
   }
 

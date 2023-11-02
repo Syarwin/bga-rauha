@@ -263,6 +263,40 @@ class Notifications
     self::notifyAll('refreshGods', '', []);
   }
 
+  /*
+        █████████  █████ █████ ██████   █████ ███████████ █████ █████ ██████   ██████   █████████  
+       ███░░░░░███░░███ ░░███ ░░██████ ░░███ ░█░░░███░░░█░░███ ░░███ ░░██████ ██████   ███░░░░░███ 
+      ░███    ░░░  ░░███ ███   ░███░███ ░███ ░   ░███  ░  ░░███ ███   ░███░█████░███  ░███    ░███ 
+      ░░█████████   ░░█████    ░███░░███░███     ░███      ░░█████    ░███░░███ ░███  ░███████████ 
+       ░░░░░░░░███   ░░███     ░███ ░░██████     ░███       ░░███     ░███ ░░░  ░███  ░███░░░░░███ 
+       ███    ░███    ░███     ░███  ░░█████     ░███        ░███     ░███      ░███  ░███    ░███ 
+      ░░█████████     █████    █████  ░░█████    █████       █████    █████     █████ █████   █████
+       ░░░░░░░░░     ░░░░░    ░░░░░    ░░░░░    ░░░░░       ░░░░░    ░░░░░     ░░░░░ ░░░░░   ░░░░░ 
+                                                                                                   
+                                                                                                   
+                                                                                                   
+  */
+
+  public static function shaman($player, $power, $nb, $type){
+    $type = ($type == "points")
+    ? clienttranslate('point(s)')
+    : clienttranslate('cristal(s)');
+
+    $message = ($power == SHAMAN_ACTING_POWER) 
+    ? clienttranslate('Thanks to the ${shaman} power, ${player_name} receives ${nb} ${type}')
+    : clienttranslate('Activating his shaman power, ${player_name} receives ${nb} ${type}');
+
+    $data = [
+      'player' => $player,
+      'shaman' => $player->getShamanName(),
+      'nb' => $nb,
+      'type' => $type,
+      'i18n' => ['type']
+    ];
+
+  static::notifyAll('shaman', $message, $data);
+  }
+
   /*************************
    **** GENERIC METHODS ****
    *************************/
