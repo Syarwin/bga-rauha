@@ -13,10 +13,13 @@ use RAUHA\Managers\BiomeCards;
 
 trait ChooseShamanTrait
 {
-  public function stChooseShaman()
+  public function stSetupBranch()
   {
     if (!Globals::isSyntymaShamans()){
-      $this->gamestate->nextState('skip');
+      $this->gamestate->nextState('start');
+    } else {
+      $this->gamestate->setAllPlayersMultiactive();
+      $this->gamestate->nextState('shaman');
     }
   }
 
@@ -68,14 +71,14 @@ trait ChooseShamanTrait
     $this->gamestate->checkPossibleAction('actChooseShaman');
     $pId = $pId ?? Players::getCurrentId();
     //check that the side is correct
-    if ($sideId != 1 || $sideId != 2) {
+    if ($sideId != 1 && $sideId != 2) {
       throw new \BgaVisibleSystemException('You can\'t choose this side. Should not happen');
     }
 
     // Highlight that card and make the player inactive
     $choices = Globals::getShamanChoices();
     $choices[$pId] = $sideId;
-    Globals::setBiomeChoices($choices);
+    Globals::setShamanChoices($choices);
     Notifications::chooseShaman(Players::get($pId), $sideId);
     $this->updateActivePlayersAndChangeStateShaman();
   }

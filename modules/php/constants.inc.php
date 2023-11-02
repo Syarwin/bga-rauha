@@ -126,6 +126,7 @@ const OPTION_ROUND_MARKER_CUSTOM = 1;
  * State constants
  */
 const ST_GAME_SETUP = 1;
+const ST_SETUP_BRANCH = 30;
 
 const ST_CHOOSE_SHAMAN = 20;
 const ST_CONFIRM_CHOICES_SHAMAN = 21;
