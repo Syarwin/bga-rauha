@@ -44,6 +44,16 @@
         }
     }
 
+    @for $i from 8 through 14 {
+        &[data-id="#{$i}"] {
+            .god-front,
+            .god-back {
+                background-image: url("img/gods-ext.png");
+                background-position-x: ($i - 8) * 100% / 6;
+            }
+        }
+    }
+
     &[data-used="0"] .rauha-god-inner {
         transform: rotateY(180deg);
     }
