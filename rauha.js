@@ -373,6 +373,7 @@ define([
         <div class='rauha-player-infos'>
           <div class='crystal-counter' id='crystal-counter-${player.id}'></div>
           <div class='water-counter' id='water-counter-${player.id}'></div>
+          <div class='shaman-name' id='shaman-name-${player.id}'>${player.shaman}</div>
         </div>
         <div class='rauha-gods-container' id='gods-${player.id}'></div>
       </div>`;

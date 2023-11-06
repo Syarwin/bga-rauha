@@ -55,7 +55,7 @@ trait PlaceBiomeTrait
     }
 
     // but if BIOME too expensive no possible place
-    if ($biome->getLayingCost() > $player->getCrystal()) {
+    if ($cost > $player->getCrystal()) {
       $possiblePlaces = [];
     }
 

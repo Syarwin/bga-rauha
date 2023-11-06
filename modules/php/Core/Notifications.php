@@ -174,6 +174,29 @@ class Notifications
     self::notifyAll('endActivation', $silent ? '' : clienttranslate('${player_name} passes.'), $data);
   }
 
+  public static function activateShaman($player, $crystalIncome, $pointIncome)
+  {
+    $message = '';
+    if ($crystalIncome > 0) {
+      $message = clienttranslate(
+        'Thanks to ${shaman_name}, ${player_name} receives ${crystalIncome} crystal(s)'
+      );
+    } elseif ($pointIncome > 0) {
+      $message = clienttranslate(
+        'Thanks to ${shaman_name}, ${player_name} receives ${pointIncome} point(s)'
+      );
+    }
+
+    $data = [
+      'player' => $player,
+      'crystalIncome' => $crystalIncome,
+      'pointIncome' => $pointIncome,
+      'shaman' => $player->getShaman()
+    ];
+
+    self::notifyAll('activateShaman', $message, $data);
+  }
+
   public static function activateBiome($player, $biome, $cost, $crystalIncome, $pointIncome, $sporeIncome, $x, $y)
   {
     $message = '';
@@ -288,7 +311,7 @@ class Notifications
 
     $data = [
       'player' => $player,
-      'shaman' => $player->getShamanName(),
+      'shaman' => $player->getShaman(),
       'nb' => $nb,
       'type' => $type,
       'i18n' => ['type']

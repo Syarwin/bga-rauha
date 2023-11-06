@@ -39,6 +39,7 @@ class Player extends \RAUHA\Helpers\DB_Model
     $data['hand'] = $current ? $this->getBiomeInHand() : null;
     $data['biomes'] = BiomeCards::getAllBiomesOnPlayerBoard($this);
     $data['water'] = $this->getWaterSource();
+    $data['shaman'] = $this->getShaman();
 
     return $data;
   }
@@ -100,10 +101,6 @@ class Player extends \RAUHA\Helpers\DB_Model
     $this->setBoard($board);
   }
 
-  // public function hasVuoriOnBoard(){
-  //   return GodCards::
-  // }
-
   public function getWaterSource()
   {
     $result = BiomeCards::countAllWaterSourceOnPlayerBoard($this);
@@ -148,7 +145,8 @@ class Player extends \RAUHA\Helpers\DB_Model
 
   public function getShaman(){
     if (!Globals::isSyntymaShamans()) return null;
-    return $this->getShamanName() . Globals::getShamanChoices()[$this->id];
+    $shamans = Globals::getShamanChoices();
+    return in_array($this->id, array_keys($shamans)) ? $this->getShamanName() . $shamans[$this->id] : $this->getShamanName();
   }
 
   public function getShamanFace(){
@@ -185,7 +183,38 @@ class Player extends \RAUHA\Helpers\DB_Model
   }
 
   public function activate(){
-    
+    $reward = static::rewards[$this->getShaman()];
+
+    //HARMAA not implemented TODO
+    if ($this->getShaman() === HARMAA){
+      $toCheck = $this->getShamanFace() == HARMAA_1 
+      ? [ CRYSTAL, FOREST, MOUNTAIN, MUSHROOM] : [ FLYING, WALKING, MARINE];
+      $multiplier = 9;
+      foreach ($toCheck as $criteria) {
+        $multiplier = min($multiplier, BiomeCards::countOnAPlayerBoard($this, $criteria));
+      }
+    }
+    $multiplier = BiomeCards::countOnAPlayerBoard($this, $reward['multiplier']);
+
+    if ($reward['type'] == 'points'){
+      $pointIncome = $reward['nb'] * $multiplier;
+      $this->movePointsToken($pointIncome, STAT_NAME_SHAMAN_POINTS);
+    } else {
+      $crystalIncome = $reward['nb'] * $multiplier;
+      Stats::inc(STAT_NAME_COLLECTED_CRISTAL, $this, $crystalIncome);
+      $this->incCrystal($crystalIncome);
+    }
+
+    $this->setUsed();
+
+    // Notifications
+    Notifications::activateShaman($this, $crystalIncome, $pointIncome);
+
+    return false;
+  }
+
+  public function setUsed(){
+    Globals::deactivateShaman($this->getId());
   }
 
   const rewards = [
@@ -222,7 +251,7 @@ class Player extends \RAUHA\Helpers\DB_Model
     HARMAA_1 => [
       'nb' => 3, 
       'type' => 'crystal', 
-      'multiplier' => 'ALL_BIOMES'//TODO
+      'multiplier' => 'ALL_BIOMES'
     ],
     HARMAA_2 => [
       'nb' => 4, 
@@ -239,5 +268,5 @@ class Player extends \RAUHA\Helpers\DB_Model
       'type' => 'crystal', 
       'multiplier' => MOUNTAIN
     ],
-  ]
+  ];
 }

@@ -53,6 +53,18 @@ $stats_type = [
       'type' => 'int',
     ],
 
+    STAT_NAME_SHAMAN_POINTS => [
+      'id' => STAT_SHAMAN_POINTS,
+      'name' => totranslate('Points with Shaman'),
+      'type' => 'int',
+    ],
+
+    STAT_NAME_SHAMAN_CRISTAL => [
+      'id' => STAT_SHAMAN_CRISTAL,
+      'name' => totranslate('Cristals with Shaman'),
+      'type' => 'int',
+    ],
+
     STAT_NAME_ALIGNMENTS => [
       'id' => STAT_ALIGNMENTS,
       'name' => totranslate('Alignments done'),
@@ -68,6 +80,12 @@ $stats_type = [
     STAT_NAME_END_ROUND_ACTIVATIONS => [
       'id' => STAT_END_ROUND_ACTIVATIONS,
       'name' => totranslate('God/Biome activations at round ends'),
+      'type' => 'int',
+    ],
+
+    STAT_NAME_SHAMAN_POINTS => [
+      'id' => STAT_SHAMAN_POINTS,
+      'name' => totranslate('Points with Shaman'),
       'type' => 'int',
     ],
 

@@ -37,8 +37,12 @@ trait NewRoundTrait
   {
     Globals::incTurn(1);
     Globals::setBiomeChoices([]);
-    $playerIds = Players::getAll()->getIds();
-    Globals::setActivableShamans($playerIds);
+
+    
+    if (Globals::isSyntymaShamans()){
+      $playerIds = Players::getAll()->getIds();
+      Globals::setActivableShamans($playerIds);
+    }
 
     Notifications::newTurn(Globals::getTurn());
 

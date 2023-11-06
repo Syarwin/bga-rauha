@@ -131,7 +131,19 @@ class Globals extends \RAUHA\Helpers\DB_Manager
         return self::$setter(self::$getter() + (empty($args) ? 1 : $args[0]));
       }
     }
+    var_dump($method, $args);
     return undefined;
+  }
+
+  public static function deactivateShaman($pId){
+    $activableShamans = static::getActivableShamans();
+    $key = array_search($pId, $activableShamans);
+    if ($key !== false) {
+        array_splice($activableShamans, $key, 1);
+    }
+
+    static::setActivableShamans($activableShamans);
+
   }
 
   /*

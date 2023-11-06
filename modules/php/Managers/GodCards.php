@@ -101,7 +101,11 @@ class GodCards extends \RAUHA\Helpers\Pieces
   {
     $result = 0;
     foreach (self::getGodsByPlayer($player) as $id => $god) {
-      $result += $god->getWaterSource();
+      if ($god->getName === 'Vuori II') {
+        $result += BiomeCards::countOnAPlayerBoard($player, MARINE);
+      } else {
+        $result += $god->getWaterSource();
+      }
     }
     return $result;
   }
