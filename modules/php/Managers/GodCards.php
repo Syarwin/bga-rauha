@@ -52,7 +52,7 @@ class GodCards extends \RAUHA\Helpers\Pieces
 
     $idsToDelete = [];
     for ($i=1; $i <= 7; $i++) { 
-      if(Globals::isSyntymaNewGods() && bga_rand(0,1) == 1 ){
+      if(Globals::isSyntymaNewGods() && ($options[OPTION_SYNTYMA_NEW_GODS]== OPTION_SYNTYMA_NEW_GODS_ONLY || bga_rand(0,1) == 1 )){
         $idsToDelete [] = $i;
       } else {
         $idsToDelete[] = $i + 7;

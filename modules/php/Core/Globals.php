@@ -153,6 +153,7 @@ class Globals extends \RAUHA\Helpers\DB_Manager
   {
     self::setTurn(0);
     self::setSyntymaShamans($options[OPTION_SYNTYMA_SHAMANS] == OPTION_SYNTYMA_SHAMANS_ON);
-    self::setSyntymaNewGods($options[OPTION_SYNTYMA_NEW_GODS] == OPTION_SYNTYMA_NEW_GODS_ON);
+    self::setSyntymaNewGods($options[OPTION_SYNTYMA_NEW_GODS] == OPTION_SYNTYMA_NEW_GODS_ON ||
+  $options[OPTION_SYNTYMA_NEW_GODS] == OPTION_SYNTYMA_NEW_GODS_ONLY);
   }
 }

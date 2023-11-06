@@ -60,6 +60,11 @@ $game_options = [
         'description' => totranslate('Play with new gods'),
         'tmdisplay' => totranslate('New gods'),
       ],
+      OPTION_SYNTYMA_NEW_GODS_ONLY => [
+        'name' => totranslate('With and only with new gods'),
+        'description' => totranslate('Play with ONLY new gods'),
+        'tmdisplay' => totranslate('Only new gods'),
+      ],
       OPTION_SYNTYMA_NEW_GODS_OFF => [
         'name' => totranslate('Without'),
         'description' => totranslate('Play without new gods'),
