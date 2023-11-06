@@ -44,6 +44,7 @@ trait CountTurnTrait
     return [
       'activableBiomes' => BiomeCards::getActivableBiomes($player),
       'activableGods' => GodCards::getActivableGods($player),
+      'isActivableShaman' => $player->isActivableShaman(),
       'possibleSporePlaces' => $player->getSporesPlaces(false),
       'firstPlayer' => Globals::getFirstPlayer()
     ];

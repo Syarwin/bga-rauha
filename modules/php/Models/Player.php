@@ -217,6 +217,10 @@ class Player extends \RAUHA\Helpers\DB_Model
     Globals::deactivateShaman($this->getId());
   }
 
+  public function isActivableShaman(){
+    return Globals::isSyntymaShamans() && in_array($this->getId(), Globals::getActivableShamans());
+  }
+
   const rewards = [
     PUNAINEN_1 => [
       'nb' => 2, 

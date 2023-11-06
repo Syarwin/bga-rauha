@@ -21,7 +21,6 @@ trait ActivateTrait
     return [
       'activableBiomes' => BiomeCards::getActivableBiomes($player, Globals::getTurn()),
       'activableGods' => GodCards::getActivableGods($player),
-      'activableShaman' => in_array($player->getId(), Globals::getActivableShamans()),
       'possibleSporePlaces' => $player->getSporesPlaces(false),
     ];
   }
