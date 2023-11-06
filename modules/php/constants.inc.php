@@ -41,7 +41,7 @@ const VIRHEA_2 = 'Vihreä2';
 const HARMAA_2 = 'Harmaa2';
 const SININEN_2 = 'Sininen2';
 
-const SHAMAN_ACTING_POWER = "acting";
+const SHAMAN_ON_GOING_POWER = "onGoing";
 const SHAMAN_COUNTING_POWER = "counting";
 
 const SHAMANS = [

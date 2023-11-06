@@ -148,15 +148,15 @@ trait PlaceBiomeTrait
       $animalsCount = count($biome->getAnimals());
 
       if ($animalsCount){
-        $currentPlayer->movePointsToken($animalsCount, STAT_SHAMAN_POINTS);
-        Notifications::shaman($currentPlayer, SHAMAN_ACTING_POWER, $animalsCount, "points");
+        $currentPlayer->movePointsToken($animalsCount, STAT_NAME_SHAMAN_POINTS);
+        Notifications::shaman($currentPlayer, SHAMAN_ON_GOING_POWER, $animalsCount, "points");
       }
     } elseif ($currentPlayer->is(SININEN_1)){
       $waterCount = $biome->getWaterSource();
       if ($waterCount){
         $currentPlayer->incCrystal($waterCount);
-        Stats::inc(STAT_SHAMAN_CRISTAL, $currentPlayer, $waterCount);
-        Notifications::shaman($currentPlayer, SHAMAN_ACTING_POWER, $waterCount, "crystal");
+        Stats::inc(STAT_NAME_SHAMAN_CRISTAL, $currentPlayer, $waterCount);
+        Notifications::shaman($currentPlayer, SHAMAN_ON_GOING_POWER, $waterCount, "crystal");
       }
     }
 
@@ -185,11 +185,11 @@ trait PlaceBiomeTrait
 
       if ($currentPlayer->is(PUNAINEN_1)){
         $currentPlayer->incCrystal(2);
-        Stats::inc(STAT_SHAMAN_CRISTAL, $currentPlayer, 2);
-        Notifications::shaman($currentPlayer, SHAMAN_ACTING_POWER, 2, "crystal");
+        Stats::inc(STAT_NAME_SHAMAN_CRISTAL, $currentPlayer, 2);
+        Notifications::shaman($currentPlayer, SHAMAN_ON_GOING_POWER, 2, "crystal");
       } elseif ($currentPlayer->is(SININEN_2)){
-        $currentPlayer->movePointsToken(4, STAT_SHAMAN_POINTS);
-        Notifications::shaman($currentPlayer, SHAMAN_ACTING_POWER, 4, "points");
+        $currentPlayer->movePointsToken(4, STAT_NAME_SHAMAN_POINTS);
+        Notifications::shaman($currentPlayer, SHAMAN_ON_GOING_POWER, 4, "points");
       }
     }
 

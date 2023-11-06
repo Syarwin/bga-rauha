@@ -161,24 +161,24 @@ class Player extends \RAUHA\Helpers\DB_Model
   public function shamanActivating($element){
 
     if($element->getMultiplier() == 1 && $element->getCrystalIncome() && $this->is(PUNAINEN_2)){
-      $this->movePointsToken(2, STAT_SHAMAN_POINTS);
-      Notifications::shaman($this, SHAMAN_ACTING_POWER, 2, "points");
+      $this->movePointsToken(2, STAT_NAME_SHAMAN_POINTS);
+      Notifications::shaman($this, SHAMAN_ON_GOING_POWER, 2, "points");
     }
 
     else if($element->getUsageCost() && $element->getPointIncome() && $this->is(KELTAINEN_2)){
-      $this->movePointsToken(5, STAT_SHAMAN_POINTS);
-      Notifications::shaman($this, SHAMAN_ACTING_POWER, 5, "points");
+      $this->movePointsToken(5, STAT_NAME_SHAMAN_POINTS);
+      Notifications::shaman($this, SHAMAN_ON_GOING_POWER, 5, "points");
     }
 
     else if(!$element->getUsageCost() && $element->getMultiplier() == 1 && $element->getPointIncome() && $this->is(VIRHEA_1)){
       $this->incCrystal(1);
-      Stats::inc(STAT_SHAMAN_CRISTAL, $this, 1);
-      Notifications::shaman($this, SHAMAN_ACTING_POWER, 1, "crystal");
+      Stats::inc(STAT_NAME_SHAMAN_CRISTAL, $this, 1);
+      Notifications::shaman($this, SHAMAN_ON_GOING_POWER, 1, "crystal");
     }
 
     else if(!$element->getUsageCost() && $element->getMultiplier() == 1 && $element->getPointIncome() && $this->is(VIRHEA_2)){
-      $this->movePointsToken(3, STAT_SHAMAN_POINTS);
-      Notifications::shaman($this, SHAMAN_ACTING_POWER, 3, "points");
+      $this->movePointsToken(3, STAT_NAME_SHAMAN_POINTS);
+      Notifications::shaman($this, SHAMAN_ON_GOING_POWER, 3, "points");
     }
   }
 
@@ -197,18 +197,18 @@ class Player extends \RAUHA\Helpers\DB_Model
     $multiplier = BiomeCards::countOnAPlayerBoard($this, $reward['multiplier']);
 
     if ($reward['type'] == 'points'){
-      $pointIncome = $reward['nb'] * $multiplier;
-      $this->movePointsToken($pointIncome, STAT_NAME_SHAMAN_POINTS);
+      $income = $reward['nb'] * $multiplier;
+      $this->movePointsToken($income, STAT_NAME_SHAMAN_POINTS);
     } else {
-      $crystalIncome = $reward['nb'] * $multiplier;
-      Stats::inc(STAT_NAME_COLLECTED_CRISTAL, $this, $crystalIncome);
-      $this->incCrystal($crystalIncome);
+      $income = $reward['nb'] * $multiplier;
+      Stats::inc(STAT_NAME_COLLECTED_CRISTAL, $this, $income);
+      $this->incCrystal($income);
     }
 
     $this->setUsed();
 
     // Notifications
-    Notifications::activateShaman($this, $crystalIncome, $pointIncome);
+    Notifications::shaman($this, SHAMAN_COUNTING_POWER, $income, $reward['type']);
 
     return false;
   }

@@ -174,29 +174,6 @@ class Notifications
     self::notifyAll('endActivation', $silent ? '' : clienttranslate('${player_name} passes.'), $data);
   }
 
-  public static function activateShaman($player, $crystalIncome, $pointIncome)
-  {
-    $message = '';
-    if ($crystalIncome > 0) {
-      $message = clienttranslate(
-        'Thanks to ${shaman_name}, ${player_name} receives ${crystalIncome} crystal(s)'
-      );
-    } elseif ($pointIncome > 0) {
-      $message = clienttranslate(
-        'Thanks to ${shaman_name}, ${player_name} receives ${pointIncome} point(s)'
-      );
-    }
-
-    $data = [
-      'player' => $player,
-      'crystalIncome' => $crystalIncome,
-      'pointIncome' => $pointIncome,
-      'shaman' => $player->getShaman()
-    ];
-
-    self::notifyAll('activateShaman', $message, $data);
-  }
-
   public static function activateBiome($player, $biome, $cost, $crystalIncome, $pointIncome, $sporeIncome, $x, $y)
   {
     $message = '';
@@ -305,9 +282,9 @@ class Notifications
     ? clienttranslate('point(s)')
     : clienttranslate('cristal(s)');
 
-    $message = ($power == SHAMAN_ACTING_POWER) 
-    ? clienttranslate('Thanks to the ${shaman} power, ${player_name} receives ${nb} ${type}')
-    : clienttranslate('Activating his shaman power, ${player_name} receives ${nb} ${type}');
+    $message = ($power == SHAMAN_ON_GOING_POWER) 
+    ? clienttranslate('Thanks to the on going ${shaman} power, ${player_name} receives ${nb} ${type}')
+    : clienttranslate('Activating the ${shaman} power, ${player_name} receives ${nb} ${type}');
 
     $data = [
       'player' => $player,

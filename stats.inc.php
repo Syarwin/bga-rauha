@@ -83,12 +83,6 @@ $stats_type = [
       'type' => 'int',
     ],
 
-    STAT_NAME_SHAMAN_POINTS => [
-      'id' => STAT_SHAMAN_POINTS,
-      'name' => totranslate('Points with Shaman'),
-      'type' => 'int',
-    ],
-
 
   ],
 ];

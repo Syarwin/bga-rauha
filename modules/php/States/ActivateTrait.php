@@ -103,6 +103,7 @@ trait ActivateTrait
     }
 
     $player->setGodsUsed();
+    $player->setUsed();
 
     //if we are in a count turn -> count for water source
     if (Globals::getTurn() % 4 == 0) {

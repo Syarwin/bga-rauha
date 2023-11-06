@@ -193,16 +193,6 @@ class Players extends \RAUHA\Helpers\DB_Manager
       ->count();
   }
 
-  // Deprecated -> Biomes::refreshAll()
-  // public function refreshBiomes()
-  // {
-  //   foreach (self::getAll() as $id => $player) {
-  //     foreach (BiomeCards::getAllBiomesOnPlayerBoard($player) as $biome) {
-  //       $biome->setUsed(NOT_USED);
-  //     }
-  //   }
-  // }
-
   public static function GetPointsForWaterSource($player)
   {
     $minWaterSource = Players::getMinWaterSource();

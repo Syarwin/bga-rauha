@@ -38,12 +38,6 @@ trait NewRoundTrait
     Globals::incTurn(1);
     Globals::setBiomeChoices([]);
 
-    
-    if (Globals::isSyntymaShamans()){
-      $playerIds = Players::getAll()->getIds();
-      Globals::setActivableShamans($playerIds);
-    }
-
     Notifications::newTurn(Globals::getTurn());
 
     Players::determineFirstPlayer();
@@ -51,7 +45,13 @@ trait NewRoundTrait
 
     //each 4 turn, that's a 'count turn', else it's a normal turn
     if (Globals::getTurn() % 4 == 0) {
-      GodCards::refreshAll();
+      GodCards::refreshAll();    
+
+      if (Globals::isSyntymaShamans()){
+        $playerIds = Players::getAll()->getIds();
+        Globals::setActivableShamans($playerIds);
+      }
+      
       $this->gamestate->nextState('count_turn');
     } else {
       $this->gamestate->setAllPlayersMultiactive();
