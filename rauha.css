@@ -767,6 +767,7 @@
   width: calc(var(--rauhaShamanScale) * 945px);
   height: calc(var(--rauhaShamanScale) * 1417px);
   flex-shrink: 0;
+  position: relative;
   background: url("img/shamans.jpg");
   background-size: 500% 200%;
   border-radius: calc(var(--rauhaShamanScale) * 50px);
@@ -789,6 +790,13 @@
     background-position-x: 75%; }
   .shaman-card[data-shaman="Punainen"] {
     background-position-x: 100%; }
+
+.shaman-tooltip h3 {
+  margin-top: 5px; }
+.shaman-tooltip li {
+  margin: 10px 5px; }
+  .shaman-tooltip li b {
+    margin-left: -5px; }
 
 #player_board_config {
   position: relative;

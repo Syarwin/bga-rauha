@@ -771,9 +771,90 @@ define([
     },
 
     addShamanCard(uid, shaman, side, container) {
+      const DESCS = {
+        Sininen: {
+          1: [
+            _(
+              'Each time you add one or more Water Sources to your board (Biomes or with the Divine Entity Vuori I or II), take 1 Crystal from the supply for each of these Water sources.',
+            ),
+            _('Score 2 Life Energy points for each Mountain Biome visible on your board'),
+          ],
+          2: [
+            _('Each time you receive a Divine Entity, score 4 Life Energy points.'),
+            _('Take 1 Crystal from the supply for each Mountain Biome visible on your board.'),
+          ],
+        },
+        Harmaa: {
+          1: [
+            _(
+              'Each time you put a Biome with one or more Animal symbols on your board, score 1 Life Energy point for each Animal symbol on that card.',
+            ),
+            _('Take 3 Crystals from the supply for each set of 4 Biomes visible on your board.'),
+          ],
+          2: [
+            _('The cost of your Biomes is reduced by 1 Crystal.'),
+            _('Score 4 Life Energy points for each set of Animals visible on your board.'),
+          ],
+        },
+        Vihreä: {
+          1: [
+            _(
+              'Each time you activate a Biome or a Divine Entity that gives you Life Energy without any contributions to activate the tile (= no arrows in the effect), take 1 Crystal from the supply.',
+            ),
+            _('Score 2 Life Energy points for each Forest Biome visible on your board.'),
+          ],
+          2: [
+            _(
+              'Each time you activate a Biome or a Divine Entity that gives you Life Energy without any contributions to activate the tile (= no arrows in the effect), score 3 additional Life Energy points.',
+            ),
+            _('Take 1 Crystal from the supply for each Forest Biome visible on your board.'),
+          ],
+        },
+        Keltainen: {
+          1: [
+            _(
+              'You do not need to respect the placement conditions to place your Biomes. In other words, you can always place your Biomes wherever you want to on your board.',
+            ),
+            _('Score 2 Life Energy points for each Crystal Biome visible on your board.'),
+          ],
+          2: [
+            _(
+              'Each time you activate a “factory” (effect that allows you to transform Crystals into Life Energy points), score 5 additional Life Energy points.',
+            ),
+            _('Take 1 Crystal from the supply for each Crystal Biome visible on your board.'),
+          ],
+        },
+        Punainen: {
+          1: [
+            _('Each time you receive a Divine Entity, take 2 Crystals from the supply.'),
+            _('Score 2 Life Energy points for each Mushroom Biome visible on your board.'),
+          ],
+          2: [
+            _(
+              'Each time you activate a Biome or a Divine Entity that gives you Crystals without any contributions to activate the tile (= no arrows in the effect),score 2 Life Energy points..',
+            ),
+            _('Take 1 Crystal from the supply for each Mushroom Biome visible on your board.'),
+          ],
+        },
+      };
+
       $(container).insertAdjacentHTML(
         'beforeend',
         `<div id='${uid}' class='shaman-card' data-shaman='${shaman}' data-side='${side}'></div>`,
+      );
+      let sideDesc = side == 1 ? _('White side') : _('Black side');
+      this.addCustomTooltip(
+        uid,
+        `<div class='shaman-tooltip'>
+        <h3>${_(shaman)} - ${sideDesc}</h3>
+        <ul>
+          <li><b>ONGOING:</b><br/>
+            ${DESCS[shaman][side][0]}
+
+          <li><b>SCORING:</b><br/>
+            ${DESCS[shaman][side][1]}
+        </ul>
+      </div>`,
       );
     },
 
