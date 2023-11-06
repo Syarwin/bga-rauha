@@ -39,7 +39,8 @@ class Player extends \RAUHA\Helpers\DB_Model
     $data['hand'] = $current ? $this->getBiomeInHand() : null;
     $data['biomes'] = BiomeCards::getAllBiomesOnPlayerBoard($this);
     $data['water'] = $this->getWaterSource();
-    $data['shaman'] = $this->getShaman();
+    $data['shamanName'] = $this->getShamanName();
+    $data['shamanSide'] = $this->getShamanSide();
 
     return $data;
   }
@@ -143,15 +144,21 @@ class Player extends \RAUHA\Helpers\DB_Model
     return SHAMANS[$this->color];
   }
 
+  public function getShamanSide(){
+    if (!Globals::isSyntymaShamans()) return null;
+    $shamans = Globals::getShamans();
+    return in_array($this->id, array_keys($shamans)) ? $shamans[$this->id] : null;
+  }
+
   public function getShaman(){
     if (!Globals::isSyntymaShamans()) return null;
-    $shamans = Globals::getShamanChoices();
+    $shamans = Globals::getShamans();
     return in_array($this->id, array_keys($shamans)) ? $this->getShamanName() . $shamans[$this->id] : $this->getShamanName();
   }
 
   public function getShamanFace(){
     if (!Globals::isSyntymaShamans()) return null;
-    return (Globals::getShamanChoices()[$this->id] == 1) ? clienttranslate('on white side') : clienttranslate('on black side');
+    return (Globals::getShamans()[$this->id] == 1) ? clienttranslate('on white side') : clienttranslate('on black side');
   }
 
   public function is($shamanName){
