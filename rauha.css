@@ -703,6 +703,34 @@
   .rauha-god[data-id="7"] .god-front,
   .rauha-god[data-id="7"] .god-back {
     background-position-x: 100%; }
+  .rauha-god[data-id="8"] .god-front,
+  .rauha-god[data-id="8"] .god-back {
+    background-image: url("img/gods-ext.png");
+    background-position-x: 0%; }
+  .rauha-god[data-id="9"] .god-front,
+  .rauha-god[data-id="9"] .god-back {
+    background-image: url("img/gods-ext.png");
+    background-position-x: 16.6666666667%; }
+  .rauha-god[data-id="10"] .god-front,
+  .rauha-god[data-id="10"] .god-back {
+    background-image: url("img/gods-ext.png");
+    background-position-x: 33.3333333333%; }
+  .rauha-god[data-id="11"] .god-front,
+  .rauha-god[data-id="11"] .god-back {
+    background-image: url("img/gods-ext.png");
+    background-position-x: 50%; }
+  .rauha-god[data-id="12"] .god-front,
+  .rauha-god[data-id="12"] .god-back {
+    background-image: url("img/gods-ext.png");
+    background-position-x: 66.6666666667%; }
+  .rauha-god[data-id="13"] .god-front,
+  .rauha-god[data-id="13"] .god-back {
+    background-image: url("img/gods-ext.png");
+    background-position-x: 83.3333333333%; }
+  .rauha-god[data-id="14"] .god-front,
+  .rauha-god[data-id="14"] .god-back {
+    background-image: url("img/gods-ext.png");
+    background-position-x: 100%; }
   .rauha-god[data-used="0"] .rauha-god-inner {
     transform: rotateY(180deg); }
 
@@ -723,6 +751,44 @@
       margin: 2px 0px 11px; }
     .god-tooltip .god-tooltip-desc .god-power {
       text-align: center; }
+
+:root {
+  --rauhaShamanScale: 0.2; }
+
+#pending-shamans {
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  #pending-shamans .shaman-card {
+    margin: 5px 10px; }
+
+.shaman-card {
+  background-color: transparent;
+  width: calc(var(--rauhaShamanScale) * 945px);
+  height: calc(var(--rauhaShamanScale) * 1417px);
+  flex-shrink: 0;
+  background: url("img/shamans.jpg");
+  background-size: 500% 200%;
+  border-radius: calc(var(--rauhaShamanScale) * 50px);
+  border: 1px solid black; }
+  .shaman-card.selectable {
+    cursor: pointer; }
+    .shaman-card.selectable:hover {
+      transform: scale(1.03); }
+  .shaman-card.selected {
+    box-shadow: 0px 0px 10px 2px green; }
+  .shaman-card[data-side="2"] {
+    background-position-y: 100%; }
+  .shaman-card[data-shaman="Sininen"] {
+    background-position-x: 0%; }
+  .shaman-card[data-shaman="Harmaa"] {
+    background-position-x: 25%; }
+  .shaman-card[data-shaman="Vihreä"] {
+    background-position-x: 50%; }
+  .shaman-card[data-shaman="Keltainen"] {
+    background-position-x: 75%; }
+  .shaman-card[data-shaman="Punainen"] {
+    background-position-x: 100%; }
 
 #player_board_config {
   position: relative;

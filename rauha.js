@@ -755,19 +755,34 @@ define([
       this.addPrimaryActionButton('btnSide1', _('White side'), () =>
         this.takeAction('actChooseShaman', { sideId: 1 }, false),
       );
+      this.addShamanCard('shamanSide1', args._private.shaman, 1, 'pending-shamans');
+      this.onClick('shamanSide1', () => this.takeAction('actChooseShaman', { sideId: 1 }, false));
+
       this.addPrimaryActionButton('btnSide2', _('Black side'), () =>
         this.takeAction('actChooseShaman', { sideId: 2 }, false),
       );
+      this.addShamanCard('shamanSide2', args._private.shaman, 2, 'pending-shamans');
+      this.onClick('shamanSide2', () => this.takeAction('actChooseShaman', { sideId: 2 }, false));
 
       if (args._private.choice !== null) {
         $(`btnSide${args._private.choice}`).classList.add('selected');
+        $(`shamanSide${args._private.choice}`).classList.add('selected');
       }
+    },
+
+    addShamanCard(uid, shaman, side, container) {
+      $(container).insertAdjacentHTML(
+        'beforeend',
+        `<div id='${uid}' class='shaman-card' data-shaman='${shaman}' data-side='${side}'></div>`,
+      );
     },
 
     notif_chooseShaman(n) {
       debug('Notif: choosing biome', n);
       dojo.query('#page-title .bgabutton').removeClass('selected');
+      dojo.query('#pending-shamans .shaman-card').removeClass('selected');
       $(`btnSide${n.args.sideId}`).classList.add('selected');
+      $(`shamanSide${n.args.sideId}`).classList.add('selected');
     },
 
     //////////////////////////////////////////////////////////////////////

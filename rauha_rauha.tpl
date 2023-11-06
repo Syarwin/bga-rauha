@@ -1,5 +1,7 @@
 {OVERALL_GAME_HEADER}
 
+<div id="pending-shamans"></div>
+
 <div id="pending-biomes-wrapper" class="empty">
   <div id="satellite-star"><span class="player-name"></span></div>
   <div id="pending-biomes"></div>

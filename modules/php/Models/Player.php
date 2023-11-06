@@ -239,5 +239,5 @@ class Player extends \RAUHA\Helpers\DB_Model
       'type' => 'crystal', 
       'multiplier' => MOUNTAIN
     ],
-  ]
+  ];
 }
