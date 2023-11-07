@@ -764,32 +764,50 @@
 
 .shaman-card {
   background-color: transparent;
-  width: calc(var(--rauhaShamanScale) * 945px);
-  height: calc(var(--rauhaShamanScale) * 1417px);
   flex-shrink: 0;
   position: relative;
-  background: url("img/shamans.jpg");
-  background-size: 500% 200%;
   border-radius: calc(var(--rauhaShamanScale) * 50px);
   border: 1px solid black; }
+  .shaman-card,
+  .shaman-card .shaman-card-ongoing,
+  .shaman-card .shaman-card-scoring {
+    width: calc(var(--rauhaShamanScale) * 945px);
+    height: calc(var(--rauhaShamanScale) * 1417px);
+    background: url("img/shamans.jpg");
+    background-size: 500% 200%; }
   .shaman-card.selectable {
     cursor: pointer; }
     .shaman-card.selectable:hover {
       transform: scale(1.03); }
   .shaman-card.selected {
     box-shadow: 0px 0px 10px 2px green; }
-  .shaman-card[data-side="2"] {
+  .shaman-card[data-side="2"],
+  .shaman-card[data-side="2"] .shaman-card-ongoing,
+  .shaman-card[data-side="2"] .shaman-card-scoring {
     background-position-y: 100%; }
-  .shaman-card[data-shaman="Sininen"] {
+  .shaman-card[data-shaman="Sininen"],
+  .shaman-card[data-shaman="Sininen"] .shaman-card-ongoing,
+  .shaman-card[data-shaman="Sininen"] .shaman-card-scoring {
     background-position-x: 0%; }
-  .shaman-card[data-shaman="Harmaa"] {
+  .shaman-card[data-shaman="Harmaa"],
+  .shaman-card[data-shaman="Harmaa"] .shaman-card-ongoing,
+  .shaman-card[data-shaman="Harmaa"] .shaman-card-scoring {
     background-position-x: 25%; }
-  .shaman-card[data-shaman="Vihreä"] {
+  .shaman-card[data-shaman="Vihreä"],
+  .shaman-card[data-shaman="Vihreä"] .shaman-card-ongoing,
+  .shaman-card[data-shaman="Vihreä"] .shaman-card-scoring {
     background-position-x: 50%; }
-  .shaman-card[data-shaman="Keltainen"] {
+  .shaman-card[data-shaman="Keltainen"],
+  .shaman-card[data-shaman="Keltainen"] .shaman-card-ongoing,
+  .shaman-card[data-shaman="Keltainen"] .shaman-card-scoring {
     background-position-x: 75%; }
-  .shaman-card[data-shaman="Punainen"] {
+  .shaman-card[data-shaman="Punainen"],
+  .shaman-card[data-shaman="Punainen"] .shaman-card-ongoing,
+  .shaman-card[data-shaman="Punainen"] .shaman-card-scoring {
     background-position-x: 100%; }
+  .shaman-card .shaman-card-ongoing,
+  .shaman-card .shaman-card-scoring {
+    display: none; }
 
 .shaman-tooltip h3 {
   margin-top: 5px; }
@@ -797,6 +815,26 @@
   margin: 10px 5px; }
   .shaman-tooltip li b {
     margin-left: -5px; }
+
+.rauha-panel .rauha-shaman-container {
+  --rauhaShamanScale: 0.15; }
+  .rauha-panel .rauha-shaman-container .shaman-card {
+    width: 226px;
+    height: 36px;
+    position: relative;
+    overflow: hidden; }
+    .rauha-panel .rauha-shaman-container .shaman-card .shaman-card-ongoing {
+      display: block;
+      position: absolute;
+      top: -129px;
+      clip-path: polygon(15px 127px, 130px 127px, 130px 167px, 15px 167px);
+      left: -18px; }
+    .rauha-panel .rauha-shaman-container .shaman-card .shaman-card-scoring {
+      display: block;
+      position: absolute;
+      left: 96px;
+      top: -167px;
+      clip-path: polygon(15px 165px, 130px 165px, 130px 205px, 15px 205px); }
 
 #player_board_config {
   position: relative;

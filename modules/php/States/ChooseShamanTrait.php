@@ -89,16 +89,16 @@ trait ChooseShamanTrait
   public function stConfirmChoicesShaman()
   {
     $choices = Globals::getShamanChoices();
-
     foreach (Players::getAll() as $pId => $player) {
       $choice = $choices[$pId] ?? null;
       if (is_null($choice)) {
         throw new \BgaVisibleSystemException('Someone hasnt made any choice yet. Should not happen');
       }
 
+      Notifications::confirmShamanChoice($player, $player->getShamanName(), $choice);
     }
+    Globals::setShamans($choices);
 
-    Notifications::confirmShamanChoices();
     $this->gamestate->nextState();
   }
 }

@@ -60,10 +60,15 @@ class Notifications
     ]);
   }
 
-  public static function confirmShamanChoices()
+  public static function confirmShamanChoice($player, $shaman, $side)
   {
-    self::notifyAll('confirmChoices', clienttranslate('All the players made their choice of shaman'), [
-      'shamans' => Globals::getShamanChoices()
+    self::notifyAll('confirmShamanChoice', clienttranslate('${player_name} will play ${shaman_name} on ${side_name}'), [
+      'player' => $player,
+      'shaman_name' => $shaman,
+      'shaman' => $shaman,
+      'side_name' => $side == 1? clienttranslate('the white side') : clienttranslate('the black side'),
+      'side' => $side,
+      'i18n' => ['shaman_name', 'side_name']
     ]);
   }
 

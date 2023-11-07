@@ -18,6 +18,7 @@ class Globals extends \RAUHA\Helpers\DB_Manager
     'syntymaShamans' => 'bool',
     'syntymaNewGods' => 'bool',
     'shamanChoices' => 'obj',
+    'shamans' => 'obj',
     'activableShamans' => 'obj'
   ];
 

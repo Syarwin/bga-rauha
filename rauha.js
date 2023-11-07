@@ -204,6 +204,7 @@ define([
         ['refreshBiomes', 500],
         ['waterSourceCount', 1300],
         ['updateFirstPlayer', 500],
+        ['confirmShamanChoice', 1000],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -273,6 +274,13 @@ define([
         this.place('tplPlayerPanel', player, `player_panel_content_${player.color}`, 'after');
         this._crystalCounters[player.id] = this.createCounter(`crystal-counter-${player.id}`, player.crystal);
         this._waterCounters[player.id] = this.createCounter(`water-counter-${player.id}`, player.water);
+        if (player.shamanName) {
+        }
+        if (player.shamanSide) {
+          let shaman = player.shamanName,
+            side = player.shamanSide;
+          this.addShamanCard(`shaman-card-${player.id}`, shaman, side, `shaman-${player.id}`);
+        }
 
         this.place('tplPlayerBoard', player, 'rauha-boards-container');
         player.biomes.forEach((biome) => {
@@ -373,8 +381,8 @@ define([
         <div class='rauha-player-infos'>
           <div class='crystal-counter' id='crystal-counter-${player.id}'></div>
           <div class='water-counter' id='water-counter-${player.id}'></div>
-          <div class='shaman-name' id='shaman-name-${player.id}'>${player.shaman}</div>
         </div>
+        <div class='rauha-shaman-container' id='shaman-${player.id}'></div>
         <div class='rauha-gods-container' id='gods-${player.id}'></div>
       </div>`;
     },
@@ -841,7 +849,10 @@ define([
 
       $(container).insertAdjacentHTML(
         'beforeend',
-        `<div id='${uid}' class='shaman-card' data-shaman='${shaman}' data-side='${side}'></div>`,
+        `<div id='${uid}' class='shaman-card' data-shaman='${shaman}' data-side='${side}'>
+          <div class='shaman-card-ongoing'></div>
+          <div class='shaman-card-scoring'></div>
+        </div>`,
       );
       let sideDesc = side == 1 ? _('White side') : _('Black side');
       this.addCustomTooltip(
@@ -865,6 +876,22 @@ define([
       dojo.query('#pending-shamans .shaman-card').removeClass('selected');
       $(`btnSide${n.args.sideId}`).classList.add('selected');
       $(`shamanSide${n.args.sideId}`).classList.add('selected');
+    },
+
+    notif_confirmShamanChoice(n) {
+      debug('Notif: choosing shaman', n);
+      let pId = n.args.player_id;
+
+      if (pId == this.player_id) {
+        this.slide(`shamanSide${n.args.side}`, `shaman-${pId}`, {
+          destroy: true,
+        }).then(() => {
+          this.addShamanCard(`shaman-card-${pId}`, n.args.shaman, n.args.side, `shaman-${pId}`);
+          dojo.empty('pending-shamans');
+        });
+      } else {
+        this.addShamanCard(`shaman-card-${pId}`, n.args.shaman, n.args.side, `shaman-${pId}`);
+      }
     },
 
     //////////////////////////////////////////////////////////////////////
