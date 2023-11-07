@@ -1072,6 +1072,12 @@ define([
         );
       });
 
+      if (args.isActivableShaman) {
+        this.addPrimaryActionButton('btnActShaman', _('Activate Shaman'), () => {
+            this.takeAction('actActivateShaman', { playerId: this.player_id});
+        });
+      }
+
       this.addDangerActionButton('btnPass', _('Pass'), () => {
         this.confirmationDialog(_("Are you sure you don't want to activate remaining god/biome card(s)?"), () => {
           this.takeAction('actSkip', {});

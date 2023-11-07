@@ -185,16 +185,16 @@ class Player extends \RAUHA\Helpers\DB_Model
   public function activate(){
     $reward = static::rewards[$this->getShaman()];
 
-    //HARMAA not implemented TODO
     if ($this->getShaman() === HARMAA){
       $toCheck = $this->getShamanFace() == HARMAA_1 
       ? [ CRYSTAL, FOREST, MOUNTAIN, MUSHROOM] : [ FLYING, WALKING, MARINE];
-      $multiplier = 9;
+      $multiplier = 9;//high value to be replaced
       foreach ($toCheck as $criteria) {
         $multiplier = min($multiplier, BiomeCards::countOnAPlayerBoard($this, $criteria));
       }
+    } else {
+      $multiplier = BiomeCards::countOnAPlayerBoard($this, $reward['multiplier']);
     }
-    $multiplier = BiomeCards::countOnAPlayerBoard($this, $reward['multiplier']);
 
     if ($reward['type'] == 'points'){
       $income = $reward['nb'] * $multiplier;

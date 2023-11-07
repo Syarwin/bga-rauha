@@ -75,7 +75,7 @@ trait ActivateTrait
 
     //if not search if shaman is activable
     if ($elementIdToActivate === null) {
-      if ($arg['activableShaman']){
+      if ($arg['isActivableShaman']){
         $elementIdToActivate = Players::getActive()->getId();
       }
     }

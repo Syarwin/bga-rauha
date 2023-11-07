@@ -105,6 +105,14 @@ class action_rauha extends APP_GameAction
     self::ajaxResponse();
   }
 
+  public function actActivateShaman()
+  {
+    self::setAjaxMode();
+    $playerId = self::getArg('playerId', AT_posint, true);
+    $this->game->actActivateElement($playerId, false);
+    self::ajaxResponse();
+  }
+
   ///////////////////
   /////  PREFS  /////
   ///////////////////
