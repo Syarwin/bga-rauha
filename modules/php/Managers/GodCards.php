@@ -65,7 +65,7 @@ class GodCards extends \RAUHA\Helpers\Pieces
   public function getGodByType($type)
   {
     foreach (self::getAll() as $id => $god) {
-      if ($god->getType() == $type) {
+      if ($god->getType() == $type && $god->getLocation() !== 'trash') {
         return $god;
       }
     }
@@ -101,7 +101,7 @@ class GodCards extends \RAUHA\Helpers\Pieces
   {
     $result = 0;
     foreach (self::getGodsByPlayer($player) as $id => $god) {
-      if ($god->getName === 'Vuori II') {
+      if ($god->getName() === 'Vuori II') {
         $result += BiomeCards::countOnAPlayerBoard($player, MARINE);
       } else {
         $result += $god->getWaterSource();
@@ -110,18 +110,24 @@ class GodCards extends \RAUHA\Helpers\Pieces
     return $result;
   }
 
-  public static function activate($godId)
+  public static function activate($godId, $x = null, $y= null)
   {
-    $message = '';
     $god = self::get($godId);
     $playerId = $god->getPId();
     $player = Players::get($playerId);
 
-    $multiplier = $god->getMultiplier() == 1 ? 1 : BiomeCards::countOnAPlayerBoard($player, $god->getMultiplier());
+    if ($god->getMultiplier() == 1 ){
+      $multiplier = 1;
+    } else if ($god->getMultiplier() === CRYSTAL_IN_RESERVE){
+      $multiplier = intdiv($player->getCrystal(), 2);
+    } else {
+      $multiplier = BiomeCards::countOnAPlayerBoard($player, $god->getMultiplier());
+    }
 
     $cost = $god->getUsageCost();
     $crystalIncome = $god->getCrystalIncome() * $multiplier;
     $pointIncome = $god->getPointIncome() * $multiplier;
+    $sporeIncome = $god->getSporeIncome();
 
     $player->incCrystal($crystalIncome - $cost);
     Stats::inc(STAT_NAME_COLLECTED_CRISTAL, $player, $crystalIncome);
@@ -130,6 +136,10 @@ class GodCards extends \RAUHA\Helpers\Pieces
       $player->movePointsToken($pointIncome, Stats::getStatName($god->getMultiplier()));
     }
     $god->setUsed(USED);
+    
+    if ($sporeIncome && !is_null($x) && !is_null($y)) {
+      $player->placeSpore($x, $y);
+    }
 
     // Notifications
     Notifications::activateGod($player, $god, $cost, $crystalIncome, $pointIncome);
@@ -164,7 +174,7 @@ class GodCards extends \RAUHA\Helpers\Pieces
       6 => $f([clienttranslate('Vuori'), MOUNTAIN, 0, 0, 1, 0, 0, 2]),
       7 => $f([clienttranslate('Maa'), WALKING, 0, 1, SPORE, 0, 0, 0]), 
 
-      8 => $f([clienttranslate('Taivas II'), FLYING, 0, 0.5, CRYSTAL, 0, 0, 0]),
+      8 => $f([clienttranslate('Taivas II'), FLYING, 0, 0.5, CRYSTAL_IN_RESERVE, 0, 0, 0]),
       9 => $f([clienttranslate('Sienet II'), MUSHROOM, 1, 0, WALKING, 0, 0, 0]),
       10 => $f([clienttranslate('Meri II'), MARINE, 0, 1, ANY_BIOME, 0, 0, 0]),
       11 => $f([clienttranslate('Metsat II'), FOREST, 0, 3, ALL_ANIMALS, 0, 0, 0]),

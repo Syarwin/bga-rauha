@@ -142,15 +142,30 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
         return max(array_count_values($board));
         break;
 
+      case ALL_ANIMALS:
+        $board = self::getAllAnimalsOnPlayerBoard($player);
+        return 3 * min(
+          in_array(MARINE, $board) ? array_count_values($board)[$criteria] : 0,
+          in_array(WALKING, $board) ? array_count_values($board)[$criteria] : 0,
+          in_array(FLYING, $board) ? array_count_values($board)[$criteria] : 0
+        );
+
       case FOREST:
       case MUSHROOM:
-      case CRYSTAL:
       case DESERT:
       case MOUNTAIN:
+      case CRYSTAL:
         $board = self::getAllTypesOnPlayerBoard($player);
         $count = in_array($criteria, $board) ? array_count_values($board)[$criteria] : 0;
         return $count;
         break;
+
+      
+
+      case ANY_BIOME:
+        $board = self::getAllTypesOnPlayerBoard($player);
+        return max(array_count_values($board));
+
 
       case SPORE:
         return $player->countSpores();

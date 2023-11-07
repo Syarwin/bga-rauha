@@ -21,6 +21,7 @@ trait ActivateTrait
     return [
       'activableBiomes' => BiomeCards::getActivableBiomes($player, Globals::getTurn()),
       'activableGods' => GodCards::getActivableGods($player),
+      'isActivableShaman' => false,
       'possibleSporePlaces' => $player->getSporesPlaces(false),
     ];
   }
@@ -134,11 +135,14 @@ trait ActivateTrait
       throw new \BgaVisibleSystemException('You can\'t activate this Shaman/Biome/God now. Should not happen');
     }
 
-    $isGod ? 
-      GodCards::activate($elementId) : 
-      ($elementId != $player->getId()) ? 
-        BiomeCards::activate($elementId, $x, $y) :
-        $player->activate();
+    if ($isGod){
+      GodCards::activate($elementId, $x, $y);
+    } elseif ($elementId != $player->getId()) {
+      BiomeCards::activate($elementId, $x, $y);
+    } else {
+      $player->activate();
+    }
+        
 
     //record a new activation in Stats
     if (Globals::getTurn() % 4 == 0) {

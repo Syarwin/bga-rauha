@@ -162,7 +162,12 @@ class Player extends \RAUHA\Helpers\DB_Model
   }
 
   public function is($shamanName){
-    return $this->getShaman() == $shamanName;
+    return $this->getShaman() === $shamanName;
+  }
+
+  public function hasVuori2(){
+    $vuori2 = GodCards::get(13);
+    return ($vuori2->getLocation() === "board" && $vuori2->getPId() == $this->id);
   }
 
   public function shamanActivating($element){
@@ -190,6 +195,7 @@ class Player extends \RAUHA\Helpers\DB_Model
   }
 
   public function activate(){
+    die('no');
     $reward = static::rewards[$this->getShaman()];
 
     if ($this->getShaman() === HARMAA){

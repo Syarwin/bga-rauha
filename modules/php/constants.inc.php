@@ -23,6 +23,8 @@ const SPORE = 'spore';
 const ANY_BIOME = 'anyBiome';
 const ALL_ANIMALS = 'allAnimals';
 
+const CRYSTAL_IN_RESERVE = 'crystal in reserve';
+
 const PUNAINEN = 'Punainen';
 const KELTAINEN = 'Keltainen';
 const VIRHEA = 'Vihreä';

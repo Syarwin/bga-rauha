@@ -153,6 +153,10 @@ trait PlaceBiomeTrait
       }
     } elseif ($currentPlayer->is(SININEN_1)){
       $waterCount = $biome->getWaterSource();
+      //check if this player has VUORI 2 then add waterSource corresponding to marine animal
+      if ($currentPlayer->hasVuori2()) {
+        $waterCount += in_array(MARINE, $biome->getAnimals()) ? 1: 0;
+      }
       if ($waterCount){
         $currentPlayer->incCrystal($waterCount);
         Stats::inc(STAT_NAME_SHAMAN_CRISTAL, $currentPlayer, $waterCount);
