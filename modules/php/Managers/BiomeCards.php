@@ -144,7 +144,7 @@ class BiomeCards extends \RAUHA\Helpers\Pieces
 
       case ALL_ANIMALS:
         $board = self::getAllAnimalsOnPlayerBoard($player);
-        return 3 * min(
+        return min(
           in_array(MARINE, $board) ? array_count_values($board)[MARINE] : 0,
           in_array(WALKING, $board) ? array_count_values($board)[WALKING] : 0,
           in_array(FLYING, $board) ? array_count_values($board)[FLYING] : 0
