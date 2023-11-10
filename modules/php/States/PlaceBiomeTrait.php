@@ -187,6 +187,8 @@ trait PlaceBiomeTrait
       Notifications::newAlignment($currentPlayer, $god, $type, $playerLoosingGod);
       Stats::inc(STAT_NAME_ALIGNMENTS, $currentPlayer);
 
+
+      //give points or crystal to player according to their ongoing shaman power
       if ($currentPlayer->is(PUNAINEN_1)){
         $currentPlayer->incCrystal(2);
         Stats::inc(STAT_NAME_SHAMAN_CRISTAL, $currentPlayer, 2);
@@ -194,6 +196,15 @@ trait PlaceBiomeTrait
       } elseif ($currentPlayer->is(SININEN_2)){
         $currentPlayer->movePointsToken(4, STAT_NAME_SHAMAN_POINTS);
         Notifications::shaman($currentPlayer, SHAMAN_ON_GOING_POWER, 4, "points");
+      } elseif ($currentPlayer->is(SININEN_1)){ // 1 crytal for each water source
+        if ($god->getName() === 'Vuori') {
+          Stats::inc(STAT_NAME_SHAMAN_CRISTAL, $currentPlayer, 2);
+          Notifications::shaman($currentPlayer, SHAMAN_ON_GOING_POWER, 2, "crystal");
+        } elseif ($god->getName() === 'Vuori II') {
+          $crystalIncome = BiomeCards::countOnAPlayerBoard($currentPlayer, MARINE);
+          Stats::inc(STAT_NAME_SHAMAN_CRISTAL, $currentPlayer, $crystalIncome);
+          Notifications::shaman($currentPlayer, SHAMAN_ON_GOING_POWER, $crystalIncome, "crystal");
+        } 
       }
     }
 
