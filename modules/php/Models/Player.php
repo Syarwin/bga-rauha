@@ -195,7 +195,6 @@ class Player extends \RAUHA\Helpers\DB_Model
   }
 
   public function activate(){
-    die('no');
     $reward = static::rewards[$this->getShaman()];
 
     if ($this->getShaman() === HARMAA){
