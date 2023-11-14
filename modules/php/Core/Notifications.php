@@ -288,18 +288,25 @@ class Notifications
     : clienttranslate('cristal(s)');
 
     $message = ($power == SHAMAN_ON_GOING_POWER) 
-    ? clienttranslate('Thanks to the on going ${shaman} power, ${player_name} receives ${nb} ${type}')
-    : clienttranslate('Activating the ${shaman} power, ${player_name} receives ${nb} ${type}');
+    ? clienttranslate('Thanks to the ongoing power of ${shaman}, ${player_name} receives ${nb} ${type_name}')
+    : clienttranslate('Activating the power of ${shaman}, ${player_name} receives ${nb} ${type_name}');
 
     $data = [
       'player' => $player,
-      'shaman' => $player->getShaman(),
+      'shaman' => $player->getShamanName(),
       'nb' => $nb,
-      'type' => $type,
-      'i18n' => ['type']
+      'type_name' => $type,
+      'ongoing' => $power == SHAMAN_ON_GOING_POWER,
+      'i18n' => ['type_name', 'shaman']
     ];
 
-  static::notifyAll('shaman', $message, $data);
+    if($type == 'crystals'){
+      $data['crystalIncome'] = $nb;
+    } else {
+      $data['pointIncome'] = $nb;
+    }
+
+    static::notifyAll('activateShaman', $message, $data);
   }
 
   /*************************

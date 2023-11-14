@@ -110,6 +110,10 @@
         position: relative;
         overflow: hidden;
 
+        &.activated {
+            box-shadow: 0px 0px 7px 1px #ffcb00;
+        }
+
         .shaman-card-ongoing {
             display: block;
             position: absolute;

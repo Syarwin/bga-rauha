@@ -196,6 +196,7 @@ define([
         ['discardBiomeCrystals', 1000],
         ['discardBiomeSpore', null],
         ['activateBiome', null],
+        ['activateShaman', null],
         ['activateGod', null],
         ['placeSpore', 1300],
         ['newAlignment', 1000],
@@ -894,6 +895,12 @@ define([
       }
     },
 
+    notif_activateShaman: async function (n) {
+      debug('Notif: activating shaman', n);
+      let oShaman = $(`shaman-card-${n.args.player_id}`);
+      await this.activateElement(n.args, oShaman);
+    },
+
     //////////////////////////////////////////////////////////////////////
     //    ____ _                            ____  _
     //   / ___| |__   ___   ___  ___  ___  | __ )(_) ___  _ __ ___   ___
@@ -1101,7 +1108,7 @@ define([
 
       if (args.isActivableShaman) {
         this.addPrimaryActionButton('btnActShaman', _('Activate Shaman'), () => {
-            this.takeAction('actActivateShaman', { playerId: this.player_id});
+          this.takeAction('actActivateShaman', { playerId: this.player_id });
         });
       }
 
@@ -1142,7 +1149,10 @@ define([
     activateElement: async function (args, elem) {
       // Flag the element as used
       elem.classList.remove('selected');
-      elem.dataset.used = '1';
+      elem.classList.add('activated');
+      if (!args.ongoing) {
+        elem.dataset.used = '1';
+      }
 
       // Pay crystal cost if any
       if (args.cost > 0) {
@@ -1167,6 +1177,7 @@ define([
         });
       }
 
+      elem.classList.remove('activated');
       this.notifqueue.setSynchronousDuration(200);
     },
 

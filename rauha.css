@@ -823,6 +823,8 @@
     height: 36px;
     position: relative;
     overflow: hidden; }
+    .rauha-panel .rauha-shaman-container .shaman-card.activated {
+      box-shadow: 0px 0px 7px 1px #ffcb00; }
     .rauha-panel .rauha-shaman-container .shaman-card .shaman-card-ongoing {
       display: block;
       position: absolute;
