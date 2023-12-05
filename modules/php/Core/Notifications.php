@@ -219,7 +219,7 @@ class Notifications
     self::notifyAll('activateBiome', $message, $data);
   }
 
-  public static function activateGod($player, $god, $cost, $crystalIncome, $pointIncome)
+  public static function activateGod($player, $god, $cost, $crystalIncome, $pointIncome, $sporeIncome, $x, $y)
   {
     $message = '';
     if ($cost > 0) {
@@ -230,6 +230,9 @@ class Notifications
       $message = clienttranslate('${player_name} activate ${godName} and receives ${crystalIncome} crystal(s)');
     } elseif ($pointIncome > 0) {
       $message = clienttranslate('${player_name} activate ${godName} and receives ${pointIncome} point(s)');
+    } elseif ($sporeIncome > 0) {
+      $message = clienttranslate('${player_name} activate ${godName} and places a new spore at (${displaySporeX}, ${displaySporeY})'
+      );
     }
 
     $data = [
@@ -239,6 +242,11 @@ class Notifications
       'cost' => $cost,
       'crystalIncome' => $crystalIncome,
       'pointIncome' => $pointIncome,
+      'sporeIncome' => $sporeIncome,
+      'sporeX' => $x,
+      'sporeY' => $y,
+      'displaySporeX' => is_null($x) ? $x : $x + 1,
+      'displaySporeY' => is_null($y) ? $y : $y + 1,
     ];
     self::notifyAll('activateGod', $message, $data);
   }

@@ -142,7 +142,7 @@ class GodCards extends \RAUHA\Helpers\Pieces
     }
 
     // Notifications
-    Notifications::activateGod($player, $god, $cost, $crystalIncome, $pointIncome);
+    Notifications::activateGod($player, $god, $cost, $crystalIncome, $pointIncome, $sporeIncome, $x, $y);
 
     //check if it triggers a shaman power
     $player->shamanActivating($god);
@@ -174,7 +174,7 @@ class GodCards extends \RAUHA\Helpers\Pieces
       6 => $f([clienttranslate('Vuori'), MOUNTAIN, 0, 0, 1, 0, 0, 2]),
       7 => $f([clienttranslate('Maa'), WALKING, 0, 1, SPORE, 0, 0, 0]), 
 
-      8 => $f([clienttranslate('Taivas II'), FLYING, 0, 0.5, CRYSTAL_IN_RESERVE, 0, 0, 0]),
+      8 => $f([clienttranslate('Taivas II'), FLYING, 0, 1, CRYSTAL_IN_RESERVE, 0, 0, 0]),
       9 => $f([clienttranslate('Sienet II'), MUSHROOM, 1, 0, WALKING, 0, 0, 0]),
       10 => $f([clienttranslate('Meri II'), MARINE, 0, 1, ANY_BIOME, 0, 0, 0]),
       11 => $f([clienttranslate('Metsat II'), FOREST, 0, 3, ALL_ANIMALS, 0, 0, 0]),

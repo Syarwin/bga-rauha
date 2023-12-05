@@ -55,7 +55,7 @@ trait CountTurnTrait
     $player = Players::getActive();
     $arg = $this->getArgs();
 
-    if (empty($arg['activableGods']) && empty($arg['activableBiomes'])) {
+    if (empty($arg['activableGods']) && empty($arg['activableBiomes']) && !$arg['isActivableShaman']) {
       self::actSkip($player->getId(), true);
     } elseif ($player->getPref(OPTION_ACTIVATION) == OPTION_AUTOMATIC_ACTIVATION) {
       self::activateAutomaticElements($arg);

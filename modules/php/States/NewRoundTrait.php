@@ -64,7 +64,6 @@ trait NewRoundTrait
 
   function stPreEndOfGame()
   {
-    //TODO Stats
     Players::clearAuxScores();
 
     $this->gamestate->nextState('');
