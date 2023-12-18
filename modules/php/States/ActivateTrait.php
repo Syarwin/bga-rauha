@@ -119,6 +119,10 @@ trait ActivateTrait
 
   public function actActivateElement($elementId, $isGod, $player = null, $x = null, $y = null)
   {
+    //hack to put $y and $x to null if nothing has been received
+    $x = ($x == -1) ? null: $x;
+    $y = ($y == -1) ? null: $y;
+
     // Sanity checks and bypass for automatisation
     if ($player) {
       $this->gamestate->checkPossibleAction('actActivateBiome');
@@ -133,6 +137,18 @@ trait ActivateTrait
       ($isGod && !in_array(GodCards::get($elementId), $args['activableGods']))
     ) {
       throw new \BgaVisibleSystemException('You can\'t activate this Shaman/Biome/God now. Should not happen');
+    }
+
+    if (!is_null($x)){
+      $check = false;
+      foreach ($args['possibleSporePlaces'] as $position) {
+        if ($position[0]==$x && $position[1]==$y) {
+          $check=true;
+        }
+      }
+      if (!$check){
+        throw new \BgaVisibleSystemException("You can't place a spore here $x $y. Should not happen");
+      }
     }
 
     if ($isGod){

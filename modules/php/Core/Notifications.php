@@ -291,7 +291,7 @@ class Notifications
   */
 
   public static function shaman($player, $power, $nb, $type){
-    $type = ($type == "points")
+    $typeName = ($type == "points")
     ? clienttranslate('point(s)')
     : clienttranslate('cristal(s)');
 
@@ -303,12 +303,13 @@ class Notifications
       'player' => $player,
       'shaman' => $player->getShamanName(),
       'nb' => $nb,
-      'type_name' => $type,
+      'type' => $type,
+      'type_name' => $typeName,
       'ongoing' => $power == SHAMAN_ON_GOING_POWER,
       'i18n' => ['type_name', 'shaman']
     ];
 
-    if($type == 'crystals'){
+    if($type == 'crystal'){
       $data['crystalIncome'] = $nb;
     } else {
       $data['pointIncome'] = $nb;
