@@ -1101,7 +1101,15 @@ define([
           `btnActivateGod${god.id}`,
           this.fsr(_('Activate ${godName}'), { godName: infos.name }),
           () => {
-            this.takeAction('actActivateGod', { godId: god.id });
+            // 14 = MAA2
+            if (god.id != 14) {
+              this.takeAction('actActivateGod', { godId: god.id });
+            } else {
+              this.clientState('activateSpore', _('Select the place where you want to place the spore'), {
+                godId: god.id,
+                possibleSporePlaces: args.possibleSporePlaces,
+              });
+            }
           },
         );
       });
@@ -1125,7 +1133,11 @@ define([
 
     onEnteringStateActivateSpore(args) {
       this.addCancelStateBtn();
-      $(`biome-${args.biomeId}`).classList.add('selected');
+      if (args.biomeId) {
+        $(`biome-${args.biomeId}`).classList.add('selected');
+      } else {
+        $(`god-${args.godId}`).classList.add('selected');
+      }
 
       let selectedPlace = null;
       let selectedCell = null;
@@ -1139,9 +1151,13 @@ define([
           selectedCell = cell;
           selectedCell.classList.add('selected');
           selectedPlace = place;
-          this.addPrimaryActionButton('btnConfirmPlace', _('Confirm and place spore'), () =>
-            this.takeAction('actActivateBiome', { biomeId: args.biomeId, x: selectedPlace[0], y: selectedPlace[1] }),
-          );
+          this.addPrimaryActionButton('btnConfirmPlace', _('Confirm and place spore'), () => {
+            if (args.biomeId) {
+              this.takeAction('actActivateBiome', { biomeId: args.biomeId, x: selectedPlace[0], y: selectedPlace[1] });
+            } else {
+              this.takeAction('actActivateGod', { godId: args.godId, x: selectedPlace[0], y: selectedPlace[1] });
+            }
+          });
         });
       });
     },

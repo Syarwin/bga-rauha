@@ -40,7 +40,7 @@ use RAUHA\Core\Globals;
 use RAUHA\Core\Preferences;
 use RAUHA\Core\Stats;
 
-class Rauha extends Table
+class rauha extends Table
 {
   use RAUHA\DebugTrait;
   use RAUHA\States\NewRoundTrait;
