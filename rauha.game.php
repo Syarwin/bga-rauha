@@ -60,7 +60,7 @@ class rauha extends Table
       OPTION_BOARD_SIDE => 102,
     ]);
     Stats::checkExistence();
-    $this->bIndependantMultiactiveTable=true;
+    // $this->bIndependantMultiactiveTable=true;
   }
   public static function get()
   {

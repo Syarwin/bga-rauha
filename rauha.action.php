@@ -99,8 +99,8 @@ class action_rauha extends APP_GameAction
   {
     self::setAjaxMode();
     $godId = self::getArg('godId', AT_posint, true);
-    $x = (int) self::getArg('x', AT_posint, false, null); //$x and $y for spore placing
-    $y = (int) self::getArg('y', AT_posint, false, null);
+    $x = (int) self::getArg('x', AT_posint, false, -1); //$x and $y for spore placing
+    $y = (int) self::getArg('y', AT_posint, false, -1);
     $this->game->actActivateElement($godId, true, null, $x, $y);
     self::ajaxResponse();
   }
@@ -146,5 +146,13 @@ class action_rauha extends APP_GameAction
       throw new feException("Bad value for: $argName", true, true, FEX_bad_input_argument);
     }
     return true;
+  }
+
+  public function loadBugSQL()
+  {
+    self::setAjaxMode();
+    $reportId = (int) self::getArg('report_id', AT_int, true);
+    $this->game->loadBugSQL($reportId);
+    self::ajaxResponse();
   }
 }
