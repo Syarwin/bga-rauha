@@ -86,9 +86,11 @@ trait DebugTrait
 
       // Add game-specific SQL update the tables for your game
       $sql[] = "UPDATE biomes SET player_id=$studioPlayer WHERE player_id=$pId";
+      $sql[] = "UPDATE biomes SET biome_state=$studioPlayer WHERE biome_state=$pId";
       $sql[] = "UPDATE gods SET player_id=$studioPlayer WHERE player_id=$pId";
       $sql[] = "UPDATE user_preferences SET player_id=$studioPlayer WHERE player_id=$pId";
       $sql[] = "UPDATE global_variables SET name = REPLACE(name, '$pId', '$studioPlayer')";
+      $sql[] = "UPDATE global_variables SET value = REPLACE(value, '$pId', '$studioPlayer')";
 
       // This could be improved, it assumes you had sequential studio accounts before loading
       // e.g., quietmint0, quietmint1, quietmint2, etc. are at the table
@@ -100,7 +102,6 @@ trait DebugTrait
       ';</li></ul>';
     self::warn($msg);
     self::notifyAllPlayers('message', $msg, []);
-
     foreach ($sql as $q) {
       self::DbQuery($q);
     }
@@ -131,7 +132,7 @@ trait DebugTrait
 
     // First player
     $fp = Globals::getFirstPlayer();
-    Globals::setFirstPlayer($map[$fp]);
+    Globals::setFirstPlayer($fp);
 
     // Globals::unsetDebugMode();
 

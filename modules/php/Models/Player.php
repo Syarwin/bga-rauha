@@ -197,8 +197,8 @@ class Player extends \RAUHA\Helpers\DB_Model
   public function activate(){
     $reward = static::rewards[$this->getShaman()];
 
-    if ($this->getShaman() === HARMAA){
-      $toCheck = $this->getShamanFace() == HARMAA_1 
+    if ($this->getShamanName() === HARMAA){
+      $toCheck = $this->getShaman() == HARMAA_1 
       ? [ CRYSTAL, FOREST, MOUNTAIN, MUSHROOM] : [ FLYING, WALKING, MARINE];
       $multiplier = 9;//high value to be replaced
       foreach ($toCheck as $criteria) {
@@ -207,7 +207,7 @@ class Player extends \RAUHA\Helpers\DB_Model
     } else {
       $multiplier = BiomeCards::countOnAPlayerBoard($this, $reward['multiplier']);
     }
-
+    
     if ($reward['type'] == 'points'){
       $income = $reward['nb'] * $multiplier;
       $this->movePointsToken($income, STAT_NAME_SHAMAN_POINTS);
