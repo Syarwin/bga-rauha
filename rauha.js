@@ -861,10 +861,10 @@ define([
         `<div class='shaman-tooltip'>
         <h3>${_(shaman)} - ${sideDesc}</h3>
         <ul>
-          <li><b>ONGOING:</b><br/>
+          <li><b>${_('ONGOING')}:</b><br/>
             ${DESCS[shaman][side][0]}
 
-          <li><b>SCORING:</b><br/>
+          <li><b>${_('SCORING')}:</b><br/>
             ${DESCS[shaman][side][1]}
         </ul>
       </div>`,
