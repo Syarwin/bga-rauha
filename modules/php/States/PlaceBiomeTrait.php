@@ -198,10 +198,12 @@ trait PlaceBiomeTrait
         Notifications::shaman($currentPlayer, SHAMAN_ON_GOING_POWER, 4, "points");
       } elseif ($currentPlayer->is(SININEN_1)){ // 1 crytal for each water source
         if ($god->getName() === 'Vuori') {
+          $currentPlayer->incCrystal(2);
           Stats::inc(STAT_NAME_SHAMAN_CRISTAL, $currentPlayer, 2);
           Notifications::shaman($currentPlayer, SHAMAN_ON_GOING_POWER, 2, "crystal");
         } elseif ($god->getName() === 'Vuori II') {
           $crystalIncome = BiomeCards::countOnAPlayerBoard($currentPlayer, MARINE);
+          $currentPlayer->incCrystal($crystalIncome);
           Stats::inc(STAT_NAME_SHAMAN_CRISTAL, $currentPlayer, $crystalIncome);
           Notifications::shaman($currentPlayer, SHAMAN_ON_GOING_POWER, $crystalIncome, "crystal");
         } 
